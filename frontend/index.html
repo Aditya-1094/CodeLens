@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CarbonLens | Industrial Emission Leak-Point Detector</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Google Fonts: Inter & Roboto Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Roboto+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Leaflet Map CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+  <!-- Arenius-Inspired Stylesheets -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body class="bg-[#fcfbf9] text-gray-900 font-sans antialiased min-h-screen flex flex-col selection:bg-emerald-100 selection:text-emerald-900">
+
+  <!-- APP LAYOUT WRAPPER -->
+  <div class="flex min-h-screen w-full">
+    
+    <!-- LEFT SIDEBAR NAVIGATION -->
+    <aside id="app-sidebar" class="hidden md:flex flex-col w-64 bg-white border-r border-gray-200 sticky top-0 h-screen z-30 flex-shrink-0">
+      
+      <!-- Brand Header -->
+      <div class="h-16 px-6 flex items-center justify-between border-b border-gray-100">
+        <a href="#" data-view="landing" class="nav-link flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-lg bg-[#18583f] text-white flex items-center justify-center font-bold text-base shadow-sm">
+            <i data-lucide="crosshair" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <span class="font-extrabold text-base tracking-tight text-gray-900">
+              Carbon<span class="text-[#18583f]">Lens</span>
+            </span>
+            <span class="block text-[10px] text-gray-400 font-semibold tracking-wider uppercase -mt-0.5">Analytics</span>
+          </div>
+        </a>
+      </div>
+
+      <!-- Navigation Menu -->
+      <nav class="flex-1 px-3 py-4 space-y-1 text-xs font-semibold overflow-y-auto">
+        <div class="px-3 pb-2 text-[10px] font-bold text-gray-400 uppercase tracking-wider">Product Journey</div>
+
+        <a href="#" data-view="overview" class="nav-link flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors text-gray-700 hover:bg-gray-50">
+          <i data-lucide="layout-dashboard" class="w-4 h-4 text-[#18583f]"></i>
+          <span>Overview</span>
+        </a>
+
+        <a href="#" data-view="assessment" class="nav-link flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors text-gray-700 hover:bg-gray-50">
+          <i data-lucide="plus-circle" class="w-4 h-4 text-[#18583f]"></i>
+          <span>New Assessment</span>
+        </a>
+
+        <a href="#" data-view="analysis" class="nav-link flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors text-gray-700 hover:bg-gray-50">
+          <i data-lucide="bar-chart-3" class="w-4 h-4"></i>
+          <span>Emission Analysis</span>
+        </a>
+
+        <a href="#" data-view="leakpoints" class="nav-link flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors text-gray-700 hover:bg-gray-50">
+          <i data-lucide="flame" class="w-4 h-4 text-amber-600"></i>
+          <span>Leak-Points</span>
+        </a>
+
+        <a href="#" data-view="recommendations" class="nav-link flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors text-gray-700 hover:bg-gray-50">
+          <i data-lucide="sparkles" class="w-4 h-4 text-[#18583f]"></i>
+          <span>Recommendations</span>
+        </a>
+
+        <a href="#" data-view="simulator" class="nav-link flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors text-gray-700 hover:bg-gray-50">
+          <i data-lucide="sliders" class="w-4 h-4 text-blue-600"></i>
+          <span>What-If Simulator</span>
+        </a>
+
+        <a href="#" data-view="partners" class="nav-link flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors text-gray-700 hover:bg-gray-50">
+          <i data-lucide="map-pin" class="w-4 h-4"></i>
+          <span>Recycler Suggestions</span>
+        </a>
+
+        <div class="pt-4 px-3 pb-2 text-[10px] font-bold text-gray-400 uppercase tracking-wider border-t border-gray-100">Account</div>
+        
+        <a href="#" data-view="facility-setup" class="nav-link flex items-center gap-3 px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-50">
+          <i data-lucide="building" class="w-4 h-4"></i>
+          <span>Facility Profile</span>
+        </a>
+      </nav>
+
+      <!-- Sidebar Utilities -->
+      <div class="p-4 border-t border-gray-100 space-y-2 text-xs">
+        <button type="button" class="trigger-demo-mode w-full py-2 px-3 bg-[#e8f3ee] hover:bg-[#d8ebd3] text-[#124330] font-bold rounded-lg border border-[#c3e2d4] transition-colors flex items-center justify-center gap-2">
+          <i data-lucide="play-circle" class="w-4 h-4"></i>
+          <span>Load Hackathon Demo</span>
+        </button>
+      </div>
+
+    </aside>
+
+    <!-- MAIN SHELL WRAPPER -->
+    <div class="flex-1 flex flex-col min-w-0">
+      
+      <!-- TOP BAR -->
+      <header class="h-16 bg-white border-b border-gray-200 px-6 flex items-center justify-between sticky top-0 z-20">
+        <!-- Left: Facility Context Info -->
+        <div class="flex items-center gap-3">
+          <span class="w-2.5 h-2.5 rounded-full bg-emerald-600"></span>
+          <div>
+            <div id="dash-facility-name" class="text-sm font-bold text-gray-900">CarbonLens</div>
+            <div id="dash-reporting-period" class="text-[11px] text-gray-500 font-mono"></div>
+          </div>
+        </div>
+
+        <!-- Right: Auth State & Controls -->
+        <div class="flex items-center gap-3">
+          <span id="badge-demo-status" class="badge-demo hidden">DEMO DATA</span>
+          <span id="badge-partial-status" class="badge-partial hidden">PARTIAL ESTIMATE</span>
+
+          <!-- Authenticated User Dropdown / Badge -->
+          <div id="header-user-menu" class="hidden flex items-center gap-3 pl-3 border-l border-gray-200">
+            <div class="flex items-center gap-2">
+              <div id="user-avatar-initials" class="w-8 h-8 rounded-full bg-[#18583f] text-white font-bold text-xs flex items-center justify-center shadow-sm">
+                JP
+              </div>
+              <div class="hidden sm:block text-left">
+                <span id="header-user-name" class="block text-xs font-bold text-gray-900 leading-tight">User Account</span>
+                <span id="header-user-email" class="block text-[10px] text-gray-500 font-mono leading-none">user@sme.com</span>
+              </div>
+            </div>
+
+            <button type="button" id="btn-logout" class="px-2.5 py-1.5 bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-semibold rounded-lg transition-colors flex items-center gap-1">
+              <i data-lucide="log-out" class="w-3.5 h-3.5"></i>
+              <span class="hidden sm:inline">Logout</span>
+            </button>
+          </div>
+
+          <!-- Guest / Logged Out Controls -->
+          <div id="header-guest-menu" class="flex items-center gap-2">
+            <button type="button" data-view="login" class="nav-link px-3 py-1.5 text-xs font-bold text-[#18583f] hover:bg-emerald-50 rounded-lg transition-colors">
+              Log In
+            </button>
+            <button type="button" data-view="register" class="nav-link px-3.5 py-1.5 bg-[#18583f] hover:bg-[#124330] text-white text-xs font-bold rounded-lg transition-colors shadow-sm">
+              Register
+            </button>
+            <button type="button" class="trigger-demo-mode px-3 py-1.5 bg-[#e8f3ee] hover:bg-[#d8ebd3] text-[#124330] text-xs font-bold rounded-lg border border-[#c3e2d4]">
+              Demo Mode
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <!-- MAIN APP VIEWS CONTAINER -->
+      <main class="flex-1 p-6 max-w-7xl w-full mx-auto space-y-6">
+
+        <!-- ================================================== -->
+        <!-- VIEW 0: PUBLIC LANDING PAGE -->
+        <!-- ================================================== -->
+        <div id="view-landing" class="app-view space-y-10 py-6">
+          
+          <!-- Hero Section -->
+          <div class="arenius-card p-10 md:p-14 text-center max-w-4xl mx-auto space-y-6 border-2 border-[#18583f]/10 shadow-sm bg-gradient-to-b from-white to-[#fcfbf9]">
+            <div class="inline-flex items-center gap-2 px-3 py-1 bg-emerald-50 text-[#18583f] rounded-full text-xs font-bold border border-emerald-200">
+              <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+              <span>HackOut'26 — Circular Carbon Ecosystem Theme</span>
+            </div>
+
+            <h1 class="text-3xl md:text-5xl font-extrabold text-gray-900 tracking-tight leading-tight">
+              Industrial Emission Leak-Point Detector & <span class="text-[#18583f]">Circular Alternative Recommender</span>
+            </h1>
+
+            <p class="text-sm md:text-base text-gray-600 max-w-2xl mx-auto leading-relaxed">
+              Empowering Small & Medium Enterprises (SMEs) to measure operational emissions, locate top carbon leak-points, evaluate rule-based circular recommendations, and simulate carbon cuts before investing.
+            </p>
+
+            <div class="flex flex-wrap items-center justify-center gap-4 pt-2">
+              <button type="button" data-view="register" class="nav-link btn-primary text-sm px-6 py-3 shadow-md flex items-center gap-2">
+                <span>Create Account</span>
+                <i data-lucide="arrow-right" class="w-4 h-4"></i>
+              </button>
+              <button type="button" data-view="login" class="nav-link btn-secondary text-sm px-6 py-3 flex items-center gap-2">
+                <span>Log In</span>
+              </button>
+              <button type="button" class="trigger-demo-mode px-6 py-3 bg-[#e8f3ee] hover:bg-[#d8ebd3] text-[#124330] font-bold text-sm rounded-lg border border-[#c3e2d4]">
+                ⚡ Load Hackathon Demo
+              </button>
+            </div>
+          </div>
+
+          <!-- Feature Cards Grid -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+            
+            <div class="arenius-card p-6 space-y-3">
+              <div class="w-10 h-10 rounded-xl bg-emerald-100 text-[#18583f] flex items-center justify-center font-bold">
+                <i data-lucide="flame" class="w-5 h-5 text-amber-600"></i>
+              </div>
+              <h3 class="font-bold text-base text-gray-900">Leak-Point Detection</h3>
+              <p class="text-xs text-gray-600 leading-relaxed">
+                Rank your top industrial emission bottlenecks (Scope 1, 2, 3) using CPCB & CEA traceable factors with transparent data quality scoring.
+              </p>
+            </div>
+
+            <div class="arenius-card p-6 space-y-3">
+              <div class="w-10 h-10 rounded-xl bg-emerald-100 text-[#18583f] flex items-center justify-center font-bold">
+                <i data-lucide="repeat" class="w-5 h-5 text-[#18583f]"></i>
+              </div>
+              <h3 class="font-bold text-base text-gray-900">Circular Recommendations</h3>
+              <p class="text-xs text-gray-600 leading-relaxed">
+                Receive matched circular interventions: recycled PCR content, in-house regrind recovery, renewable solar electricity, and local Gujarat recyclers.
+              </p>
+            </div>
+
+            <div class="arenius-card p-6 space-y-3">
+              <div class="w-10 h-10 rounded-xl bg-emerald-100 text-[#18583f] flex items-center justify-center font-bold">
+                <i data-lucide="sliders" class="w-5 h-5 text-blue-600"></i>
+              </div>
+              <h3 class="font-bold text-base text-gray-900">What-If Simulator</h3>
+              <p class="text-xs text-gray-600 leading-relaxed">
+                Test custom PCR blending, solar adoption, and scrap diversion combinations virtually to model carbon reduction before committing capital.
+              </p>
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- ================================================== -->
+        <!-- VIEW: LOGIN -->
+        <!-- ================================================== -->
+        <div id="view-login" class="app-view space-y-6 hidden max-w-md mx-auto py-8">
+          <div class="arenius-card p-8 space-y-6">
+            <div class="text-center space-y-1">
+              <div class="w-12 h-12 rounded-xl bg-[#18583f] text-white flex items-center justify-center mx-auto font-bold mb-3 shadow-sm">
+                <i data-lucide="lock" class="w-6 h-6"></i>
+              </div>
+              <h2 class="text-2xl font-extrabold text-gray-900">Welcome Back</h2>
+              <p class="text-xs text-gray-500">Sign in to access your facility carbon dashboard</p>
+            </div>
+
+            <form id="form-login" class="space-y-4" novalidate>
+              <div id="auth-login-error" class="hidden p-3 bg-red-50 text-red-700 text-xs font-semibold rounded-lg border border-red-200"></div>
+
+              <div>
+                <label class="block text-xs font-bold text-gray-700 mb-1">Email Address</label>
+                <input type="email" id="login-email" required placeholder="manager@sme.com" class="w-full bg-white border border-gray-300 rounded-lg px-3 py-2.5 text-xs text-gray-900 outline-none focus:border-[#18583f]">
+                <span id="error-login-email" class="hidden text-red-600 text-[11px] mt-1 block font-semibold"></span>
+              </div>
+
+              <div>
+                <label class="block text-xs font-bold text-gray-700 mb-1">Password</label>
+                <div class="relative">
+                  <input type="password" id="login-password" required placeholder="••••••••" class="w-full bg-white border border-gray-300 rounded-lg pl-3 pr-10 py-2.5 text-xs text-gray-900 outline-none focus:border-[#18583f]">
+                  <button type="button" id="toggle-login-password" class="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 p-1 cursor-pointer">
+                    <i data-lucide="eye" class="w-4 h-4 text-gray-500"></i>
+                  </button>
+                </div>
+                <span id="error-login-password" class="hidden text-red-600 text-[11px] mt-1 block font-semibold"></span>
+              </div>
+
+              <button type="submit" class="w-full btn-primary py-2.5 text-xs font-bold shadow-sm">
+                Sign In →
+              </button>
+
+              <button type="button" id="btn-fill-demo-login" class="w-full py-2 px-3 bg-[#e8f3ee] hover:bg-[#d8ebd3] text-[#124330] text-xs font-bold rounded-lg border border-[#c3e2d4] transition-colors flex items-center justify-center gap-1.5">
+                <i data-lucide="zap" class="w-3.5 h-3.5 text-emerald-700"></i>
+                <span>⚡ Instant 1-Click Demo Login</span>
+              </button>
+            </form>
+
+            <div class="pt-4 border-t border-gray-100 text-center text-xs text-gray-500">
+              Don't have an account? 
+              <button type="button" data-view="register" class="nav-link font-bold text-[#18583f] hover:underline ml-1">Register facility account</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ================================================== -->
+        <!-- VIEW: REGISTER -->
+        <!-- ================================================== -->
+        <div id="view-register" class="app-view space-y-6 hidden max-w-md mx-auto py-8">
+          <div class="arenius-card p-8 space-y-6">
+            <div class="text-center space-y-1">
+              <div class="w-12 h-12 rounded-xl bg-[#18583f] text-white flex items-center justify-center mx-auto font-bold mb-3 shadow-sm">
+                <i data-lucide="user-plus" class="w-6 h-6"></i>
+              </div>
+              <h2 class="text-2xl font-extrabold text-gray-900">Create Account</h2>
+              <p class="text-xs text-gray-500">Register your industrial SME for emission tracking</p>
+            </div>
+
+            <form id="form-register" class="space-y-4" novalidate>
+              <div id="auth-register-error" class="hidden p-3 bg-red-50 text-red-700 text-xs font-semibold rounded-lg border border-red-200"></div>
+
+              <div>
+                <label class="block text-xs font-bold text-gray-700 mb-1">Full Name</label>
+                <input type="text" id="reg-name" required placeholder="e.g. Rajesh Patel" class="w-full bg-white border border-gray-300 rounded-lg px-3 py-2.5 text-xs text-gray-900 outline-none focus:border-[#18583f]">
+                <span id="error-reg-name" class="hidden text-red-600 text-[11px] mt-1 block font-semibold"></span>
+              </div>
+
+              <div>
+                <label class="block text-xs font-bold text-gray-700 mb-1">Work Email</label>
+                <input type="email" id="reg-email" required placeholder="rajesh@polymerpack.com" class="w-full bg-white border border-gray-300 rounded-lg px-3 py-2.5 text-xs text-gray-900 outline-none focus:border-[#18583f]">
+                <span id="error-reg-email" class="hidden text-red-600 text-[11px] mt-1 block font-semibold"></span>
+              </div>
+
+              <div>
+                <label class="block text-xs font-bold text-gray-700 mb-1">Password</label>
+                <div class="relative">
+                  <input type="password" id="reg-password" required placeholder="At least 8 characters" class="w-full bg-white border border-gray-300 rounded-lg pl-3 pr-10 py-2.5 text-xs text-gray-900 outline-none focus:border-[#18583f]">
+                  <button type="button" id="toggle-reg-password" class="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 p-1 cursor-pointer">
+                    <i data-lucide="eye" class="w-4 h-4 text-gray-500"></i>
+                  </button>
+                </div>
+                <span id="error-reg-password" class="hidden text-red-600 text-[11px] mt-1 block font-semibold"></span>
+
+                <!-- Real-Time Password Requirements Checklist -->
+                <div id="reg-password-checklist" class="mt-2 p-2.5 bg-gray-50 rounded-lg border border-gray-200 text-[11px] space-y-1 font-mono">
+                  <div id="pwd-rule-length" class="text-gray-400 flex items-center gap-1"><span class="rule-icon">○</span> At least 8 characters</div>
+                  <div id="pwd-rule-upper" class="text-gray-400 flex items-center gap-1"><span class="rule-icon">○</span> At least 1 uppercase letter (A-Z)</div>
+                  <div id="pwd-rule-lower" class="text-gray-400 flex items-center gap-1"><span class="rule-icon">○</span> At least 1 lowercase letter (a-z)</div>
+                  <div id="pwd-rule-number" class="text-gray-400 flex items-center gap-1"><span class="rule-icon">○</span> At least 1 number (0-9)</div>
+                  <div id="pwd-rule-special" class="text-gray-400 flex items-center gap-1"><span class="rule-icon">○</span> At least 1 special character (!@#$%^&*)</div>
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-xs font-bold text-gray-700 mb-1">Confirm Password</label>
+                <div class="relative">
+                  <input type="password" id="reg-confirm-password" required placeholder="Re-enter password" class="w-full bg-white border border-gray-300 rounded-lg pl-3 pr-10 py-2.5 text-xs text-gray-900 outline-none focus:border-[#18583f]">
+                  <button type="button" id="toggle-reg-confirm-password" class="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 p-1 cursor-pointer">
+                    <i data-lucide="eye" class="w-4 h-4 text-gray-500"></i>
+                  </button>
+                </div>
+                <span id="error-reg-confirm-password" class="hidden text-red-600 text-[11px] mt-1 block font-semibold"></span>
+              </div>
+
+              <div class="space-y-1 pt-1">
+                <div class="flex items-center gap-2">
+                  <input type="checkbox" id="reg-terms" required class="rounded border-gray-300 text-[#18583f]">
+                  <label for="reg-terms" class="text-[11px] text-gray-600">I agree to CarbonLens terms & privacy policy</label>
+                </div>
+                <span id="error-reg-terms" class="hidden text-red-600 text-[11px] block font-semibold"></span>
+              </div>
+
+              <button type="submit" class="w-full btn-primary py-2.5 text-xs font-bold shadow-sm">
+                Create Account & Continue →
+              </button>
+            </form>
+
+            <div class="pt-4 border-t border-gray-100 text-center text-xs text-gray-500">
+              Already have an account? 
+              <button type="button" data-view="register" class="nav-link font-bold text-[#18583f] hover:underline ml-1">Log in</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ================================================== -->
+        <!-- VIEW: FACILITY SETUP ONBOARDING -->
+        <!-- ================================================== -->
+        <div id="view-facility-setup" class="app-view space-y-6 hidden max-w-lg mx-auto py-6">
+          <div class="arenius-card p-8 space-y-6">
+            <div>
+              <span class="text-xs font-bold text-[#18583f] uppercase tracking-wider">Facility Onboarding</span>
+              <h2 class="text-xl font-extrabold text-gray-900 mt-1">Set Up Your Manufacturing Facility</h2>
+              <p class="text-xs text-gray-500">Provide basic plant details to personalize carbon emission tracking.</p>
+            </div>
+
+            <form id="form-facility-setup" class="space-y-4" novalidate>
+              <div id="facility-setup-error" class="hidden p-3 bg-red-50 text-red-700 text-xs font-semibold rounded-lg border border-red-200"></div>
+
+              <div>
+                <label class="block text-xs font-bold text-gray-700 mb-1">Facility Name *</label>
+                <input type="text" id="fac-name" required placeholder="e.g. Sanand Extrusion Plant Unit-1" class="w-full bg-white border border-gray-300 rounded-lg px-3 py-2 text-xs text-gray-900 outline-none focus:border-[#18583f]">
+                <span id="error-fac-name" class="hidden text-red-600 text-[11px] mt-1 block font-semibold"></span>
+              </div>
+
+              <div>
+                <label class="block text-xs font-bold text-gray-700 mb-1">Company / Parent Business Name</label>
+                <input type="text" id="fac-company" placeholder="e.g. Gujarat Polymer Industries Ltd" class="w-full bg-white border border-gray-300 rounded-lg px-3 py-2 text-xs text-gray-900 outline-none focus:border-[#18583f]">
+                <span id="error-fac-company" class="hidden text-red-600 text-[11px] mt-1 block font-semibold"></span>
+              </div>
+
+              <div>
+                <label class="block text-xs font-bold text-gray-700 mb-1">Manufacturing Industry Sector *</label>
+                <select id="fac-industry" required class="w-full bg-white border border-gray-300 rounded-lg px-3 py-2 text-xs text-gray-900 outline-none focus:border-[#18583f]">
+                  <option value="Plastic & Packaging Manufacturing" selected>Plastic & Packaging Manufacturing</option>
+                  <option value="Textile & Garment Manufacturing">Textile & Garment Manufacturing</option>
+                  <option value="Food & Beverage Processing">Food & Beverage Processing</option>
+                </select>
+                <span id="error-fac-industry" class="hidden text-red-600 text-[11px] mt-1 block font-semibold"></span>
+              </div>
+
+              <div class="grid grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-xs font-bold text-gray-700 mb-1">City / GIDC Estate *</label>
+                  <input type="text" id="fac-city" required placeholder="e.g. Vatva GIDC, Ahmedabad" class="w-full bg-white border border-gray-300 rounded-lg px-3 py-2 text-xs text-gray-900 outline-none focus:border-[#18583f]">
+                  <span id="error-fac-city" class="hidden text-red-600 text-[11px] mt-1 block font-semibold"></span>
+                </div>
+                <div>
+                  <label class="block text-xs font-bold text-gray-700 mb-1">State</label>
+                  <input type="text" id="fac-state" value="Gujarat" class="w-full bg-white border border-gray-300 rounded-lg px-3 py-2 text-xs text-gray-900 outline-none focus:border-[#18583f]">
+                  <span id="error-fac-state" class="hidden text-red-600 text-[11px] mt-1 block font-semibold"></span>
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-xs font-bold text-gray-700 mb-1">Default Reporting Timeframe</label>
+                <select id="fac-period" class="w-full bg-white border border-gray-300 rounded-lg px-3 py-2 text-xs text-gray-900">
+                  <option value="Monthly (Aug 2026)">Monthly (Aug 2026)</option>
+                  <option value="Quarterly">Quarterly</option>
+                  <option value="Annual">Annual</option>
+                </select>
+                <span id="error-fac-period" class="hidden text-red-600 text-[11px] mt-1 block font-semibold"></span>
+              </div>
+
+              <button type="submit" class="w-full btn-primary py-2.5 text-xs font-bold shadow-sm pt-2">
+                Save Facility & Start Assessment →
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <!-- ================================================== -->
+        <!-- VIEW 1: OVERVIEW DASHBOARD -->
+        <!-- ================================================== -->
+        <div id="view-overview" class="app-view space-y-6 hidden">
+          
+          <!-- Product Journey Bar -->
+          <div class="arenius-card p-4 flex flex-wrap items-center justify-between gap-4 text-xs font-semibold text-gray-600">
+            <div>
+              <span class="font-extrabold text-gray-900">CarbonLens Journey:</span>
+              <span class="text-gray-500">Turn operational data into prioritized circular decisions.</span>
+            </div>
+            <div class="flex items-center gap-2 font-mono text-[11px]">
+              <span class="px-2 py-0.5 bg-gray-100 rounded">1. Measure</span> →
+              <span class="px-2 py-0.5 bg-amber-50 rounded text-amber-900 border border-amber-200">2. Find Leak-Point</span> →
+              <span class="px-2 py-0.5 bg-emerald-50 rounded text-emerald-900 border border-emerald-200">3. Recommend</span> →
+              <span class="px-2 py-0.5 bg-blue-50 rounded text-blue-900 border border-blue-200">4. Simulate</span> →
+              <span class="px-2 py-0.5 bg-gray-100 rounded">5. Act</span>
+            </div>
+          </div>
+
+          <!-- EMPTY STATE CARD (Displayed when user has no completed assessment) -->
+          <div id="dash-empty-state" class="hidden arenius-card p-10 text-center space-y-4 max-w-2xl mx-auto border-2 border-dashed border-gray-300 bg-white">
+            <div class="w-12 h-12 rounded-full bg-emerald-100 text-[#18583f] flex items-center justify-center mx-auto font-bold">
+              <i data-lucide="clipboard-list" class="w-6 h-6"></i>
+            </div>
+            <h3 id="empty-state-title" class="text-xl font-extrabold text-gray-900">No Assessment Completed Yet</h3>
+            <p id="empty-state-subtitle" class="text-xs text-gray-600 max-w-md mx-auto leading-relaxed">
+              Start your first emissions assessment to calculate Scope 1, 2, and 3 footprint, diagnose top industrial leak-points, and view circular alternative recommendations.
+            </p>
+            <div class="pt-2">
+              <button type="button" data-view="assessment" class="nav-link btn-primary text-xs px-6 py-2.5 inline-flex items-center gap-2">
+                <i data-lucide="plus-circle" class="w-4 h-4"></i>
+                <span>Start First Assessment →</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- ACTIVE STATE DASHBOARD METRICS (Shown when assessment exists) -->
+          <div id="dash-active-state" class="space-y-6">
+
+            <!-- DASHBOARD TOP ACTION BAR -->
+            <div class="flex flex-wrap justify-between items-center bg-white p-4 rounded-xl border border-gray-200 shadow-sm gap-3">
+              <div>
+                <h2 class="text-base font-bold text-gray-900">Facility Emissions & Audit Summary</h2>
+                <p class="text-xs text-gray-500 font-mono">Calculated Scope 1, 2, and 3 footprint & circular recommendations</p>
+              </div>
+              <button type="button" class="btn-download-pdf btn-primary text-xs flex items-center gap-2">
+                <i data-lucide="file-text" class="w-4 h-4"></i>
+                <span>Download Assessment Report (PDF)</span>
+              </button>
+            </div>
+
+            <!-- PRIMARY METRIC & CONFIDENCE HERO ROW -->
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+              
+              <!-- Hero Total Footprint Box -->
+              <div class="md:col-span-8 hero-metric-box space-y-2">
+                <div class="text-xs font-bold text-gray-500 uppercase tracking-wider">TOTAL ESTIMATED EMISSIONS</div>
+                <div id="dash-total-co2" class="text-4xl font-extrabold text-gray-900 tracking-tight font-mono">
+                  0.00 <span class="text-base font-semibold text-gray-500">tCO₂e / month</span>
+                </div>
+                <div class="text-xs text-gray-500 pt-2 border-t border-gray-100 flex items-center justify-between font-mono">
+                  <span>Calculated via Python Rule Engine (Activity Data × Traceable Emission Factor)</span>
+                  <button type="button" data-target-view="analysis" class="trigger-view text-[#18583f] font-bold hover:underline">View Formula Audit →</button>
+                </div>
+              </div>
+
+              <!-- Data Quality Confidence Card -->
+              <div class="md:col-span-4 arenius-card p-5 space-y-2">
+                <div class="flex justify-between items-center text-xs font-bold text-gray-500 uppercase tracking-wider">
+                  <span>DATA CONFIDENCE</span>
+                  <i data-lucide="shield-check" class="w-4 h-4 text-[#18583f]"></i>
+                </div>
+                <div id="dash-confidence-score" class="text-3xl font-extrabold text-gray-900 tracking-tight font-mono">
+                  --%
+                </div>
+                <div id="dash-confidence-badge" class="text-xs font-bold text-[#124330] pt-1">
+                  Pending Assessment
+                </div>
+              </div>
+
+            </div>
+
+            <!-- PROPORTIONAL STACKED TREEMAP VISUALIZATION -->
+            <div class="arenius-card p-6 space-y-3">
+              <div class="flex justify-between items-center">
+                <div>
+                  <h2 class="font-bold text-base text-gray-900">Emission Sources Proportional Treemap</h2>
+                  <p class="text-xs text-gray-500">Relative physical area represents category CO₂e contribution share</p>
+                </div>
+                <button type="button" data-target-view="analysis" class="trigger-view text-xs font-bold text-[#18583f] hover:underline">
+                  Full Matrix →
+                </button>
+              </div>
+              
+              <div id="dash-treemap-container">
+                <!-- Dynamically rendered via charts.js -->
+              </div>
+            </div>
+
+            <!-- BOTTOM ROW: DONUT & LEAK-POINTS LIST -->
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+              
+              <!-- Category Distribution Donut -->
+              <div class="md:col-span-5 arenius-card p-6 space-y-3">
+                <h2 class="font-bold text-base text-gray-900">Category Breakdown</h2>
+                <div class="h-56 relative flex items-center justify-center">
+                  <canvas id="dashDonutChart"></canvas>
+                </div>
+              </div>
+
+              <!-- Priority Leak Points List -->
+              <div class="md:col-span-7 arenius-card p-6 space-y-4">
+                <div class="flex justify-between items-center pb-2 border-b border-gray-100">
+                  <div>
+                    <h2 class="font-bold text-base text-gray-900">Priority Leak-Points</h2>
+                    <p class="text-xs text-gray-500">Ranked largest industrial emission contributors</p>
+                  </div>
+                  <button type="button" data-target-view="leakpoints" class="trigger-view text-xs font-bold text-[#18583f] hover:underline">
+                    Diagnose All →
+                  </button>
+                </div>
+
+                <div id="dash-leakpoints-list" class="space-y-3">
+                  <!-- Dynamically rendered via app.js -->
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- ================================================== -->
+        <!-- VIEW 2: NEW ASSESSMENT (4 STEPS) -->
+        <!-- ================================================== -->
+        <div id="view-assessment" class="app-view space-y-6 hidden max-w-3xl mx-auto">
+          
+          <div class="arenius-card p-6 space-y-4">
+            <div class="flex items-center justify-between max-w-md mx-auto">
+              <div class="flex items-center gap-2">
+                <div id="step-indicator-1" class="w-7 h-7 rounded-full flex items-center justify-center font-bold text-xs bg-emerald-800 text-white">1</div>
+                <span class="text-xs font-semibold text-gray-900">Facility</span>
+              </div>
+              <div class="w-10 h-0.5 bg-gray-200"></div>
+              <div class="flex items-center gap-2">
+                <div id="step-indicator-2" class="w-7 h-7 rounded-full flex items-center justify-center font-bold text-xs bg-gray-100 text-gray-400 border border-gray-200">2</div>
+                <span class="text-xs font-semibold text-gray-400">Activity Data</span>
+              </div>
+              <div class="w-10 h-0.5 bg-gray-200"></div>
+              <div class="flex items-center gap-2">
+                <div id="step-indicator-3" class="w-7 h-7 rounded-full flex items-center justify-center font-bold text-xs bg-gray-100 text-gray-400 border border-gray-200">3</div>
+                <span class="text-xs font-semibold text-gray-400">Review</span>
+              </div>
+              <div class="w-10 h-0.5 bg-gray-200"></div>
+              <div class="flex items-center gap-2">
+                <div id="step-indicator-4" class="w-7 h-7 rounded-full flex items-center justify-center font-bold text-xs bg-gray-100 text-gray-400 border border-gray-200">4</div>
+                <span class="text-xs font-semibold text-gray-400">Results</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- STEP 1: FACILITY -->
+          <div id="wizard-step-1" class="arenius-card p-8 space-y-6">
+            <div>
+              <span class="text-xs font-bold text-[#18583f] uppercase tracking-wider">Step 1 of 4</span>
+              <h2 class="text-xl font-extrabold text-gray-900 mt-1">Facility Information</h2>
+              <p class="text-xs text-gray-500">Enter basic factory details. Phase-1 focuses on Plastic & Packaging Manufacturing.</p>
+            </div>
+
+            <div class="space-y-4">
+              <div>
+                <label class="block text-xs font-bold text-gray-700 mb-1">Facility Name</label>
+                <input type="text" id="input-facility-name" value="Apex Plastics SME" class="w-full bg-white border border-gray-300 rounded-lg px-3 py-2 text-xs text-gray-900 outline-none focus:border-[#18583f]">
+                <span id="error-facility-name" class="step-error-msg hidden text-red-600 text-[11px] mt-1 block"></span>
+              </div>
+
+              <div class="grid grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-xs font-bold text-gray-700 mb-1">Industry Sector</label>
+                  <select id="input-industry" class="w-full bg-white border border-gray-300 rounded-lg px-3 py-2 text-xs text-gray-900 outline-none focus:border-[#18583f]">
+                    <option value="Plastic & Packaging Manufacturing" selected>Plastic & Packaging Manufacturing</option>
+                    <option value="Textile & Garment Manufacturing">Textile & Garment Manufacturing</option>
+                    <option value="Food & Beverage Processing">Food & Beverage Processing</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block text-xs font-bold text-gray-700 mb-1">Reporting Period</label>
+                  <select id="input-period" class="w-full bg-white border border-gray-300 rounded-lg px-3 py-2 text-xs text-gray-900">
+                    <option value="Monthly (Aug 2026)">Monthly (Aug 2026)</option>
+                    <option value="Quarterly">Quarterly</option>
+                    <option value="Annual">Annual</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-xs font-bold text-gray-700 mb-1">Primary Polymer Type</label>
+                <select id="input-polymer" class="w-full bg-white border border-gray-300 rounded-lg px-3 py-2 text-xs text-gray-900">
+                  <option value="HDPE">HDPE - High-Density Polyethylene</option>
+                  <option value="LDPE">LDPE - Low-Density Polyethylene</option>
+                  <option value="PP">PP - Polypropylene</option>
+                  <option value="PET">PET - Polyethylene Terephthalate</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="pt-4 flex justify-end">
+              <button type="button" data-step="1" class="wizard-next btn-primary text-xs">Continue to Activity Data →</button>
+            </div>
+          </div>
+
+          <!-- STEP 2: ACTIVITY DATA -->
+          <div id="wizard-step-2" class="arenius-card p-8 space-y-6 hidden">
+            <div>
+              <span class="text-xs font-bold text-[#18583f] uppercase tracking-wider">Step 2 of 4</span>
+              <h2 id="step-2-heading" class="text-xl font-extrabold text-gray-900 mt-1">Enter Monthly Activity Data</h2>
+              <p id="step-2-subheading" class="text-xs text-gray-500">Provide data you actually have. Unrecorded fields will be marked as Partial Estimate without blocking.</p>
+            </div>
+
+            <span id="error-activity-data" class="step-error-msg hidden text-red-600 text-xs block p-2 bg-red-50 rounded border border-red-200 font-semibold"></span>
+
+            <div id="step-2-panel" class="space-y-6 text-xs">
+              
+              <!-- ENERGY SECTION -->
+              <div class="p-4 bg-gray-50 rounded-xl border border-gray-200 space-y-3">
+                <div class="font-bold text-gray-900 flex items-center justify-between">
+                  <span>⚡ ENERGY INPUT</span>
+                  <span class="text-[10px] text-gray-400 font-mono">Scope 2 & 1</span>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                  <div>
+                    <label id="label-grid-kwh" class="block font-medium text-gray-700 mb-1">Grid Electricity (kWh/mo)</label>
+                    <input type="number" id="input-grid-kwh" placeholder="e.g. 32000" min="0" class="w-full bg-white border border-gray-300 rounded-lg px-3 py-2 text-xs">
+                    <span id="error-grid-kwh" class="hidden text-red-600 text-[11px] mt-1 block font-semibold"></span>
+                  </div>
+                  <div>
+                    <label id="label-diesel-l" class="block font-medium text-gray-700 mb-1">Diesel Fuel (liters/mo)</label>
+                    <input type="number" id="input-diesel-l" placeholder="e.g. 850" min="0" class="w-full bg-white border border-gray-300 rounded-lg px-3 py-2 text-xs">
+                    <span id="error-diesel-l" class="hidden text-red-600 text-[11px] mt-1 block font-semibold"></span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- MATERIALS SECTION -->
+              <div class="p-4 bg-gray-50 rounded-xl border border-gray-200 space-y-3">
+                <div class="font-bold text-gray-900 flex items-center justify-between">
+                  <span>📦 RAW MATERIAL FEEDSTOCK</span>
+                  <span class="text-[10px] text-gray-400 font-mono">Scope 3 Category 1</span>
+                </div>
+                <div class="grid grid-cols-3 gap-4">
+                  <div>
+                    <label id="label-total-material-kg" class="block font-medium text-gray-700 mb-1">Total Polymer Input (kg/mo)</label>
+                    <input type="number" id="input-total-material-kg" placeholder="e.g. 45000" min="0" class="w-full bg-white border border-gray-300 rounded-lg px-3 py-2 text-xs">
+                    <span id="error-total-material-kg" class="hidden text-red-600 text-[11px] mt-1 block font-semibold"></span>
+                  </div>
+                  <div>
+                    <label class="block font-medium text-gray-700 mb-1">Virgin Material %</label>
+                    <input type="number" id="input-virgin-pct" value="88" min="0" max="100" class="w-full bg-white border border-gray-300 rounded-lg px-3 py-2 text-xs">
+                    <span id="error-virgin-pct" class="hidden text-red-600 text-[11px] mt-1 block font-semibold"></span>
+                  </div>
+                  <div>
+                    <label class="block font-medium text-gray-700 mb-1">Recycled PCR %</label>
+                    <input type="number" id="input-recycled-pct" value="12" min="0" max="100" readonly class="w-full bg-gray-100 border border-gray-200 rounded-lg px-3 py-2 text-xs text-gray-500">
+                    <span id="error-recycled-pct" class="hidden text-red-600 text-[11px] mt-1 block font-semibold"></span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- PRODUCTION & WASTE SECTION -->
+              <div class="p-4 bg-gray-50 rounded-xl border border-gray-200 space-y-3">
+                <div class="font-bold text-gray-900 flex items-center justify-between">
+                  <span>🏭 PRODUCTION & WASTE</span>
+                  <span class="text-[10px] text-gray-400 font-mono">Scope 3 Category 5</span>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                  <div>
+                    <label id="label-output-kg" class="block font-medium text-gray-700 mb-1">Finished Goods Output (kg/mo)</label>
+                    <input type="number" id="input-production-output-kg" placeholder="e.g. 41500" min="0" class="w-full bg-white border border-gray-300 rounded-lg px-3 py-2 text-xs">
+                    <span id="error-production-output-kg" class="hidden text-red-600 text-[11px] mt-1 block font-semibold"></span>
+                  </div>
+                  <div>
+                    <label id="label-scrap-kg" class="block font-medium text-gray-700 mb-1">Landfill Scrap Waste (kg/mo)</label>
+                    <input type="number" id="input-scrap-kg" placeholder="e.g. 3000" min="0" class="w-full bg-white border border-gray-300 rounded-lg px-3 py-2 text-xs">
+                    <span id="error-scrap-kg" class="hidden text-red-600 text-[11px] mt-1 block font-semibold"></span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- OPTIONAL SME COST DATA -->
+              <div class="p-4 bg-emerald-50 rounded-xl border border-emerald-200 space-y-3">
+                <div class="font-bold text-emerald-950 flex items-center justify-between">
+                  <span>💰 OPTIONAL COST PARAMETERS (For Financial Estimations)</span>
+                </div>
+                <div class="grid grid-cols-3 gap-3">
+                  <div>
+                    <label class="block text-[11px] font-medium text-emerald-900 mb-1">Virgin Resin (₹/kg)</label>
+                    <input type="number" id="input-virgin-cost" placeholder="e.g. 110" min="0" class="w-full bg-white border border-emerald-300 rounded-lg px-2 py-1.5 text-xs">
+                    <span id="error-virgin-cost" class="hidden text-red-600 text-[11px] mt-1 block font-semibold"></span>
+                  </div>
+                  <div>
+                    <label class="block text-[11px] font-medium text-emerald-900 mb-1">PCR Resin (₹/kg)</label>
+                    <input type="number" id="input-recycled-cost" placeholder="e.g. 78" min="0" class="w-full bg-white border border-emerald-300 rounded-lg px-2 py-1.5 text-xs">
+                    <span id="error-recycled-cost" class="hidden text-red-600 text-[11px] mt-1 block font-semibold"></span>
+                  </div>
+                  <div>
+                    <label class="block text-[11px] font-medium text-emerald-900 mb-1">Grid Tariff (₹/kWh)</label>
+                    <input type="number" id="input-elec-cost" placeholder="e.g. 8.50" min="0" class="w-full bg-white border border-emerald-300 rounded-lg px-2 py-1.5 text-xs">
+                    <span id="error-elec-cost" class="hidden text-red-600 text-[11px] mt-1 block font-semibold"></span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="pt-4 flex justify-between">
+              <button type="button" data-step="2" class="wizard-prev btn-secondary text-xs">← Back</button>
+              <button type="button" data-step="2" class="wizard-next btn-primary text-xs">Review Assessment →</button>
+            </div>
+          </div>
+
+          <!-- STEP 3: REVIEW -->
+          <div id="wizard-step-3" class="arenius-card p-8 space-y-6 hidden">
+            <div>
+              <span class="text-xs font-bold text-[#18583f] uppercase tracking-wider">Step 3 of 4</span>
+              <h2 class="text-xl font-extrabold text-gray-900 mt-1">Review Assessment Inputs</h2>
+              <p class="text-xs text-gray-500">Verify supplied activity inputs before executing Python calculation engine.</p>
+            </div>
+
+            <div id="review-summary-container" class="space-y-3 font-mono text-xs">
+              <!-- Dynamically populated via assessment.js -->
+            </div>
+
+            <div class="pt-4 flex justify-between">
+              <button type="button" data-step="3" class="wizard-prev btn-secondary text-xs">← Back to Edit</button>
+              <button type="button" id="btn-submit-assessment" class="btn-primary text-xs flex items-center gap-2">
+                <i data-lucide="cpu" class="w-4 h-4"></i>
+                <span>Calculate Carbon Footprint</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- STEP 4: PROCESSING SPINNER -->
+          <div id="wizard-step-4" class="arenius-card p-12 text-center space-y-4 hidden">
+            <div class="w-12 h-12 rounded-full bg-emerald-100 text-[#18583f] flex items-center justify-center mx-auto animate-spin">
+              <i data-lucide="loader-2" class="w-6 h-6"></i>
+            </div>
+            <h3 class="font-extrabold text-lg text-gray-900">Executing Python Calculation Engine</h3>
+            <p class="text-xs text-gray-500 font-mono">
+              Applying CEA v19 & CPCB traceable factors...<br>
+              Evaluating data quality confidence score...<br>
+              Detecting priority emission leak-points...
+            </p>
+          </div>
+
+        </div>
+
+        <!-- ================================================== -->
+        <!-- VIEW 3: EMISSION ANALYSIS -->
+        <!-- ================================================== -->
+        <div id="view-analysis" class="app-view space-y-6 hidden">
+          <div class="flex justify-between items-center pb-3 border-b border-gray-200">
+            <div>
+              <h1 class="text-xl font-extrabold text-gray-900">Emission Analysis & Methodology Audit</h1>
+              <p class="text-xs text-gray-500 font-mono">Transparent breakdown: Activity Data × Traceable Emission Factor = CO₂e</p>
+            </div>
+          </div>
+
+          <div class="arenius-card overflow-hidden">
+            <table class="w-full text-left border-collapse text-xs font-mono">
+              <thead>
+                <tr class="bg-gray-50 text-gray-600 font-bold uppercase border-b border-gray-200">
+                  <th class="p-4">Emission Source</th>
+                  <th class="p-4">Activity Data</th>
+                  <th class="p-4">Emission Factor</th>
+                  <th class="p-4">Calculated CO₂e</th>
+                  <th class="p-4">% Contribution</th>
+                  <th class="p-4">Formula Audit</th>
+                </tr>
+              </thead>
+              <tbody id="analysis-table-body" class="divide-y divide-gray-100 text-gray-800">
+                <!-- Dynamically populated via app.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- ================================================== -->
+        <!-- VIEW 4: LEAK-POINTS -->
+        <!-- ================================================== -->
+        <div id="view-leakpoints" class="app-view space-y-6 hidden">
+          <div class="pb-3 border-b border-gray-200">
+            <h1 class="text-xl font-extrabold text-gray-900">Priority Emission Leak-Points</h1>
+            <p class="text-xs text-gray-500 font-mono">Ranked largest industrial emission bottlenecks in your facility</p>
+          </div>
+
+          <div id="leakpoints-view-list" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Dynamically populated via app.js -->
+          </div>
+        </div>
+
+        <!-- ================================================== -->
+        <!-- VIEW 5: CIRCULAR RECOMMENDATIONS -->
+        <!-- ================================================== -->
+        <div id="view-recommendations" class="app-view space-y-6 hidden">
+          <div class="flex justify-between items-center pb-3 border-b border-gray-200">
+            <div>
+              <h1 class="text-xl font-extrabold text-gray-900">Circular Technology Recommendations</h1>
+              <p class="text-xs text-gray-500 font-mono">Rule-based circular actions matched to your top leak points</p>
+            </div>
+            <button type="button" data-target-view="simulator" class="trigger-view btn-primary text-xs flex items-center gap-1">
+              Open Simulator →
+            </button>
+          </div>
+
+          <div id="recommendations-view-list" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Dynamically populated via app.js -->
+          </div>
+        </div>
+
+        <!-- ================================================== -->
+        <!-- VIEW 6: WHAT-IF SIMULATOR -->
+        <!-- ================================================== -->
+        <div id="view-simulator" class="app-view space-y-6 hidden">
+          <div class="pb-3 border-b border-gray-200">
+            <h1 class="text-xl font-extrabold text-gray-900">What-If Scenario Planner</h1>
+            <p class="text-xs text-gray-500 font-mono">Test intervention combinations virtually using explicit mathematical rules</p>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            
+            <!-- LEFT: COMPARISON DISPLAY -->
+            <div class="lg:col-span-5 space-y-6">
+              
+              <div class="arenius-card p-6 space-y-4">
+                <div class="text-xs font-bold text-gray-500 uppercase tracking-wider">Footprint Scenario Comparison</div>
+                
+                <div class="grid grid-cols-2 gap-3 text-center font-mono">
+                  <div class="p-3 bg-gray-50 rounded-lg border border-gray-200">
+                    <span class="text-[10px] text-gray-400 block">BASELINE</span>
+                    <span id="sim-metric-baseline" class="font-bold text-gray-900 text-lg">0.00 t</span>
+                  </div>
+                  <div class="p-3 bg-emerald-50 rounded-lg border border-emerald-200">
+                    <span class="text-[10px] text-emerald-800 block">PROJECTED</span>
+                    <span id="sim-metric-projected" class="font-bold text-emerald-900 text-lg">0.00 t</span>
+                  </div>
+                </div>
+
+                <div class="p-4 bg-gray-900 text-white rounded-xl space-y-2 font-mono text-xs">
+                  <div class="flex justify-between items-center">
+                    <span class="text-gray-400">Monthly Footprint Cut:</span>
+                    <span id="sim-metric-red-abs" class="font-bold text-emerald-400 text-sm">-0.00 tCO₂e/mo</span>
+                  </div>
+                  <div class="flex justify-between items-center">
+                    <span class="text-gray-400">Percentage Reduction:</span>
+                    <span id="sim-metric-red-pct" class="font-bold text-emerald-400 text-sm">-0.0%</span>
+                  </div>
+                  <div class="pt-2 border-t border-gray-800 text-[11px] text-gray-300">
+                    <strong class="text-gray-400 block mb-0.5">Financial Impact:</strong>
+                    <span id="sim-metric-financial">Financial estimate unavailable (additional cost data required)</span>
+                  </div>
+                </div>
+
+                <div class="h-44 relative flex items-center justify-center pt-2">
+                  <canvas id="simBarChart"></canvas>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- RIGHT: INTERACTIVE SLIDERS -->
+            <div class="lg:col-span-7 arenius-card p-6 space-y-6">
+              <div class="flex justify-between items-center pb-3 border-b border-gray-100">
+                <h2 class="font-bold text-base text-gray-900">Intervention Adoption Levers</h2>
+                <span class="text-xs text-gray-400 font-mono">EXPLICIT MATH ENGINE</span>
+              </div>
+
+              <!-- Lever 1 -->
+              <div class="p-4 bg-gray-50 rounded-xl border border-gray-200 space-y-2">
+                <div class="flex justify-between text-xs font-mono">
+                  <label for="sim-slider-pcr" class="font-bold text-gray-900">Recycled Content Ratio (PCR Blend)</label>
+                  <span id="sim-val-pcr" class="font-bold text-emerald-900">0%</span>
+                </div>
+                <input type="range" id="sim-slider-pcr" min="0" max="60" value="0" step="5" class="w-full">
+                <p class="text-[11px] text-gray-500 font-mono">Formula: Shifts polymer volume from virgin factor (2.08) to PCR factor (0.62 kgCO₂e/kg).</p>
+              </div>
+
+              <!-- Lever 2 -->
+              <div class="p-4 bg-gray-50 rounded-xl border border-gray-200 space-y-2">
+                <div class="flex justify-between text-xs font-mono">
+                  <label for="sim-slider-regrind" class="font-bold text-gray-900">In-House Production Scrap Recovery</label>
+                  <span id="sim-val-regrind" class="font-bold text-emerald-900">0%</span>
+                </div>
+                <input type="range" id="sim-slider-regrind" min="0" max="90" value="0" step="10" class="w-full">
+                <p class="text-[11px] text-gray-500 font-mono">Formula: Diverts scrap volume from landfill (1.45) into closed-loop regrind.</p>
+              </div>
+
+              <!-- Lever 3 -->
+              <div class="p-4 bg-gray-50 rounded-xl border border-gray-200 space-y-2">
+                <div class="flex justify-between text-xs font-mono">
+                  <label for="sim-slider-solar" class="font-bold text-gray-900">Renewable Electricity Share (Rooftop Solar)</label>
+                  <span id="sim-val-solar" class="font-bold text-emerald-900">0%</span>
+                </div>
+                <input type="range" id="sim-slider-solar" min="0" max="60" value="0" step="5" class="w-full">
+                <p class="text-[11px] text-gray-500 font-mono">Formula: Replaces grid electricity portion (0.716 kgCO₂e/kWh) with clean generation.</p>
+              </div>
+
+              <!-- Mathematical Explanation Box -->
+              <div class="p-4 bg-gray-100 rounded-xl border border-gray-200 space-y-2">
+                <div class="text-xs font-bold text-gray-900">Calculation Transparency Audit:</div>
+                <ul id="sim-explanation-list" class="space-y-1">
+                  <!-- Dynamically populated via simulator.js -->
+                </ul>
+              </div>
+
+              <div class="pt-3 border-t border-gray-100 flex justify-end">
+                <button type="button" id="btn-use-scenario" class="btn-primary text-xs">Use This Scenario →</button>
+              </div>
+
+              <div id="final-action-container" class="hidden"></div>
+
+            </div>
+
+          </div>
+        </div>
+
+        <!-- ================================================== -->
+        <!-- VIEW 7: RECYCLER SUGGESTIONS -->
+        <!-- ================================================== -->
+        <div id="view-partners" class="app-view space-y-6 hidden">
+          <div class="flex justify-between items-center pb-3 border-b border-gray-200">
+            <div>
+              <h1 class="text-xl font-extrabold text-gray-900">Recycler & Vendor Suggestions</h1>
+              <p class="text-xs text-gray-500 font-mono">Curated partner dataset for circular plastic recovery in Gujarat</p>
+            </div>
+            <span class="badge-demo">DEMO / SAMPLE PARTNER DATA</span>
+          </div>
+
+          <div id="partner-search-status-banner"></div>
+
+          <!-- INTERACTIVE GUJARAT INDUSTRIAL ECO-PARK MAP -->
+          <div class="arenius-card p-4 space-y-3 bg-white border border-gray-200 shadow-sm rounded-xl">
+            <div class="flex items-center justify-between text-xs font-bold text-gray-900">
+              <span class="flex items-center gap-2">
+                <i data-lucide="map-pin" class="w-4 h-4 text-[#18583f]"></i>
+                <span>Gujarat Industrial Eco-Park & GIDC Partner Map (Vatva, Naroda, Sanand, Vadodara, Ankleshwar, Surat, Rajkot, Vapi)</span>
+              </span>
+              <span class="text-[11px] text-gray-500 font-mono">Interactive GIS Radius</span>
+            </div>
+            <div id="partner-map" class="w-full h-80 rounded-xl border border-gray-200 overflow-hidden z-10"></div>
+          </div>
+
+          <div id="partners-list" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Dynamically populated via app.js -->
+          </div>
+        </div>
+
+      </main>
+
+    </div>
+  </div>
+
+  <!-- CALCULATION FORMULA AUDIT MODAL -->
+  <div id="modal-audit" class="fixed inset-0 z-50 bg-gray-900/50 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="w-full max-w-lg bg-white rounded-2xl shadow-2xl p-6 space-y-4">
+      <div class="flex justify-between items-center border-b border-gray-100 pb-3">
+        <h3 class="font-bold text-base text-gray-900">Calculation Formula Audit</h3>
+        <button type="button" id="close-audit-modal" class="p-1 text-gray-400 hover:text-gray-700">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+      <div id="audit-modal-content">
+        <!-- Dynamically populated via app.js -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Leaflet GIS Map Library -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <!-- JavaScript Modules -->
+  <script src="js/api.js?v=1.0.7"></script>
+  <script src="js/validators.js?v=1.0.7"></script>
+  <script src="js/charts.js?v=1.0.7"></script>
+  <script src="js/assessment.js?v=1.0.7"></script>
+  <script src="js/simulator.js?v=1.0.7"></script>
+  <script src="js/app.js?v=1.0.7"></script>
+</body>
+</html>

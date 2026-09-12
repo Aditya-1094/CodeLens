@@ -1,0 +1,72 @@
+{
+  "akshat@sme.com": {
+    "id": "usr_akshat_001",
+    "full_name": "Akshat Patel",
+    "email": "akshat@sme.com",
+    "password": "password123",
+    "token": "tok_akshat_001"
+  },
+  "dhairya@gmail.com": {
+    "id": "usr_dhairya_001",
+    "full_name": "Dhairya Packaging",
+    "email": "dhairya@gmail.com",
+    "password": "password123",
+    "token": "tok_dhairya_001"
+  },
+  "demo@sme.local": {
+    "id": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
+    "full_name": "Vatva Plant Manager",
+    "email": "demo@sme.local",
+    "password": "password123",
+    "token": "tok_demo_vatva_001"
+  },
+  "aditya@gmail.com": {
+    "id": "082beee3-41c6-44f8-80c6-cfc7cc3f468b",
+    "full_name": "Aditya",
+    "email": "aditya@gmail.com",
+    "password": "Aditya@123",
+    "token": "tok_auto_1a76dc9139704e8cba5cc46e896902b9"
+  },
+  "rajesh@test.local": {
+    "id": "3719ab4d-5acb-48a6-b158-c6a077fa96ba",
+    "full_name": "Rajesh Patel",
+    "email": "rajesh@test.local",
+    "password": "securepassword123",
+    "token": "tok_usr_19484f1f2a084a7598587b219bfb96af"
+  },
+  "usera@test.local": {
+    "id": "8d8b6721-0d4e-483b-8e85-3018deb4323b",
+    "full_name": "User A",
+    "email": "usera@test.local",
+    "password": "passwordA123",
+    "token": "tok_usr_14e634c01dd549e39ece85930d536fcb"
+  },
+  "userb@test.local": {
+    "id": "5e5fd386-f4ea-428a-a11d-4617f4c302be",
+    "full_name": "User B",
+    "email": "userb@test.local",
+    "password": "passwordB123",
+    "token": "tok_usr_b323a32a03b64562992b072573fa2fc0"
+  },
+  "userc@test.local": {
+    "id": "24205106-dcbc-46ff-9073-58e9d174f11a",
+    "full_name": "User C",
+    "email": "userc@test.local",
+    "password": "passwordC123",
+    "token": "tok_usr_6caefc665da54e30b6084604e45a435f"
+  },
+  "pdfuser_a@test.local": {
+    "id": "ace62455-80d1-4414-a4b7-f5a7ab4e7899",
+    "full_name": "PDF User A",
+    "email": "pdfuser_a@test.local",
+    "password": "password123",
+    "token": "tok_usr_313b17332753406f9792194f4bc26323"
+  },
+  "pdfuser_b@test.local": {
+    "id": "ae750bc3-d898-40a6-b1bc-99cb6c784a75",
+    "full_name": "PDF User B",
+    "email": "pdfuser_b@test.local",
+    "password": "password123",
+    "token": "tok_usr_a31ca7d320e54188abde8c7845007a76"
+  }
+}

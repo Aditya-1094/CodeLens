@@ -1,0 +1,149 @@
+/* Arenius-Inspired Design System for CarbonLens SME */
+:root {
+  --bg-primary: #fcfbf9;
+  --bg-surface: #ffffff;
+  --bg-subtle: #f4f3ef;
+  
+  --text-main: #111827;
+  --text-muted: #6b7280;
+  --text-light: #9ca3af;
+  
+  --green-deep: #124330;
+  --green-primary: #18583f;
+  --green-light: #e8f3ee;
+  --green-border: #c3e2d4;
+  --green-hover: #0d3022;
+
+  --amber-light: #fffbe6;
+  --amber-border: #ffe58f;
+  --amber-text: #d48806;
+
+  --red-light: #fff2f0;
+  --red-border: #ffccc7;
+  --red-text: #cf1322;
+
+  --border-color: #e5e7eb;
+  --border-focus: #18583f;
+  
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'Roboto Mono', monospace;
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-main);
+  font-family: var(--font-sans);
+}
+
+/* Arenius Metric Card System */
+.arenius-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.arenius-card:hover {
+  border-color: #d1d5db;
+}
+
+/* Primary Metric Hero Section */
+.hero-metric-box {
+  background: var(--bg-surface);
+  border-left: 4px solid var(--green-primary);
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+
+/* Proportional Stacked Treemap Bar */
+.treemap-bar-container {
+  display: flex;
+  height: 48px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+}
+.treemap-segment {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 0.75rem;
+  transition: opacity 0.2s ease;
+  position: relative;
+  cursor: pointer;
+}
+.treemap-segment:hover {
+  opacity: 0.9;
+}
+
+/* Navigation active indicator */
+.nav-item-active {
+  background-color: var(--green-light) !important;
+  color: var(--green-deep) !important;
+  font-weight: 600 !important;
+  border-right: 3px solid var(--green-primary);
+}
+
+/* Tab content fade animation */
+.animate-tab-content {
+  animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Button Variants */
+.btn-primary {
+  background-color: var(--green-primary);
+  color: #ffffff;
+  font-weight: 600;
+  border-radius: 8px;
+  padding: 0.625rem 1.25rem;
+  transition: background-color 0.15s ease;
+}
+.btn-primary:hover {
+  background-color: var(--green-hover);
+}
+
+.btn-secondary {
+  background-color: var(--bg-surface);
+  color: var(--text-main);
+  border: 1px solid var(--border-color);
+  font-weight: 600;
+  border-radius: 8px;
+  padding: 0.625rem 1.25rem;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+.btn-secondary:hover {
+  background-color: var(--bg-subtle);
+  border-color: #d1d5db;
+}
+
+/* Badge Styles */
+.badge-demo {
+  background-color: #fef3c7;
+  color: #92400e;
+  border: 1px solid #fde68a;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+
+.badge-partial {
+  background-color: #ffedd5;
+  color: #9a3412;
+  border: 1px solid #fed7aa;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
