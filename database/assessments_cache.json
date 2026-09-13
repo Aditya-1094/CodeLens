@@ -19923,5 +19923,2369 @@
         "calculation_formula": "12,000 kWh \u00d7 0.716 kgCO2e/kWh = 8,592.0 kgCO2e (8.592 tCO2e)"
       }
     ]
+  },
+  "asm_038eae3d": {
+    "result": {
+      "id": "asm_038eae3d",
+      "user_id": "858dc242-2038-4758-b294-f64c1bde172a",
+      "facility_id": "df72245c-50aa-4140-86d2-bf884eb9b7d8",
+      "facility_name": "Facility A",
+      "industry": "Plastic & Packaging Manufacturing",
+      "reporting_period": "Monthly (Aug 2026)",
+      "total_co2e_tonnes": 16.81,
+      "is_partial_estimate": true,
+      "missing_data_warning": "PARTIAL ESTIMATE: 3 expected activity streams were unrecorded (Recycled polymer (PCR) blend ratio unrecorded, Finished goods production output unavailable, Waste disposal & scrap stream data unavailable).",
+      "confidence_breakdown": {
+        "confidence_score": 48,
+        "quality_badge": "PARTIAL ESTIMATE (Limited Data)",
+        "supplied_count": 2,
+        "missing_count": 3,
+        "is_partial_estimate": true,
+        "audit_trail": [
+          {
+            "field_name": "Grid Electricity",
+            "status": "Metered / Supplied",
+            "value": 10000.0,
+            "unit": "kWh",
+            "is_supplied": true,
+            "notes": "Electricity utility consumption record"
+          },
+          {
+            "field_name": "Virgin Polymer Resin",
+            "status": "Supplied / Invoiced",
+            "value": 5000.0,
+            "unit": "kg",
+            "is_supplied": true,
+            "notes": "Primary resin input (HDPE)"
+          },
+          {
+            "field_name": "Recycled Polymer (PCR)",
+            "status": "Unrecorded",
+            "value": 0.0,
+            "unit": "kg",
+            "is_supplied": false,
+            "notes": "Assumed 0 kg recycled material"
+          },
+          {
+            "field_name": "Finished Goods Output",
+            "status": "Data Unavailable",
+            "value": null,
+            "unit": "kg",
+            "is_supplied": false,
+            "notes": "Used for process context only"
+          },
+          {
+            "field_name": "Process Scrap & Landfill Waste",
+            "status": "Data Unavailable",
+            "value": null,
+            "unit": "kg",
+            "is_supplied": false,
+            "notes": "Excluded from calculations"
+          }
+        ],
+        "missing_fields_explanation": [
+          "Recycled polymer (PCR) blend ratio unrecorded",
+          "Finished goods production output unavailable",
+          "Waste disposal & scrap stream data unavailable"
+        ]
+      },
+      "sources": [
+        {
+          "source_key": "virgin_polymer",
+          "source_name": "Virgin HDPE Polymer Feedstock",
+          "category": "Raw Materials",
+          "activity_amount": 5000.0,
+          "unit": "kg",
+          "emission_factor": 1.93,
+          "factor_unit": "kgCO2e/kg",
+          "source_reference": "CPCB / Ecoinvent (Ecoinvent 3.9 Database & CPCB Polymer LCA Guidelines)",
+          "reference_year": 2023,
+          "co2e_tonnes": 9.65,
+          "percentage": 57.4,
+          "calculation_formula": "5,000 kg \u00d7 1.93 kgCO2e/kg = 9,650.0 kgCO2e (9.650 tCO2e)"
+        },
+        {
+          "source_key": "grid_electricity",
+          "source_name": "Indian Grid Electricity",
+          "category": "Electricity",
+          "activity_amount": 10000.0,
+          "unit": "kWh",
+          "emission_factor": 0.716,
+          "factor_unit": "kgCO2e/kWh",
+          "source_reference": "Central Electricity Authority (CEA), Govt. of India (CO2 Baseline Database for the Indian Power Sector, Version 19)",
+          "reference_year": 2023,
+          "co2e_tonnes": 7.16,
+          "percentage": 42.6,
+          "calculation_formula": "10,000 kWh \u00d7 0.716 kgCO2e/kWh = 7,160.0 kgCO2e (7.160 tCO2e)"
+        }
+      ],
+      "category_breakdown": {
+        "Raw Materials": 9.65,
+        "Electricity": 7.16
+      },
+      "leak_points": [
+        {
+          "rank": 1,
+          "source_key": "virgin_polymer",
+          "source_name": "Virgin HDPE Polymer Feedstock",
+          "category": "Raw Materials",
+          "co2e_tonnes": 9.65,
+          "percentage": 57.4,
+          "severity": "High Priority",
+          "root_cause_explanation": "Heavy reliance on virgin polymer feedstock contributes 57.4% (9.65 tCO2e) due to primary monomer extraction emissions."
+        },
+        {
+          "rank": 2,
+          "source_key": "grid_electricity",
+          "source_name": "Indian Grid Electricity",
+          "category": "Electricity",
+          "co2e_tonnes": 7.16,
+          "percentage": 42.6,
+          "severity": "High Priority",
+          "root_cause_explanation": "Extruder motor drives and heating load account for 42.6% (7.16 tCO2e) under coal-intensive grid electricity."
+        }
+      ],
+      "recommendations": [
+        {
+          "id": "rec_increase_recycled_content",
+          "category": "materials",
+          "title": "Increase Recycled Material Content",
+          "subtitle": "Substitute virgin fossil polymer with certified post-consumer recycled (PCR) resin.",
+          "description": "Blending post-consumer recycled (PCR) pellets into non-food outer packaging or rigid containers significantly reduces Scope 3 embodied carbon from primary polymer synthesis.",
+          "addresses_hotspot": "Virgin Polymer Feedstock",
+          "typical_co2e_reduction_pct": 12.0,
+          "projected_co2e_savings_tonnes": 2.03,
+          "financial_impact_text": "Financial estimate unavailable (additional cost data required)",
+          "implementation_difficulty": "Low",
+          "example_technologies": "30% PCR blending for film extruders, layer co-extrusion",
+          "default_sim_lever": "pcr_blend_pct",
+          "relevance_score": 95
+        },
+        {
+          "id": "rec_evaluate_renewable_electricity",
+          "category": "energy",
+          "title": "Evaluate Renewable Electricity / Rooftop Solar",
+          "subtitle": "Transition daytime machine power load to clean on-site solar generation.",
+          "description": "Installing net-metered rooftop solar PV panels on factory sheds replaces high-emission coal grid power during peak production hours.",
+          "addresses_hotspot": "Grid Electricity Consumption",
+          "typical_co2e_reduction_pct": 12.8,
+          "projected_co2e_savings_tonnes": 2.15,
+          "financial_impact_text": "Financial estimate unavailable (additional cost data required)",
+          "implementation_difficulty": "Moderate",
+          "example_technologies": "Captive rooftop solar PV (50\u2013100 kWp), green tariff power purchase",
+          "default_sim_lever": "renewable_electricity_pct",
+          "relevance_score": 80
+        },
+        {
+          "id": "rec_improve_energy_efficiency",
+          "category": "energy",
+          "title": "Improve Energy Efficiency",
+          "subtitle": "Optimize electrical drives, compressed air, and heating barrel insulation.",
+          "description": "Systematic energy efficiency upgrades eliminate idle thermal losses, reduce electrical demand spikes, and lower per-kg specific energy consumption.",
+          "addresses_hotspot": "Operational Energy Load",
+          "typical_co2e_reduction_pct": 5.1,
+          "projected_co2e_savings_tonnes": 0.86,
+          "financial_impact_text": "Financial estimate unavailable (additional cost data required)",
+          "implementation_difficulty": "Low",
+          "example_technologies": "VFD inverter controls on hydraulic pumps, ceramic barrel insulation blankets",
+          "default_sim_lever": "energy_efficiency_pct",
+          "relevance_score": 75
+        }
+      ],
+      "created_at": "2026-09-13 01:58:23.203953+00:00",
+      "is_demo": false,
+      "input_snapshot": {
+        "facility_id": "df72245c-50aa-4140-86d2-bf884eb9b7d8",
+        "facility_name": "Facility A",
+        "industry": "Plastic & Packaging Manufacturing",
+        "reporting_period": "Monthly (Aug 2026)",
+        "city": "Ahmedabad",
+        "polymer_type": "HDPE",
+        "virgin_material_kg": 5000.0,
+        "recycled_material_kg": null,
+        "grid_electricity_kwh": 10000.0,
+        "diesel_liters": null,
+        "natural_gas_m3": null,
+        "production_output_kg": null,
+        "scrap_generated_kg": null,
+        "scrap_recycled_internal_kg": null,
+        "scrap_landfilled_kg": null,
+        "custom_virgin_cost_inr_per_kg": null,
+        "custom_recycled_cost_inr_per_kg": null,
+        "custom_electricity_cost_inr_per_kwh": null
+      }
+    },
+    "sources": [
+      {
+        "source_key": "virgin_polymer",
+        "source_name": "Virgin HDPE Polymer Feedstock",
+        "category": "Raw Materials",
+        "activity_amount": 5000.0,
+        "unit": "kg",
+        "emission_factor": 1.93,
+        "factor_unit": "kgCO2e/kg",
+        "source_reference": "CPCB / Ecoinvent (Ecoinvent 3.9 Database & CPCB Polymer LCA Guidelines)",
+        "reference_year": 2023,
+        "co2e_tonnes": 9.65,
+        "percentage": 57.4,
+        "calculation_formula": "5,000 kg \u00d7 1.93 kgCO2e/kg = 9,650.0 kgCO2e (9.650 tCO2e)"
+      },
+      {
+        "source_key": "grid_electricity",
+        "source_name": "Indian Grid Electricity",
+        "category": "Electricity",
+        "activity_amount": 10000.0,
+        "unit": "kWh",
+        "emission_factor": 0.716,
+        "factor_unit": "kgCO2e/kWh",
+        "source_reference": "Central Electricity Authority (CEA), Govt. of India (CO2 Baseline Database for the Indian Power Sector, Version 19)",
+        "reference_year": 2023,
+        "co2e_tonnes": 7.16,
+        "percentage": 42.6,
+        "calculation_formula": "10,000 kWh \u00d7 0.716 kgCO2e/kWh = 7,160.0 kgCO2e (7.160 tCO2e)"
+      }
+    ]
+  },
+  "asm_60f4a89b": {
+    "result": {
+      "id": "asm_60f4a89b",
+      "user_id": null,
+      "facility_id": null,
+      "facility_name": "Vatva Polymer Pack Ltd",
+      "industry": "Plastic & Packaging Manufacturing",
+      "reporting_period": "Monthly (Aug 2026)",
+      "total_co2e_tonnes": 115.85,
+      "is_partial_estimate": false,
+      "missing_data_warning": null,
+      "confidence_breakdown": {
+        "confidence_score": 88,
+        "quality_badge": "High Confidence (88% Max - Self Reported)",
+        "supplied_count": 5,
+        "missing_count": 0,
+        "is_partial_estimate": false,
+        "audit_trail": [
+          {
+            "field_name": "Grid Electricity",
+            "status": "Metered / Supplied",
+            "value": 32000.0,
+            "unit": "kWh",
+            "is_supplied": true,
+            "notes": "Electricity utility consumption record"
+          },
+          {
+            "field_name": "Virgin Polymer Resin",
+            "status": "Supplied / Invoiced",
+            "value": 40000.0,
+            "unit": "kg",
+            "is_supplied": true,
+            "notes": "Primary resin input (LDPE)"
+          },
+          {
+            "field_name": "Recycled Polymer (PCR)",
+            "status": "Supplied",
+            "value": 5000.0,
+            "unit": "kg",
+            "is_supplied": true,
+            "notes": "Post-consumer recycled polymer blend"
+          },
+          {
+            "field_name": "Finished Goods Output",
+            "status": "Supplied",
+            "value": 41500.0,
+            "unit": "kg",
+            "is_supplied": true,
+            "notes": "Monthly finished product production log"
+          },
+          {
+            "field_name": "Process Scrap & Landfill Waste",
+            "status": "Supplied",
+            "value": 3000.0,
+            "unit": "kg",
+            "is_supplied": true,
+            "notes": "Process trim scrap and waste stream"
+          }
+        ],
+        "missing_fields_explanation": []
+      },
+      "sources": [
+        {
+          "source_key": "virgin_polymer",
+          "source_name": "Virgin LDPE Polymer Feedstock",
+          "category": "Raw Materials",
+          "activity_amount": 40000.0,
+          "unit": "kg",
+          "emission_factor": 2.08,
+          "factor_unit": "kgCO2e/kg",
+          "source_reference": "CPCB / Ecoinvent (Ecoinvent 3.9 Database & CPCB Polymer LCA Guidelines)",
+          "reference_year": 2023,
+          "co2e_tonnes": 83.2,
+          "percentage": 71.8,
+          "calculation_formula": "40,000 kg \u00d7 2.08 kgCO2e/kg = 83,200.0 kgCO2e (83.200 tCO2e)"
+        },
+        {
+          "source_key": "grid_electricity",
+          "source_name": "Indian Grid Electricity",
+          "category": "Electricity",
+          "activity_amount": 32000.0,
+          "unit": "kWh",
+          "emission_factor": 0.716,
+          "factor_unit": "kgCO2e/kWh",
+          "source_reference": "Central Electricity Authority (CEA), Govt. of India (CO2 Baseline Database for the Indian Power Sector, Version 19)",
+          "reference_year": 2023,
+          "co2e_tonnes": 22.912,
+          "percentage": 19.8,
+          "calculation_formula": "32,000 kWh \u00d7 0.716 kgCO2e/kWh = 22,912.0 kgCO2e (22.912 tCO2e)"
+        },
+        {
+          "source_key": "landfill_waste",
+          "source_name": "Unsorted Process Scrap to Landfill",
+          "category": "Waste Stream",
+          "activity_amount": 3000.0,
+          "unit": "kg",
+          "emission_factor": 1.45,
+          "factor_unit": "kgCO2e/kg",
+          "source_reference": "CPCB / UK DEFRA (CPCB Municipal Solid Waste Guidelines & DEFRA Waste Factors)",
+          "reference_year": 2022,
+          "co2e_tonnes": 4.35,
+          "percentage": 3.8,
+          "calculation_formula": "3,000 kg \u00d7 1.45 kgCO2e/kg = 4,350.0 kgCO2e (4.350 tCO2e)"
+        },
+        {
+          "source_key": "recycled_polymer",
+          "source_name": "Recycled LDPE (Post-Consumer PCR)",
+          "category": "Raw Materials",
+          "activity_amount": 5000.0,
+          "unit": "kg",
+          "emission_factor": 0.62,
+          "factor_unit": "kgCO2e/kg",
+          "source_reference": "Plastics Recyclers India / APR (APR Post-Consumer Resin LCA Study)",
+          "reference_year": 2022,
+          "co2e_tonnes": 3.1,
+          "percentage": 2.7,
+          "calculation_formula": "5,000 kg \u00d7 0.62 kgCO2e/kg = 3,100.0 kgCO2e (3.100 tCO2e)"
+        },
+        {
+          "source_key": "diesel_fuel",
+          "source_name": "Diesel Fuel (Boilers & Gensets)",
+          "category": "Thermal Energy",
+          "activity_amount": 850.0,
+          "unit": "liter",
+          "emission_factor": 2.687,
+          "factor_unit": "kgCO2e/liter",
+          "source_reference": "IPCC (2006 IPCC Guidelines for National Greenhouse Gas Inventories)",
+          "reference_year": 2006,
+          "co2e_tonnes": 2.284,
+          "percentage": 2.0,
+          "calculation_formula": "850 liters \u00d7 2.687 kgCO2e/liter = 2,283.9 kgCO2e (2.284 tCO2e)"
+        }
+      ],
+      "category_breakdown": {
+        "Raw Materials": 86.3,
+        "Electricity": 22.912,
+        "Thermal Energy": 2.284,
+        "Waste Stream": 4.35
+      },
+      "leak_points": [
+        {
+          "rank": 1,
+          "source_key": "virgin_polymer",
+          "source_name": "Virgin LDPE Polymer Feedstock",
+          "category": "Raw Materials",
+          "co2e_tonnes": 83.2,
+          "percentage": 71.8,
+          "severity": "High Priority",
+          "root_cause_explanation": "Heavy reliance on virgin polymer feedstock contributes 71.8% (83.20 tCO2e) due to primary monomer extraction emissions."
+        },
+        {
+          "rank": 2,
+          "source_key": "grid_electricity",
+          "source_name": "Indian Grid Electricity",
+          "category": "Electricity",
+          "co2e_tonnes": 22.912,
+          "percentage": 19.8,
+          "severity": "Medium Priority",
+          "root_cause_explanation": "Extruder motor drives and heating load account for 19.8% (22.91 tCO2e) under coal-intensive grid electricity."
+        },
+        {
+          "rank": 3,
+          "source_key": "landfill_waste",
+          "source_name": "Unsorted Process Scrap to Landfill",
+          "category": "Waste Stream",
+          "co2e_tonnes": 4.35,
+          "percentage": 3.8,
+          "severity": "Low Priority",
+          "root_cause_explanation": "Unrecovered trim scrap sent to landfill represents 3.8% (4.35 tCO2e) and direct raw material loss."
+        }
+      ],
+      "recommendations": [
+        {
+          "id": "rec_increase_recycled_content",
+          "category": "materials",
+          "title": "Increase Recycled Material Content",
+          "subtitle": "Substitute virgin fossil polymer with certified post-consumer recycled (PCR) resin.",
+          "description": "Blending post-consumer recycled (PCR) pellets into non-food outer packaging or rigid containers significantly reduces Scope 3 embodied carbon from primary polymer synthesis.",
+          "addresses_hotspot": "Virgin Polymer Feedstock",
+          "typical_co2e_reduction_pct": 14.0,
+          "projected_co2e_savings_tonnes": 16.2,
+          "financial_impact_text": "Financial estimate unavailable (additional cost data required)",
+          "implementation_difficulty": "Low",
+          "example_technologies": "30% PCR blending for film extruders, layer co-extrusion",
+          "default_sim_lever": "pcr_blend_pct",
+          "relevance_score": 95
+        },
+        {
+          "id": "rec_evaluate_renewable_electricity",
+          "category": "energy",
+          "title": "Evaluate Renewable Electricity / Rooftop Solar",
+          "subtitle": "Transition daytime machine power load to clean on-site solar generation.",
+          "description": "Installing net-metered rooftop solar PV panels on factory sheds replaces high-emission coal grid power during peak production hours.",
+          "addresses_hotspot": "Grid Electricity Consumption",
+          "typical_co2e_reduction_pct": 5.9,
+          "projected_co2e_savings_tonnes": 6.87,
+          "financial_impact_text": "Financial estimate unavailable (additional cost data required)",
+          "implementation_difficulty": "Moderate",
+          "example_technologies": "Captive rooftop solar PV (50\u2013100 kWp), green tariff power purchase",
+          "default_sim_lever": "renewable_electricity_pct",
+          "relevance_score": 80
+        },
+        {
+          "id": "rec_improve_internal_scrap_recovery",
+          "category": "waste",
+          "title": "Improve Internal Production Scrap Recovery",
+          "subtitle": "Capture and re-feed edge trims, sprues, and runners directly back into production.",
+          "description": "Granulating production trim and purgings immediately in-plant prevents raw material loss, avoids landfill tipping fees, and offsets virgin polymer purchasing.",
+          "addresses_hotspot": "Process Scrap & Landfill Waste",
+          "typical_co2e_reduction_pct": 2.6,
+          "projected_co2e_savings_tonnes": 3.04,
+          "financial_impact_text": "Financial estimate unavailable (additional cost data required)",
+          "implementation_difficulty": "Low",
+          "example_technologies": "Beside-the-press granulators, closed-loop regrind loops",
+          "default_sim_lever": "regrind_recovery_pct",
+          "relevance_score": 80
+        },
+        {
+          "id": "rec_improve_energy_efficiency",
+          "category": "energy",
+          "title": "Improve Energy Efficiency",
+          "subtitle": "Optimize electrical drives, compressed air, and heating barrel insulation.",
+          "description": "Systematic energy efficiency upgrades eliminate idle thermal losses, reduce electrical demand spikes, and lower per-kg specific energy consumption.",
+          "addresses_hotspot": "Operational Energy Load",
+          "typical_co2e_reduction_pct": 2.4,
+          "projected_co2e_savings_tonnes": 2.75,
+          "financial_impact_text": "Financial estimate unavailable (additional cost data required)",
+          "implementation_difficulty": "Low",
+          "example_technologies": "VFD inverter controls on hydraulic pumps, ceramic barrel insulation blankets",
+          "default_sim_lever": "energy_efficiency_pct",
+          "relevance_score": 75
+        },
+        {
+          "id": "rec_improve_recycling_recovery",
+          "category": "waste",
+          "title": "Improve Recycling & Offsite Offtake",
+          "subtitle": "Divert un-regrindable plastic scrap to certified mechanical recyclers.",
+          "description": "Formalizing offtake agreements with registered plastic recyclers ensures non-recirculated waste streams avoid open landfills and qualify for EPR credit benefits.",
+          "addresses_hotspot": "Landfill Scrap Waste",
+          "typical_co2e_reduction_pct": 2.8,
+          "projected_co2e_savings_tonnes": 3.24,
+          "financial_impact_text": "Financial estimate unavailable (additional cost data required)",
+          "implementation_difficulty": "Low",
+          "example_technologies": "Segregated waste sorting bins, authorized recycler offtake agreements",
+          "default_sim_lever": "recycling_offtake_pct",
+          "relevance_score": 70
+        }
+      ],
+      "created_at": "2026-09-13 01:58:30.973813+00:00",
+      "is_demo": true,
+      "input_snapshot": {
+        "facility_id": null,
+        "facility_name": "Vatva Polymer Pack Ltd",
+        "industry": "Plastic & Packaging Manufacturing",
+        "reporting_period": "Monthly (Aug 2026)",
+        "city": "Ahmedabad (Vatva GIDC)",
+        "polymer_type": "LDPE",
+        "virgin_material_kg": 40000.0,
+        "recycled_material_kg": 5000.0,
+        "grid_electricity_kwh": 32000.0,
+        "diesel_liters": 850.0,
+        "natural_gas_m3": 0.0,
+        "production_output_kg": 41500.0,
+        "scrap_generated_kg": 3500.0,
+        "scrap_recycled_internal_kg": 500.0,
+        "scrap_landfilled_kg": 3000.0,
+        "custom_virgin_cost_inr_per_kg": null,
+        "custom_recycled_cost_inr_per_kg": null,
+        "custom_electricity_cost_inr_per_kwh": null
+      }
+    },
+    "sources": [
+      {
+        "source_key": "virgin_polymer",
+        "source_name": "Virgin LDPE Polymer Feedstock",
+        "category": "Raw Materials",
+        "activity_amount": 40000.0,
+        "unit": "kg",
+        "emission_factor": 2.08,
+        "factor_unit": "kgCO2e/kg",
+        "source_reference": "CPCB / Ecoinvent (Ecoinvent 3.9 Database & CPCB Polymer LCA Guidelines)",
+        "reference_year": 2023,
+        "co2e_tonnes": 83.2,
+        "percentage": 71.8,
+        "calculation_formula": "40,000 kg \u00d7 2.08 kgCO2e/kg = 83,200.0 kgCO2e (83.200 tCO2e)"
+      },
+      {
+        "source_key": "grid_electricity",
+        "source_name": "Indian Grid Electricity",
+        "category": "Electricity",
+        "activity_amount": 32000.0,
+        "unit": "kWh",
+        "emission_factor": 0.716,
+        "factor_unit": "kgCO2e/kWh",
+        "source_reference": "Central Electricity Authority (CEA), Govt. of India (CO2 Baseline Database for the Indian Power Sector, Version 19)",
+        "reference_year": 2023,
+        "co2e_tonnes": 22.912,
+        "percentage": 19.8,
+        "calculation_formula": "32,000 kWh \u00d7 0.716 kgCO2e/kWh = 22,912.0 kgCO2e (22.912 tCO2e)"
+      },
+      {
+        "source_key": "landfill_waste",
+        "source_name": "Unsorted Process Scrap to Landfill",
+        "category": "Waste Stream",
+        "activity_amount": 3000.0,
+        "unit": "kg",
+        "emission_factor": 1.45,
+        "factor_unit": "kgCO2e/kg",
+        "source_reference": "CPCB / UK DEFRA (CPCB Municipal Solid Waste Guidelines & DEFRA Waste Factors)",
+        "reference_year": 2022,
+        "co2e_tonnes": 4.35,
+        "percentage": 3.8,
+        "calculation_formula": "3,000 kg \u00d7 1.45 kgCO2e/kg = 4,350.0 kgCO2e (4.350 tCO2e)"
+      },
+      {
+        "source_key": "recycled_polymer",
+        "source_name": "Recycled LDPE (Post-Consumer PCR)",
+        "category": "Raw Materials",
+        "activity_amount": 5000.0,
+        "unit": "kg",
+        "emission_factor": 0.62,
+        "factor_unit": "kgCO2e/kg",
+        "source_reference": "Plastics Recyclers India / APR (APR Post-Consumer Resin LCA Study)",
+        "reference_year": 2022,
+        "co2e_tonnes": 3.1,
+        "percentage": 2.7,
+        "calculation_formula": "5,000 kg \u00d7 0.62 kgCO2e/kg = 3,100.0 kgCO2e (3.100 tCO2e)"
+      },
+      {
+        "source_key": "diesel_fuel",
+        "source_name": "Diesel Fuel (Boilers & Gensets)",
+        "category": "Thermal Energy",
+        "activity_amount": 850.0,
+        "unit": "liter",
+        "emission_factor": 2.687,
+        "factor_unit": "kgCO2e/liter",
+        "source_reference": "IPCC (2006 IPCC Guidelines for National Greenhouse Gas Inventories)",
+        "reference_year": 2006,
+        "co2e_tonnes": 2.284,
+        "percentage": 2.0,
+        "calculation_formula": "850 liters \u00d7 2.687 kgCO2e/liter = 2,283.9 kgCO2e (2.284 tCO2e)"
+      }
+    ]
+  },
+  "asm_87ac6e68": {
+    "result": {
+      "id": "asm_87ac6e68",
+      "user_id": "26432cc2-f2dc-4a89-8e61-20d8ccc8ebce",
+      "facility_id": "29a36e03-ed6b-43f8-8a0c-bfaa4030865a",
+      "facility_name": "PDF Factory A",
+      "industry": "Plastic & Packaging Manufacturing",
+      "reporting_period": "Monthly (Aug 2026)",
+      "total_co2e_tonnes": 20.17,
+      "is_partial_estimate": true,
+      "missing_data_warning": "PARTIAL ESTIMATE: 3 expected activity streams were unrecorded (Recycled polymer (PCR) blend ratio unrecorded, Finished goods production output unavailable, Waste disposal & scrap stream data unavailable).",
+      "confidence_breakdown": {
+        "confidence_score": 48,
+        "quality_badge": "PARTIAL ESTIMATE (Limited Data)",
+        "supplied_count": 2,
+        "missing_count": 3,
+        "is_partial_estimate": true,
+        "audit_trail": [
+          {
+            "field_name": "Grid Electricity",
+            "status": "Metered / Supplied",
+            "value": 12000.0,
+            "unit": "kWh",
+            "is_supplied": true,
+            "notes": "Electricity utility consumption record"
+          },
+          {
+            "field_name": "Virgin Polymer Resin",
+            "status": "Supplied / Invoiced",
+            "value": 6000.0,
+            "unit": "kg",
+            "is_supplied": true,
+            "notes": "Primary resin input (HDPE)"
+          },
+          {
+            "field_name": "Recycled Polymer (PCR)",
+            "status": "Unrecorded",
+            "value": 0.0,
+            "unit": "kg",
+            "is_supplied": false,
+            "notes": "Assumed 0 kg recycled material"
+          },
+          {
+            "field_name": "Finished Goods Output",
+            "status": "Data Unavailable",
+            "value": null,
+            "unit": "kg",
+            "is_supplied": false,
+            "notes": "Used for process context only"
+          },
+          {
+            "field_name": "Process Scrap & Landfill Waste",
+            "status": "Data Unavailable",
+            "value": null,
+            "unit": "kg",
+            "is_supplied": false,
+            "notes": "Excluded from calculations"
+          }
+        ],
+        "missing_fields_explanation": [
+          "Recycled polymer (PCR) blend ratio unrecorded",
+          "Finished goods production output unavailable",
+          "Waste disposal & scrap stream data unavailable"
+        ]
+      },
+      "sources": [
+        {
+          "source_key": "virgin_polymer",
+          "source_name": "Virgin HDPE Polymer Feedstock",
+          "category": "Raw Materials",
+          "activity_amount": 6000.0,
+          "unit": "kg",
+          "emission_factor": 1.93,
+          "factor_unit": "kgCO2e/kg",
+          "source_reference": "CPCB / Ecoinvent (Ecoinvent 3.9 Database & CPCB Polymer LCA Guidelines)",
+          "reference_year": 2023,
+          "co2e_tonnes": 11.58,
+          "percentage": 57.4,
+          "calculation_formula": "6,000 kg \u00d7 1.93 kgCO2e/kg = 11,580.0 kgCO2e (11.580 tCO2e)"
+        },
+        {
+          "source_key": "grid_electricity",
+          "source_name": "Indian Grid Electricity",
+          "category": "Electricity",
+          "activity_amount": 12000.0,
+          "unit": "kWh",
+          "emission_factor": 0.716,
+          "factor_unit": "kgCO2e/kWh",
+          "source_reference": "Central Electricity Authority (CEA), Govt. of India (CO2 Baseline Database for the Indian Power Sector, Version 19)",
+          "reference_year": 2023,
+          "co2e_tonnes": 8.592,
+          "percentage": 42.6,
+          "calculation_formula": "12,000 kWh \u00d7 0.716 kgCO2e/kWh = 8,592.0 kgCO2e (8.592 tCO2e)"
+        }
+      ],
+      "category_breakdown": {
+        "Raw Materials": 11.58,
+        "Electricity": 8.592
+      },
+      "leak_points": [
+        {
+          "rank": 1,
+          "source_key": "virgin_polymer",
+          "source_name": "Virgin HDPE Polymer Feedstock",
+          "category": "Raw Materials",
+          "co2e_tonnes": 11.58,
+          "percentage": 57.4,
+          "severity": "High Priority",
+          "root_cause_explanation": "Heavy reliance on virgin polymer feedstock contributes 57.4% (11.58 tCO2e) due to primary monomer extraction emissions."
+        },
+        {
+          "rank": 2,
+          "source_key": "grid_electricity",
+          "source_name": "Indian Grid Electricity",
+          "category": "Electricity",
+          "co2e_tonnes": 8.592,
+          "percentage": 42.6,
+          "severity": "High Priority",
+          "root_cause_explanation": "Extruder motor drives and heating load account for 42.6% (8.59 tCO2e) under coal-intensive grid electricity."
+        }
+      ],
+      "recommendations": [
+        {
+          "id": "rec_increase_recycled_content",
+          "category": "materials",
+          "title": "Increase Recycled Material Content",
+          "subtitle": "Substitute virgin fossil polymer with certified post-consumer recycled (PCR) resin.",
+          "description": "Blending post-consumer recycled (PCR) pellets into non-food outer packaging or rigid containers significantly reduces Scope 3 embodied carbon from primary polymer synthesis.",
+          "addresses_hotspot": "Virgin Polymer Feedstock",
+          "typical_co2e_reduction_pct": 12.0,
+          "projected_co2e_savings_tonnes": 2.43,
+          "financial_impact_text": "Financial estimate unavailable (additional cost data required)",
+          "implementation_difficulty": "Low",
+          "example_technologies": "30% PCR blending for film extruders, layer co-extrusion",
+          "default_sim_lever": "pcr_blend_pct",
+          "relevance_score": 95
+        },
+        {
+          "id": "rec_evaluate_renewable_electricity",
+          "category": "energy",
+          "title": "Evaluate Renewable Electricity / Rooftop Solar",
+          "subtitle": "Transition daytime machine power load to clean on-site solar generation.",
+          "description": "Installing net-metered rooftop solar PV panels on factory sheds replaces high-emission coal grid power during peak production hours.",
+          "addresses_hotspot": "Grid Electricity Consumption",
+          "typical_co2e_reduction_pct": 12.8,
+          "projected_co2e_savings_tonnes": 2.58,
+          "financial_impact_text": "Financial estimate unavailable (additional cost data required)",
+          "implementation_difficulty": "Moderate",
+          "example_technologies": "Captive rooftop solar PV (50\u2013100 kWp), green tariff power purchase",
+          "default_sim_lever": "renewable_electricity_pct",
+          "relevance_score": 80
+        },
+        {
+          "id": "rec_improve_energy_efficiency",
+          "category": "energy",
+          "title": "Improve Energy Efficiency",
+          "subtitle": "Optimize electrical drives, compressed air, and heating barrel insulation.",
+          "description": "Systematic energy efficiency upgrades eliminate idle thermal losses, reduce electrical demand spikes, and lower per-kg specific energy consumption.",
+          "addresses_hotspot": "Operational Energy Load",
+          "typical_co2e_reduction_pct": 5.1,
+          "projected_co2e_savings_tonnes": 1.03,
+          "financial_impact_text": "Financial estimate unavailable (additional cost data required)",
+          "implementation_difficulty": "Low",
+          "example_technologies": "VFD inverter controls on hydraulic pumps, ceramic barrel insulation blankets",
+          "default_sim_lever": "energy_efficiency_pct",
+          "relevance_score": 75
+        }
+      ],
+      "created_at": "2026-09-13 01:58:32.571576+00:00",
+      "is_demo": false,
+      "input_snapshot": {
+        "facility_id": "29a36e03-ed6b-43f8-8a0c-bfaa4030865a",
+        "facility_name": "PDF Factory A",
+        "industry": "Plastic & Packaging Manufacturing",
+        "reporting_period": "Monthly (Aug 2026)",
+        "city": "Ahmedabad",
+        "polymer_type": "HDPE",
+        "virgin_material_kg": 6000.0,
+        "recycled_material_kg": null,
+        "grid_electricity_kwh": 12000.0,
+        "diesel_liters": null,
+        "natural_gas_m3": null,
+        "production_output_kg": null,
+        "scrap_generated_kg": null,
+        "scrap_recycled_internal_kg": null,
+        "scrap_landfilled_kg": null,
+        "custom_virgin_cost_inr_per_kg": null,
+        "custom_recycled_cost_inr_per_kg": null,
+        "custom_electricity_cost_inr_per_kwh": null
+      }
+    },
+    "sources": [
+      {
+        "source_key": "virgin_polymer",
+        "source_name": "Virgin HDPE Polymer Feedstock",
+        "category": "Raw Materials",
+        "activity_amount": 6000.0,
+        "unit": "kg",
+        "emission_factor": 1.93,
+        "factor_unit": "kgCO2e/kg",
+        "source_reference": "CPCB / Ecoinvent (Ecoinvent 3.9 Database & CPCB Polymer LCA Guidelines)",
+        "reference_year": 2023,
+        "co2e_tonnes": 11.58,
+        "percentage": 57.4,
+        "calculation_formula": "6,000 kg \u00d7 1.93 kgCO2e/kg = 11,580.0 kgCO2e (11.580 tCO2e)"
+      },
+      {
+        "source_key": "grid_electricity",
+        "source_name": "Indian Grid Electricity",
+        "category": "Electricity",
+        "activity_amount": 12000.0,
+        "unit": "kWh",
+        "emission_factor": 0.716,
+        "factor_unit": "kgCO2e/kWh",
+        "source_reference": "Central Electricity Authority (CEA), Govt. of India (CO2 Baseline Database for the Indian Power Sector, Version 19)",
+        "reference_year": 2023,
+        "co2e_tonnes": 8.592,
+        "percentage": 42.6,
+        "calculation_formula": "12,000 kWh \u00d7 0.716 kgCO2e/kWh = 8,592.0 kgCO2e (8.592 tCO2e)"
+      }
+    ]
+  },
+  "asm_407842f8": {
+    "result": {
+      "id": "asm_407842f8",
+      "user_id": "858dc242-2038-4758-b294-f64c1bde172a",
+      "facility_id": "a4471fdd-9028-485d-858a-c86776ca42d0",
+      "facility_name": "Facility A",
+      "industry": "Plastic & Packaging Manufacturing",
+      "reporting_period": "Monthly (Aug 2026)",
+      "total_co2e_tonnes": 16.81,
+      "is_partial_estimate": true,
+      "missing_data_warning": "PARTIAL ESTIMATE: 3 expected activity streams were unrecorded (Recycled polymer (PCR) blend ratio unrecorded, Finished goods production output unavailable, Waste disposal & scrap stream data unavailable).",
+      "confidence_breakdown": {
+        "confidence_score": 48,
+        "quality_badge": "PARTIAL ESTIMATE (Limited Data)",
+        "supplied_count": 2,
+        "missing_count": 3,
+        "is_partial_estimate": true,
+        "audit_trail": [
+          {
+            "field_name": "Grid Electricity",
+            "status": "Metered / Supplied",
+            "value": 10000.0,
+            "unit": "kWh",
+            "is_supplied": true,
+            "notes": "Electricity utility consumption record"
+          },
+          {
+            "field_name": "Virgin Polymer Resin",
+            "status": "Supplied / Invoiced",
+            "value": 5000.0,
+            "unit": "kg",
+            "is_supplied": true,
+            "notes": "Primary resin input (HDPE)"
+          },
+          {
+            "field_name": "Recycled Polymer (PCR)",
+            "status": "Unrecorded",
+            "value": 0.0,
+            "unit": "kg",
+            "is_supplied": false,
+            "notes": "Assumed 0 kg recycled material"
+          },
+          {
+            "field_name": "Finished Goods Output",
+            "status": "Data Unavailable",
+            "value": null,
+            "unit": "kg",
+            "is_supplied": false,
+            "notes": "Used for process context only"
+          },
+          {
+            "field_name": "Process Scrap & Landfill Waste",
+            "status": "Data Unavailable",
+            "value": null,
+            "unit": "kg",
+            "is_supplied": false,
+            "notes": "Excluded from calculations"
+          }
+        ],
+        "missing_fields_explanation": [
+          "Recycled polymer (PCR) blend ratio unrecorded",
+          "Finished goods production output unavailable",
+          "Waste disposal & scrap stream data unavailable"
+        ]
+      },
+      "sources": [
+        {
+          "source_key": "virgin_polymer",
+          "source_name": "Virgin HDPE Polymer Feedstock",
+          "category": "Raw Materials",
+          "activity_amount": 5000.0,
+          "unit": "kg",
+          "emission_factor": 1.93,
+          "factor_unit": "kgCO2e/kg",
+          "source_reference": "CPCB / Ecoinvent (Ecoinvent 3.9 Database & CPCB Polymer LCA Guidelines)",
+          "reference_year": 2023,
+          "co2e_tonnes": 9.65,
+          "percentage": 57.4,
+          "calculation_formula": "5,000 kg \u00d7 1.93 kgCO2e/kg = 9,650.0 kgCO2e (9.650 tCO2e)"
+        },
+        {
+          "source_key": "grid_electricity",
+          "source_name": "Indian Grid Electricity",
+          "category": "Electricity",
+          "activity_amount": 10000.0,
+          "unit": "kWh",
+          "emission_factor": 0.716,
+          "factor_unit": "kgCO2e/kWh",
+          "source_reference": "Central Electricity Authority (CEA), Govt. of India (CO2 Baseline Database for the Indian Power Sector, Version 19)",
+          "reference_year": 2023,
+          "co2e_tonnes": 7.16,
+          "percentage": 42.6,
+          "calculation_formula": "10,000 kWh \u00d7 0.716 kgCO2e/kWh = 7,160.0 kgCO2e (7.160 tCO2e)"
+        }
+      ],
+      "category_breakdown": {
+        "Raw Materials": 9.65,
+        "Electricity": 7.16
+      },
+      "leak_points": [
+        {
+          "rank": 1,
+          "source_key": "virgin_polymer",
+          "source_name": "Virgin HDPE Polymer Feedstock",
+          "category": "Raw Materials",
+          "co2e_tonnes": 9.65,
+          "percentage": 57.4,
+          "severity": "High Priority",
+          "root_cause_explanation": "Heavy reliance on virgin polymer feedstock contributes 57.4% (9.65 tCO2e) due to primary monomer extraction emissions."
+        },
+        {
+          "rank": 2,
+          "source_key": "grid_electricity",
+          "source_name": "Indian Grid Electricity",
+          "category": "Electricity",
+          "co2e_tonnes": 7.16,
+          "percentage": 42.6,
+          "severity": "High Priority",
+          "root_cause_explanation": "Extruder motor drives and heating load account for 42.6% (7.16 tCO2e) under coal-intensive grid electricity."
+        }
+      ],
+      "recommendations": [
+        {
+          "id": "rec_increase_recycled_content",
+          "category": "materials",
+          "title": "Increase Recycled Material Content",
+          "subtitle": "Substitute virgin fossil polymer with certified post-consumer recycled (PCR) resin.",
+          "description": "Blending post-consumer recycled (PCR) pellets into non-food outer packaging or rigid containers significantly reduces Scope 3 embodied carbon from primary polymer synthesis.",
+          "addresses_hotspot": "Virgin Polymer Feedstock",
+          "typical_co2e_reduction_pct": 12.0,
+          "projected_co2e_savings_tonnes": 2.03,
+          "financial_impact_text": "Financial estimate unavailable (additional cost data required)",
+          "implementation_difficulty": "Low",
+          "example_technologies": "30% PCR blending for film extruders, layer co-extrusion",
+          "default_sim_lever": "pcr_blend_pct",
+          "relevance_score": 95
+        },
+        {
+          "id": "rec_evaluate_renewable_electricity",
+          "category": "energy",
+          "title": "Evaluate Renewable Electricity / Rooftop Solar",
+          "subtitle": "Transition daytime machine power load to clean on-site solar generation.",
+          "description": "Installing net-metered rooftop solar PV panels on factory sheds replaces high-emission coal grid power during peak production hours.",
+          "addresses_hotspot": "Grid Electricity Consumption",
+          "typical_co2e_reduction_pct": 12.8,
+          "projected_co2e_savings_tonnes": 2.15,
+          "financial_impact_text": "Financial estimate unavailable (additional cost data required)",
+          "implementation_difficulty": "Moderate",
+          "example_technologies": "Captive rooftop solar PV (50\u2013100 kWp), green tariff power purchase",
+          "default_sim_lever": "renewable_electricity_pct",
+          "relevance_score": 80
+        },
+        {
+          "id": "rec_improve_energy_efficiency",
+          "category": "energy",
+          "title": "Improve Energy Efficiency",
+          "subtitle": "Optimize electrical drives, compressed air, and heating barrel insulation.",
+          "description": "Systematic energy efficiency upgrades eliminate idle thermal losses, reduce electrical demand spikes, and lower per-kg specific energy consumption.",
+          "addresses_hotspot": "Operational Energy Load",
+          "typical_co2e_reduction_pct": 5.1,
+          "projected_co2e_savings_tonnes": 0.86,
+          "financial_impact_text": "Financial estimate unavailable (additional cost data required)",
+          "implementation_difficulty": "Low",
+          "example_technologies": "VFD inverter controls on hydraulic pumps, ceramic barrel insulation blankets",
+          "default_sim_lever": "energy_efficiency_pct",
+          "relevance_score": 75
+        }
+      ],
+      "created_at": "2026-09-13 02:31:35.592789+00:00",
+      "is_demo": false,
+      "input_snapshot": {
+        "facility_id": "a4471fdd-9028-485d-858a-c86776ca42d0",
+        "facility_name": "Facility A",
+        "industry": "Plastic & Packaging Manufacturing",
+        "reporting_period": "Monthly (Aug 2026)",
+        "city": "Ahmedabad",
+        "polymer_type": "HDPE",
+        "virgin_material_kg": 5000.0,
+        "recycled_material_kg": null,
+        "grid_electricity_kwh": 10000.0,
+        "diesel_liters": null,
+        "natural_gas_m3": null,
+        "production_output_kg": null,
+        "scrap_generated_kg": null,
+        "scrap_recycled_internal_kg": null,
+        "scrap_landfilled_kg": null,
+        "custom_virgin_cost_inr_per_kg": null,
+        "custom_recycled_cost_inr_per_kg": null,
+        "custom_electricity_cost_inr_per_kwh": null
+      }
+    },
+    "sources": [
+      {
+        "source_key": "virgin_polymer",
+        "source_name": "Virgin HDPE Polymer Feedstock",
+        "category": "Raw Materials",
+        "activity_amount": 5000.0,
+        "unit": "kg",
+        "emission_factor": 1.93,
+        "factor_unit": "kgCO2e/kg",
+        "source_reference": "CPCB / Ecoinvent (Ecoinvent 3.9 Database & CPCB Polymer LCA Guidelines)",
+        "reference_year": 2023,
+        "co2e_tonnes": 9.65,
+        "percentage": 57.4,
+        "calculation_formula": "5,000 kg \u00d7 1.93 kgCO2e/kg = 9,650.0 kgCO2e (9.650 tCO2e)"
+      },
+      {
+        "source_key": "grid_electricity",
+        "source_name": "Indian Grid Electricity",
+        "category": "Electricity",
+        "activity_amount": 10000.0,
+        "unit": "kWh",
+        "emission_factor": 0.716,
+        "factor_unit": "kgCO2e/kWh",
+        "source_reference": "Central Electricity Authority (CEA), Govt. of India (CO2 Baseline Database for the Indian Power Sector, Version 19)",
+        "reference_year": 2023,
+        "co2e_tonnes": 7.16,
+        "percentage": 42.6,
+        "calculation_formula": "10,000 kWh \u00d7 0.716 kgCO2e/kWh = 7,160.0 kgCO2e (7.160 tCO2e)"
+      }
+    ]
+  },
+  "asm_c3b67934": {
+    "result": {
+      "id": "asm_c3b67934",
+      "user_id": null,
+      "facility_id": null,
+      "facility_name": "Vatva Polymer Pack Ltd",
+      "industry": "Plastic & Packaging Manufacturing",
+      "reporting_period": "Monthly (Aug 2026)",
+      "total_co2e_tonnes": 115.85,
+      "is_partial_estimate": false,
+      "missing_data_warning": null,
+      "confidence_breakdown": {
+        "confidence_score": 88,
+        "quality_badge": "High Confidence (88% Max - Self Reported)",
+        "supplied_count": 5,
+        "missing_count": 0,
+        "is_partial_estimate": false,
+        "audit_trail": [
+          {
+            "field_name": "Grid Electricity",
+            "status": "Metered / Supplied",
+            "value": 32000.0,
+            "unit": "kWh",
+            "is_supplied": true,
+            "notes": "Electricity utility consumption record"
+          },
+          {
+            "field_name": "Virgin Polymer Resin",
+            "status": "Supplied / Invoiced",
+            "value": 40000.0,
+            "unit": "kg",
+            "is_supplied": true,
+            "notes": "Primary resin input (LDPE)"
+          },
+          {
+            "field_name": "Recycled Polymer (PCR)",
+            "status": "Supplied",
+            "value": 5000.0,
+            "unit": "kg",
+            "is_supplied": true,
+            "notes": "Post-consumer recycled polymer blend"
+          },
+          {
+            "field_name": "Finished Goods Output",
+            "status": "Supplied",
+            "value": 41500.0,
+            "unit": "kg",
+            "is_supplied": true,
+            "notes": "Monthly finished product production log"
+          },
+          {
+            "field_name": "Process Scrap & Landfill Waste",
+            "status": "Supplied",
+            "value": 3000.0,
+            "unit": "kg",
+            "is_supplied": true,
+            "notes": "Process trim scrap and waste stream"
+          }
+        ],
+        "missing_fields_explanation": []
+      },
+      "sources": [
+        {
+          "source_key": "virgin_polymer",
+          "source_name": "Virgin LDPE Polymer Feedstock",
+          "category": "Raw Materials",
+          "activity_amount": 40000.0,
+          "unit": "kg",
+          "emission_factor": 2.08,
+          "factor_unit": "kgCO2e/kg",
+          "source_reference": "CPCB / Ecoinvent (Ecoinvent 3.9 Database & CPCB Polymer LCA Guidelines)",
+          "reference_year": 2023,
+          "co2e_tonnes": 83.2,
+          "percentage": 71.8,
+          "calculation_formula": "40,000 kg \u00d7 2.08 kgCO2e/kg = 83,200.0 kgCO2e (83.200 tCO2e)"
+        },
+        {
+          "source_key": "grid_electricity",
+          "source_name": "Indian Grid Electricity",
+          "category": "Electricity",
+          "activity_amount": 32000.0,
+          "unit": "kWh",
+          "emission_factor": 0.716,
+          "factor_unit": "kgCO2e/kWh",
+          "source_reference": "Central Electricity Authority (CEA), Govt. of India (CO2 Baseline Database for the Indian Power Sector, Version 19)",
+          "reference_year": 2023,
+          "co2e_tonnes": 22.912,
+          "percentage": 19.8,
+          "calculation_formula": "32,000 kWh \u00d7 0.716 kgCO2e/kWh = 22,912.0 kgCO2e (22.912 tCO2e)"
+        },
+        {
+          "source_key": "landfill_waste",
+          "source_name": "Unsorted Process Scrap to Landfill",
+          "category": "Waste Stream",
+          "activity_amount": 3000.0,
+          "unit": "kg",
+          "emission_factor": 1.45,
+          "factor_unit": "kgCO2e/kg",
+          "source_reference": "CPCB / UK DEFRA (CPCB Municipal Solid Waste Guidelines & DEFRA Waste Factors)",
+          "reference_year": 2022,
+          "co2e_tonnes": 4.35,
+          "percentage": 3.8,
+          "calculation_formula": "3,000 kg \u00d7 1.45 kgCO2e/kg = 4,350.0 kgCO2e (4.350 tCO2e)"
+        },
+        {
+          "source_key": "recycled_polymer",
+          "source_name": "Recycled LDPE (Post-Consumer PCR)",
+          "category": "Raw Materials",
+          "activity_amount": 5000.0,
+          "unit": "kg",
+          "emission_factor": 0.62,
+          "factor_unit": "kgCO2e/kg",
+          "source_reference": "Plastics Recyclers India / APR (APR Post-Consumer Resin LCA Study)",
+          "reference_year": 2022,
+          "co2e_tonnes": 3.1,
+          "percentage": 2.7,
+          "calculation_formula": "5,000 kg \u00d7 0.62 kgCO2e/kg = 3,100.0 kgCO2e (3.100 tCO2e)"
+        },
+        {
+          "source_key": "diesel_fuel",
+          "source_name": "Diesel Fuel (Boilers & Gensets)",
+          "category": "Thermal Energy",
+          "activity_amount": 850.0,
+          "unit": "liter",
+          "emission_factor": 2.687,
+          "factor_unit": "kgCO2e/liter",
+          "source_reference": "IPCC (2006 IPCC Guidelines for National Greenhouse Gas Inventories)",
+          "reference_year": 2006,
+          "co2e_tonnes": 2.284,
+          "percentage": 2.0,
+          "calculation_formula": "850 liters \u00d7 2.687 kgCO2e/liter = 2,283.9 kgCO2e (2.284 tCO2e)"
+        }
+      ],
+      "category_breakdown": {
+        "Raw Materials": 86.3,
+        "Electricity": 22.912,
+        "Thermal Energy": 2.284,
+        "Waste Stream": 4.35
+      },
+      "leak_points": [
+        {
+          "rank": 1,
+          "source_key": "virgin_polymer",
+          "source_name": "Virgin LDPE Polymer Feedstock",
+          "category": "Raw Materials",
+          "co2e_tonnes": 83.2,
+          "percentage": 71.8,
+          "severity": "High Priority",
+          "root_cause_explanation": "Heavy reliance on virgin polymer feedstock contributes 71.8% (83.20 tCO2e) due to primary monomer extraction emissions."
+        },
+        {
+          "rank": 2,
+          "source_key": "grid_electricity",
+          "source_name": "Indian Grid Electricity",
+          "category": "Electricity",
+          "co2e_tonnes": 22.912,
+          "percentage": 19.8,
+          "severity": "Medium Priority",
+          "root_cause_explanation": "Extruder motor drives and heating load account for 19.8% (22.91 tCO2e) under coal-intensive grid electricity."
+        },
+        {
+          "rank": 3,
+          "source_key": "landfill_waste",
+          "source_name": "Unsorted Process Scrap to Landfill",
+          "category": "Waste Stream",
+          "co2e_tonnes": 4.35,
+          "percentage": 3.8,
+          "severity": "Low Priority",
+          "root_cause_explanation": "Unrecovered trim scrap sent to landfill represents 3.8% (4.35 tCO2e) and direct raw material loss."
+        }
+      ],
+      "recommendations": [
+        {
+          "id": "rec_increase_recycled_content",
+          "category": "materials",
+          "title": "Increase Recycled Material Content",
+          "subtitle": "Substitute virgin fossil polymer with certified post-consumer recycled (PCR) resin.",
+          "description": "Blending post-consumer recycled (PCR) pellets into non-food outer packaging or rigid containers significantly reduces Scope 3 embodied carbon from primary polymer synthesis.",
+          "addresses_hotspot": "Virgin Polymer Feedstock",
+          "typical_co2e_reduction_pct": 14.0,
+          "projected_co2e_savings_tonnes": 16.2,
+          "financial_impact_text": "Financial estimate unavailable (additional cost data required)",
+          "implementation_difficulty": "Low",
+          "example_technologies": "30% PCR blending for film extruders, layer co-extrusion",
+          "default_sim_lever": "pcr_blend_pct",
+          "relevance_score": 95
+        },
+        {
+          "id": "rec_evaluate_renewable_electricity",
+          "category": "energy",
+          "title": "Evaluate Renewable Electricity / Rooftop Solar",
+          "subtitle": "Transition daytime machine power load to clean on-site solar generation.",
+          "description": "Installing net-metered rooftop solar PV panels on factory sheds replaces high-emission coal grid power during peak production hours.",
+          "addresses_hotspot": "Grid Electricity Consumption",
+          "typical_co2e_reduction_pct": 5.9,
+          "projected_co2e_savings_tonnes": 6.87,
+          "financial_impact_text": "Financial estimate unavailable (additional cost data required)",
+          "implementation_difficulty": "Moderate",
+          "example_technologies": "Captive rooftop solar PV (50\u2013100 kWp), green tariff power purchase",
+          "default_sim_lever": "renewable_electricity_pct",
+          "relevance_score": 80
+        },
+        {
+          "id": "rec_improve_internal_scrap_recovery",
+          "category": "waste",
+          "title": "Improve Internal Production Scrap Recovery",
+          "subtitle": "Capture and re-feed edge trims, sprues, and runners directly back into production.",
+          "description": "Granulating production trim and purgings immediately in-plant prevents raw material loss, avoids landfill tipping fees, and offsets virgin polymer purchasing.",
+          "addresses_hotspot": "Process Scrap & Landfill Waste",
+          "typical_co2e_reduction_pct": 2.6,
+          "projected_co2e_savings_tonnes": 3.04,
+          "financial_impact_text": "Financial estimate unavailable (additional cost data required)",
+          "implementation_difficulty": "Low",
+          "example_technologies": "Beside-the-press granulators, closed-loop regrind loops",
+          "default_sim_lever": "regrind_recovery_pct",
+          "relevance_score": 80
+        },
+        {
+          "id": "rec_improve_energy_efficiency",
+          "category": "energy",
+          "title": "Improve Energy Efficiency",
+          "subtitle": "Optimize electrical drives, compressed air, and heating barrel insulation.",
+          "description": "Systematic energy efficiency upgrades eliminate idle thermal losses, reduce electrical demand spikes, and lower per-kg specific energy consumption.",
+          "addresses_hotspot": "Operational Energy Load",
+          "typical_co2e_reduction_pct": 2.4,
+          "projected_co2e_savings_tonnes": 2.75,
+          "financial_impact_text": "Financial estimate unavailable (additional cost data required)",
+          "implementation_difficulty": "Low",
+          "example_technologies": "VFD inverter controls on hydraulic pumps, ceramic barrel insulation blankets",
+          "default_sim_lever": "energy_efficiency_pct",
+          "relevance_score": 75
+        },
+        {
+          "id": "rec_improve_recycling_recovery",
+          "category": "waste",
+          "title": "Improve Recycling & Offsite Offtake",
+          "subtitle": "Divert un-regrindable plastic scrap to certified mechanical recyclers.",
+          "description": "Formalizing offtake agreements with registered plastic recyclers ensures non-recirculated waste streams avoid open landfills and qualify for EPR credit benefits.",
+          "addresses_hotspot": "Landfill Scrap Waste",
+          "typical_co2e_reduction_pct": 2.8,
+          "projected_co2e_savings_tonnes": 3.24,
+          "financial_impact_text": "Financial estimate unavailable (additional cost data required)",
+          "implementation_difficulty": "Low",
+          "example_technologies": "Segregated waste sorting bins, authorized recycler offtake agreements",
+          "default_sim_lever": "recycling_offtake_pct",
+          "relevance_score": 70
+        }
+      ],
+      "created_at": "2026-09-13 02:31:40.390265+00:00",
+      "is_demo": true,
+      "input_snapshot": {
+        "facility_id": null,
+        "facility_name": "Vatva Polymer Pack Ltd",
+        "industry": "Plastic & Packaging Manufacturing",
+        "reporting_period": "Monthly (Aug 2026)",
+        "city": "Ahmedabad (Vatva GIDC)",
+        "polymer_type": "LDPE",
+        "virgin_material_kg": 40000.0,
+        "recycled_material_kg": 5000.0,
+        "grid_electricity_kwh": 32000.0,
+        "diesel_liters": 850.0,
+        "natural_gas_m3": 0.0,
+        "production_output_kg": 41500.0,
+        "scrap_generated_kg": 3500.0,
+        "scrap_recycled_internal_kg": 500.0,
+        "scrap_landfilled_kg": 3000.0,
+        "custom_virgin_cost_inr_per_kg": null,
+        "custom_recycled_cost_inr_per_kg": null,
+        "custom_electricity_cost_inr_per_kwh": null
+      }
+    },
+    "sources": [
+      {
+        "source_key": "virgin_polymer",
+        "source_name": "Virgin LDPE Polymer Feedstock",
+        "category": "Raw Materials",
+        "activity_amount": 40000.0,
+        "unit": "kg",
+        "emission_factor": 2.08,
+        "factor_unit": "kgCO2e/kg",
+        "source_reference": "CPCB / Ecoinvent (Ecoinvent 3.9 Database & CPCB Polymer LCA Guidelines)",
+        "reference_year": 2023,
+        "co2e_tonnes": 83.2,
+        "percentage": 71.8,
+        "calculation_formula": "40,000 kg \u00d7 2.08 kgCO2e/kg = 83,200.0 kgCO2e (83.200 tCO2e)"
+      },
+      {
+        "source_key": "grid_electricity",
+        "source_name": "Indian Grid Electricity",
+        "category": "Electricity",
+        "activity_amount": 32000.0,
+        "unit": "kWh",
+        "emission_factor": 0.716,
+        "factor_unit": "kgCO2e/kWh",
+        "source_reference": "Central Electricity Authority (CEA), Govt. of India (CO2 Baseline Database for the Indian Power Sector, Version 19)",
+        "reference_year": 2023,
+        "co2e_tonnes": 22.912,
+        "percentage": 19.8,
+        "calculation_formula": "32,000 kWh \u00d7 0.716 kgCO2e/kWh = 22,912.0 kgCO2e (22.912 tCO2e)"
+      },
+      {
+        "source_key": "landfill_waste",
+        "source_name": "Unsorted Process Scrap to Landfill",
+        "category": "Waste Stream",
+        "activity_amount": 3000.0,
+        "unit": "kg",
+        "emission_factor": 1.45,
+        "factor_unit": "kgCO2e/kg",
+        "source_reference": "CPCB / UK DEFRA (CPCB Municipal Solid Waste Guidelines & DEFRA Waste Factors)",
+        "reference_year": 2022,
+        "co2e_tonnes": 4.35,
+        "percentage": 3.8,
+        "calculation_formula": "3,000 kg \u00d7 1.45 kgCO2e/kg = 4,350.0 kgCO2e (4.350 tCO2e)"
+      },
+      {
+        "source_key": "recycled_polymer",
+        "source_name": "Recycled LDPE (Post-Consumer PCR)",
+        "category": "Raw Materials",
+        "activity_amount": 5000.0,
+        "unit": "kg",
+        "emission_factor": 0.62,
+        "factor_unit": "kgCO2e/kg",
+        "source_reference": "Plastics Recyclers India / APR (APR Post-Consumer Resin LCA Study)",
+        "reference_year": 2022,
+        "co2e_tonnes": 3.1,
+        "percentage": 2.7,
+        "calculation_formula": "5,000 kg \u00d7 0.62 kgCO2e/kg = 3,100.0 kgCO2e (3.100 tCO2e)"
+      },
+      {
+        "source_key": "diesel_fuel",
+        "source_name": "Diesel Fuel (Boilers & Gensets)",
+        "category": "Thermal Energy",
+        "activity_amount": 850.0,
+        "unit": "liter",
+        "emission_factor": 2.687,
+        "factor_unit": "kgCO2e/liter",
+        "source_reference": "IPCC (2006 IPCC Guidelines for National Greenhouse Gas Inventories)",
+        "reference_year": 2006,
+        "co2e_tonnes": 2.284,
+        "percentage": 2.0,
+        "calculation_formula": "850 liters \u00d7 2.687 kgCO2e/liter = 2,283.9 kgCO2e (2.284 tCO2e)"
+      }
+    ]
+  },
+  "asm_08ac3c67": {
+    "result": {
+      "id": "asm_08ac3c67",
+      "user_id": "26432cc2-f2dc-4a89-8e61-20d8ccc8ebce",
+      "facility_id": "fa9243b1-9915-4e12-bf9f-dbc0cbe1d3c5",
+      "facility_name": "PDF Factory A",
+      "industry": "Plastic & Packaging Manufacturing",
+      "reporting_period": "Monthly (Aug 2026)",
+      "total_co2e_tonnes": 20.17,
+      "is_partial_estimate": true,
+      "missing_data_warning": "PARTIAL ESTIMATE: 3 expected activity streams were unrecorded (Recycled polymer (PCR) blend ratio unrecorded, Finished goods production output unavailable, Waste disposal & scrap stream data unavailable).",
+      "confidence_breakdown": {
+        "confidence_score": 48,
+        "quality_badge": "PARTIAL ESTIMATE (Limited Data)",
+        "supplied_count": 2,
+        "missing_count": 3,
+        "is_partial_estimate": true,
+        "audit_trail": [
+          {
+            "field_name": "Grid Electricity",
+            "status": "Metered / Supplied",
+            "value": 12000.0,
+            "unit": "kWh",
+            "is_supplied": true,
+            "notes": "Electricity utility consumption record"
+          },
+          {
+            "field_name": "Virgin Polymer Resin",
+            "status": "Supplied / Invoiced",
+            "value": 6000.0,
+            "unit": "kg",
+            "is_supplied": true,
+            "notes": "Primary resin input (HDPE)"
+          },
+          {
+            "field_name": "Recycled Polymer (PCR)",
+            "status": "Unrecorded",
+            "value": 0.0,
+            "unit": "kg",
+            "is_supplied": false,
+            "notes": "Assumed 0 kg recycled material"
+          },
+          {
+            "field_name": "Finished Goods Output",
+            "status": "Data Unavailable",
+            "value": null,
+            "unit": "kg",
+            "is_supplied": false,
+            "notes": "Used for process context only"
+          },
+          {
+            "field_name": "Process Scrap & Landfill Waste",
+            "status": "Data Unavailable",
+            "value": null,
+            "unit": "kg",
+            "is_supplied": false,
+            "notes": "Excluded from calculations"
+          }
+        ],
+        "missing_fields_explanation": [
+          "Recycled polymer (PCR) blend ratio unrecorded",
+          "Finished goods production output unavailable",
+          "Waste disposal & scrap stream data unavailable"
+        ]
+      },
+      "sources": [
+        {
+          "source_key": "virgin_polymer",
+          "source_name": "Virgin HDPE Polymer Feedstock",
+          "category": "Raw Materials",
+          "activity_amount": 6000.0,
+          "unit": "kg",
+          "emission_factor": 1.93,
+          "factor_unit": "kgCO2e/kg",
+          "source_reference": "CPCB / Ecoinvent (Ecoinvent 3.9 Database & CPCB Polymer LCA Guidelines)",
+          "reference_year": 2023,
+          "co2e_tonnes": 11.58,
+          "percentage": 57.4,
+          "calculation_formula": "6,000 kg \u00d7 1.93 kgCO2e/kg = 11,580.0 kgCO2e (11.580 tCO2e)"
+        },
+        {
+          "source_key": "grid_electricity",
+          "source_name": "Indian Grid Electricity",
+          "category": "Electricity",
+          "activity_amount": 12000.0,
+          "unit": "kWh",
+          "emission_factor": 0.716,
+          "factor_unit": "kgCO2e/kWh",
+          "source_reference": "Central Electricity Authority (CEA), Govt. of India (CO2 Baseline Database for the Indian Power Sector, Version 19)",
+          "reference_year": 2023,
+          "co2e_tonnes": 8.592,
+          "percentage": 42.6,
+          "calculation_formula": "12,000 kWh \u00d7 0.716 kgCO2e/kWh = 8,592.0 kgCO2e (8.592 tCO2e)"
+        }
+      ],
+      "category_breakdown": {
+        "Raw Materials": 11.58,
+        "Electricity": 8.592
+      },
+      "leak_points": [
+        {
+          "rank": 1,
+          "source_key": "virgin_polymer",
+          "source_name": "Virgin HDPE Polymer Feedstock",
+          "category": "Raw Materials",
+          "co2e_tonnes": 11.58,
+          "percentage": 57.4,
+          "severity": "High Priority",
+          "root_cause_explanation": "Heavy reliance on virgin polymer feedstock contributes 57.4% (11.58 tCO2e) due to primary monomer extraction emissions."
+        },
+        {
+          "rank": 2,
+          "source_key": "grid_electricity",
+          "source_name": "Indian Grid Electricity",
+          "category": "Electricity",
+          "co2e_tonnes": 8.592,
+          "percentage": 42.6,
+          "severity": "High Priority",
+          "root_cause_explanation": "Extruder motor drives and heating load account for 42.6% (8.59 tCO2e) under coal-intensive grid electricity."
+        }
+      ],
+      "recommendations": [
+        {
+          "id": "rec_increase_recycled_content",
+          "category": "materials",
+          "title": "Increase Recycled Material Content",
+          "subtitle": "Substitute virgin fossil polymer with certified post-consumer recycled (PCR) resin.",
+          "description": "Blending post-consumer recycled (PCR) pellets into non-food outer packaging or rigid containers significantly reduces Scope 3 embodied carbon from primary polymer synthesis.",
+          "addresses_hotspot": "Virgin Polymer Feedstock",
+          "typical_co2e_reduction_pct": 12.0,
+          "projected_co2e_savings_tonnes": 2.43,
+          "financial_impact_text": "Financial estimate unavailable (additional cost data required)",
+          "implementation_difficulty": "Low",
+          "example_technologies": "30% PCR blending for film extruders, layer co-extrusion",
+          "default_sim_lever": "pcr_blend_pct",
+          "relevance_score": 95
+        },
+        {
+          "id": "rec_evaluate_renewable_electricity",
+          "category": "energy",
+          "title": "Evaluate Renewable Electricity / Rooftop Solar",
+          "subtitle": "Transition daytime machine power load to clean on-site solar generation.",
+          "description": "Installing net-metered rooftop solar PV panels on factory sheds replaces high-emission coal grid power during peak production hours.",
+          "addresses_hotspot": "Grid Electricity Consumption",
+          "typical_co2e_reduction_pct": 12.8,
+          "projected_co2e_savings_tonnes": 2.58,
+          "financial_impact_text": "Financial estimate unavailable (additional cost data required)",
+          "implementation_difficulty": "Moderate",
+          "example_technologies": "Captive rooftop solar PV (50\u2013100 kWp), green tariff power purchase",
+          "default_sim_lever": "renewable_electricity_pct",
+          "relevance_score": 80
+        },
+        {
+          "id": "rec_improve_energy_efficiency",
+          "category": "energy",
+          "title": "Improve Energy Efficiency",
+          "subtitle": "Optimize electrical drives, compressed air, and heating barrel insulation.",
+          "description": "Systematic energy efficiency upgrades eliminate idle thermal losses, reduce electrical demand spikes, and lower per-kg specific energy consumption.",
+          "addresses_hotspot": "Operational Energy Load",
+          "typical_co2e_reduction_pct": 5.1,
+          "projected_co2e_savings_tonnes": 1.03,
+          "financial_impact_text": "Financial estimate unavailable (additional cost data required)",
+          "implementation_difficulty": "Low",
+          "example_technologies": "VFD inverter controls on hydraulic pumps, ceramic barrel insulation blankets",
+          "default_sim_lever": "energy_efficiency_pct",
+          "relevance_score": 75
+        }
+      ],
+      "created_at": "2026-09-13 02:31:42.234455+00:00",
+      "is_demo": false,
+      "input_snapshot": {
+        "facility_id": "fa9243b1-9915-4e12-bf9f-dbc0cbe1d3c5",
+        "facility_name": "PDF Factory A",
+        "industry": "Plastic & Packaging Manufacturing",
+        "reporting_period": "Monthly (Aug 2026)",
+        "city": "Ahmedabad",
+        "polymer_type": "HDPE",
+        "virgin_material_kg": 6000.0,
+        "recycled_material_kg": null,
+        "grid_electricity_kwh": 12000.0,
+        "diesel_liters": null,
+        "natural_gas_m3": null,
+        "production_output_kg": null,
+        "scrap_generated_kg": null,
+        "scrap_recycled_internal_kg": null,
+        "scrap_landfilled_kg": null,
+        "custom_virgin_cost_inr_per_kg": null,
+        "custom_recycled_cost_inr_per_kg": null,
+        "custom_electricity_cost_inr_per_kwh": null
+      }
+    },
+    "sources": [
+      {
+        "source_key": "virgin_polymer",
+        "source_name": "Virgin HDPE Polymer Feedstock",
+        "category": "Raw Materials",
+        "activity_amount": 6000.0,
+        "unit": "kg",
+        "emission_factor": 1.93,
+        "factor_unit": "kgCO2e/kg",
+        "source_reference": "CPCB / Ecoinvent (Ecoinvent 3.9 Database & CPCB Polymer LCA Guidelines)",
+        "reference_year": 2023,
+        "co2e_tonnes": 11.58,
+        "percentage": 57.4,
+        "calculation_formula": "6,000 kg \u00d7 1.93 kgCO2e/kg = 11,580.0 kgCO2e (11.580 tCO2e)"
+      },
+      {
+        "source_key": "grid_electricity",
+        "source_name": "Indian Grid Electricity",
+        "category": "Electricity",
+        "activity_amount": 12000.0,
+        "unit": "kWh",
+        "emission_factor": 0.716,
+        "factor_unit": "kgCO2e/kWh",
+        "source_reference": "Central Electricity Authority (CEA), Govt. of India (CO2 Baseline Database for the Indian Power Sector, Version 19)",
+        "reference_year": 2023,
+        "co2e_tonnes": 8.592,
+        "percentage": 42.6,
+        "calculation_formula": "12,000 kWh \u00d7 0.716 kgCO2e/kWh = 8,592.0 kgCO2e (8.592 tCO2e)"
+      }
+    ]
+  },
+  "asm_f2448b65": {
+    "result": {
+      "id": "asm_f2448b65",
+      "user_id": "858dc242-2038-4758-b294-f64c1bde172a",
+      "facility_id": "26826bc0-923e-4c27-bc00-2898985e2212",
+      "facility_name": "Facility A",
+      "industry": "Plastic & Packaging Manufacturing",
+      "reporting_period": "Monthly (Aug 2026)",
+      "total_co2e_tonnes": 16.81,
+      "is_partial_estimate": true,
+      "missing_data_warning": "PARTIAL ESTIMATE: 3 expected activity streams were unrecorded (Recycled polymer (PCR) blend ratio unrecorded, Finished goods production output unavailable, Waste disposal & scrap stream data unavailable).",
+      "confidence_breakdown": {
+        "confidence_score": 48,
+        "quality_badge": "PARTIAL ESTIMATE (Limited Data)",
+        "supplied_count": 2,
+        "missing_count": 3,
+        "is_partial_estimate": true,
+        "audit_trail": [
+          {
+            "field_name": "Grid Electricity",
+            "status": "Metered / Supplied",
+            "value": 10000.0,
+            "unit": "kWh",
+            "is_supplied": true,
+            "notes": "Electricity utility consumption record"
+          },
+          {
+            "field_name": "Virgin Polymer Resin",
+            "status": "Supplied / Invoiced",
+            "value": 5000.0,
+            "unit": "kg",
+            "is_supplied": true,
+            "notes": "Primary resin input (HDPE)"
+          },
+          {
+            "field_name": "Recycled Polymer (PCR)",
+            "status": "Unrecorded",
+            "value": 0.0,
+            "unit": "kg",
+            "is_supplied": false,
+            "notes": "Assumed 0 kg recycled material"
+          },
+          {
+            "field_name": "Finished Goods Output",
+            "status": "Data Unavailable",
+            "value": null,
+            "unit": "kg",
+            "is_supplied": false,
+            "notes": "Used for process context only"
+          },
+          {
+            "field_name": "Process Scrap & Landfill Waste",
+            "status": "Data Unavailable",
+            "value": null,
+            "unit": "kg",
+            "is_supplied": false,
+            "notes": "Excluded from calculations"
+          }
+        ],
+        "missing_fields_explanation": [
+          "Recycled polymer (PCR) blend ratio unrecorded",
+          "Finished goods production output unavailable",
+          "Waste disposal & scrap stream data unavailable"
+        ]
+      },
+      "sources": [
+        {
+          "source_key": "virgin_polymer",
+          "source_name": "Virgin HDPE Polymer Feedstock",
+          "category": "Raw Materials",
+          "activity_amount": 5000.0,
+          "unit": "kg",
+          "emission_factor": 1.93,
+          "factor_unit": "kgCO2e/kg",
+          "source_reference": "CPCB / Ecoinvent (Ecoinvent 3.9 Database & CPCB Polymer LCA Guidelines)",
+          "reference_year": 2023,
+          "co2e_tonnes": 9.65,
+          "percentage": 57.4,
+          "calculation_formula": "5,000 kg \u00d7 1.93 kgCO2e/kg = 9,650.0 kgCO2e (9.650 tCO2e)"
+        },
+        {
+          "source_key": "grid_electricity",
+          "source_name": "Indian Grid Electricity",
+          "category": "Electricity",
+          "activity_amount": 10000.0,
+          "unit": "kWh",
+          "emission_factor": 0.716,
+          "factor_unit": "kgCO2e/kWh",
+          "source_reference": "Central Electricity Authority (CEA), Govt. of India (CO2 Baseline Database for the Indian Power Sector, Version 19)",
+          "reference_year": 2023,
+          "co2e_tonnes": 7.16,
+          "percentage": 42.6,
+          "calculation_formula": "10,000 kWh \u00d7 0.716 kgCO2e/kWh = 7,160.0 kgCO2e (7.160 tCO2e)"
+        }
+      ],
+      "category_breakdown": {
+        "Raw Materials": 9.65,
+        "Electricity": 7.16
+      },
+      "leak_points": [
+        {
+          "rank": 1,
+          "source_key": "virgin_polymer",
+          "source_name": "Virgin HDPE Polymer Feedstock",
+          "category": "Raw Materials",
+          "co2e_tonnes": 9.65,
+          "percentage": 57.4,
+          "severity": "High Priority",
+          "root_cause_explanation": "Heavy reliance on virgin polymer feedstock contributes 57.4% (9.65 tCO2e) due to primary monomer extraction emissions."
+        },
+        {
+          "rank": 2,
+          "source_key": "grid_electricity",
+          "source_name": "Indian Grid Electricity",
+          "category": "Electricity",
+          "co2e_tonnes": 7.16,
+          "percentage": 42.6,
+          "severity": "High Priority",
+          "root_cause_explanation": "Extruder motor drives and heating load account for 42.6% (7.16 tCO2e) under coal-intensive grid electricity."
+        }
+      ],
+      "recommendations": [
+        {
+          "id": "rec_increase_recycled_content",
+          "category": "materials",
+          "title": "Increase Recycled Material Content",
+          "subtitle": "Substitute virgin fossil polymer with certified post-consumer recycled (PCR) resin.",
+          "description": "Blending post-consumer recycled (PCR) pellets into non-food outer packaging or rigid containers significantly reduces Scope 3 embodied carbon from primary polymer synthesis.",
+          "addresses_hotspot": "Virgin Polymer Feedstock",
+          "typical_co2e_reduction_pct": 12.0,
+          "projected_co2e_savings_tonnes": 2.03,
+          "financial_impact_text": "Financial estimate unavailable (additional cost data required)",
+          "implementation_difficulty": "Low",
+          "example_technologies": "30% PCR blending for film extruders, layer co-extrusion",
+          "default_sim_lever": "pcr_blend_pct",
+          "relevance_score": 95
+        },
+        {
+          "id": "rec_evaluate_renewable_electricity",
+          "category": "energy",
+          "title": "Evaluate Renewable Electricity / Rooftop Solar",
+          "subtitle": "Transition daytime machine power load to clean on-site solar generation.",
+          "description": "Installing net-metered rooftop solar PV panels on factory sheds replaces high-emission coal grid power during peak production hours.",
+          "addresses_hotspot": "Grid Electricity Consumption",
+          "typical_co2e_reduction_pct": 12.8,
+          "projected_co2e_savings_tonnes": 2.15,
+          "financial_impact_text": "Financial estimate unavailable (additional cost data required)",
+          "implementation_difficulty": "Moderate",
+          "example_technologies": "Captive rooftop solar PV (50\u2013100 kWp), green tariff power purchase",
+          "default_sim_lever": "renewable_electricity_pct",
+          "relevance_score": 80
+        },
+        {
+          "id": "rec_improve_energy_efficiency",
+          "category": "energy",
+          "title": "Improve Energy Efficiency",
+          "subtitle": "Optimize electrical drives, compressed air, and heating barrel insulation.",
+          "description": "Systematic energy efficiency upgrades eliminate idle thermal losses, reduce electrical demand spikes, and lower per-kg specific energy consumption.",
+          "addresses_hotspot": "Operational Energy Load",
+          "typical_co2e_reduction_pct": 5.1,
+          "projected_co2e_savings_tonnes": 0.86,
+          "financial_impact_text": "Financial estimate unavailable (additional cost data required)",
+          "implementation_difficulty": "Low",
+          "example_technologies": "VFD inverter controls on hydraulic pumps, ceramic barrel insulation blankets",
+          "default_sim_lever": "energy_efficiency_pct",
+          "relevance_score": 75
+        }
+      ],
+      "created_at": "2026-09-13 02:40:39.263132+00:00",
+      "is_demo": false,
+      "input_snapshot": {
+        "facility_id": "26826bc0-923e-4c27-bc00-2898985e2212",
+        "facility_name": "Facility A",
+        "industry": "Plastic & Packaging Manufacturing",
+        "reporting_period": "Monthly (Aug 2026)",
+        "city": "Ahmedabad",
+        "polymer_type": "HDPE",
+        "virgin_material_kg": 5000.0,
+        "recycled_material_kg": null,
+        "grid_electricity_kwh": 10000.0,
+        "diesel_liters": null,
+        "natural_gas_m3": null,
+        "production_output_kg": null,
+        "scrap_generated_kg": null,
+        "scrap_recycled_internal_kg": null,
+        "scrap_landfilled_kg": null,
+        "custom_virgin_cost_inr_per_kg": null,
+        "custom_recycled_cost_inr_per_kg": null,
+        "custom_electricity_cost_inr_per_kwh": null
+      }
+    },
+    "sources": [
+      {
+        "source_key": "virgin_polymer",
+        "source_name": "Virgin HDPE Polymer Feedstock",
+        "category": "Raw Materials",
+        "activity_amount": 5000.0,
+        "unit": "kg",
+        "emission_factor": 1.93,
+        "factor_unit": "kgCO2e/kg",
+        "source_reference": "CPCB / Ecoinvent (Ecoinvent 3.9 Database & CPCB Polymer LCA Guidelines)",
+        "reference_year": 2023,
+        "co2e_tonnes": 9.65,
+        "percentage": 57.4,
+        "calculation_formula": "5,000 kg \u00d7 1.93 kgCO2e/kg = 9,650.0 kgCO2e (9.650 tCO2e)"
+      },
+      {
+        "source_key": "grid_electricity",
+        "source_name": "Indian Grid Electricity",
+        "category": "Electricity",
+        "activity_amount": 10000.0,
+        "unit": "kWh",
+        "emission_factor": 0.716,
+        "factor_unit": "kgCO2e/kWh",
+        "source_reference": "Central Electricity Authority (CEA), Govt. of India (CO2 Baseline Database for the Indian Power Sector, Version 19)",
+        "reference_year": 2023,
+        "co2e_tonnes": 7.16,
+        "percentage": 42.6,
+        "calculation_formula": "10,000 kWh \u00d7 0.716 kgCO2e/kWh = 7,160.0 kgCO2e (7.160 tCO2e)"
+      }
+    ]
+  },
+  "asm_3f5472d0": {
+    "result": {
+      "id": "asm_3f5472d0",
+      "user_id": null,
+      "facility_id": null,
+      "facility_name": "Vatva Polymer Pack Ltd",
+      "industry": "Plastic & Packaging Manufacturing",
+      "reporting_period": "Monthly (Aug 2026)",
+      "total_co2e_tonnes": 115.85,
+      "is_partial_estimate": false,
+      "missing_data_warning": null,
+      "confidence_breakdown": {
+        "confidence_score": 88,
+        "quality_badge": "High Confidence (88% Max - Self Reported)",
+        "supplied_count": 5,
+        "missing_count": 0,
+        "is_partial_estimate": false,
+        "audit_trail": [
+          {
+            "field_name": "Grid Electricity",
+            "status": "Metered / Supplied",
+            "value": 32000.0,
+            "unit": "kWh",
+            "is_supplied": true,
+            "notes": "Electricity utility consumption record"
+          },
+          {
+            "field_name": "Virgin Polymer Resin",
+            "status": "Supplied / Invoiced",
+            "value": 40000.0,
+            "unit": "kg",
+            "is_supplied": true,
+            "notes": "Primary resin input (LDPE)"
+          },
+          {
+            "field_name": "Recycled Polymer (PCR)",
+            "status": "Supplied",
+            "value": 5000.0,
+            "unit": "kg",
+            "is_supplied": true,
+            "notes": "Post-consumer recycled polymer blend"
+          },
+          {
+            "field_name": "Finished Goods Output",
+            "status": "Supplied",
+            "value": 41500.0,
+            "unit": "kg",
+            "is_supplied": true,
+            "notes": "Monthly finished product production log"
+          },
+          {
+            "field_name": "Process Scrap & Landfill Waste",
+            "status": "Supplied",
+            "value": 3000.0,
+            "unit": "kg",
+            "is_supplied": true,
+            "notes": "Process trim scrap and waste stream"
+          }
+        ],
+        "missing_fields_explanation": []
+      },
+      "sources": [
+        {
+          "source_key": "virgin_polymer",
+          "source_name": "Virgin LDPE Polymer Feedstock",
+          "category": "Raw Materials",
+          "activity_amount": 40000.0,
+          "unit": "kg",
+          "emission_factor": 2.08,
+          "factor_unit": "kgCO2e/kg",
+          "source_reference": "CPCB / Ecoinvent (Ecoinvent 3.9 Database & CPCB Polymer LCA Guidelines)",
+          "reference_year": 2023,
+          "co2e_tonnes": 83.2,
+          "percentage": 71.8,
+          "calculation_formula": "40,000 kg \u00d7 2.08 kgCO2e/kg = 83,200.0 kgCO2e (83.200 tCO2e)"
+        },
+        {
+          "source_key": "grid_electricity",
+          "source_name": "Indian Grid Electricity",
+          "category": "Electricity",
+          "activity_amount": 32000.0,
+          "unit": "kWh",
+          "emission_factor": 0.716,
+          "factor_unit": "kgCO2e/kWh",
+          "source_reference": "Central Electricity Authority (CEA), Govt. of India (CO2 Baseline Database for the Indian Power Sector, Version 19)",
+          "reference_year": 2023,
+          "co2e_tonnes": 22.912,
+          "percentage": 19.8,
+          "calculation_formula": "32,000 kWh \u00d7 0.716 kgCO2e/kWh = 22,912.0 kgCO2e (22.912 tCO2e)"
+        },
+        {
+          "source_key": "landfill_waste",
+          "source_name": "Unsorted Process Scrap to Landfill",
+          "category": "Waste Stream",
+          "activity_amount": 3000.0,
+          "unit": "kg",
+          "emission_factor": 1.45,
+          "factor_unit": "kgCO2e/kg",
+          "source_reference": "CPCB / UK DEFRA (CPCB Municipal Solid Waste Guidelines & DEFRA Waste Factors)",
+          "reference_year": 2022,
+          "co2e_tonnes": 4.35,
+          "percentage": 3.8,
+          "calculation_formula": "3,000 kg \u00d7 1.45 kgCO2e/kg = 4,350.0 kgCO2e (4.350 tCO2e)"
+        },
+        {
+          "source_key": "recycled_polymer",
+          "source_name": "Recycled LDPE (Post-Consumer PCR)",
+          "category": "Raw Materials",
+          "activity_amount": 5000.0,
+          "unit": "kg",
+          "emission_factor": 0.62,
+          "factor_unit": "kgCO2e/kg",
+          "source_reference": "Plastics Recyclers India / APR (APR Post-Consumer Resin LCA Study)",
+          "reference_year": 2022,
+          "co2e_tonnes": 3.1,
+          "percentage": 2.7,
+          "calculation_formula": "5,000 kg \u00d7 0.62 kgCO2e/kg = 3,100.0 kgCO2e (3.100 tCO2e)"
+        },
+        {
+          "source_key": "diesel_fuel",
+          "source_name": "Diesel Fuel (Boilers & Gensets)",
+          "category": "Thermal Energy",
+          "activity_amount": 850.0,
+          "unit": "liter",
+          "emission_factor": 2.687,
+          "factor_unit": "kgCO2e/liter",
+          "source_reference": "IPCC (2006 IPCC Guidelines for National Greenhouse Gas Inventories)",
+          "reference_year": 2006,
+          "co2e_tonnes": 2.284,
+          "percentage": 2.0,
+          "calculation_formula": "850 liters \u00d7 2.687 kgCO2e/liter = 2,283.9 kgCO2e (2.284 tCO2e)"
+        }
+      ],
+      "category_breakdown": {
+        "Raw Materials": 86.3,
+        "Electricity": 22.912,
+        "Thermal Energy": 2.284,
+        "Waste Stream": 4.35
+      },
+      "leak_points": [
+        {
+          "rank": 1,
+          "source_key": "virgin_polymer",
+          "source_name": "Virgin LDPE Polymer Feedstock",
+          "category": "Raw Materials",
+          "co2e_tonnes": 83.2,
+          "percentage": 71.8,
+          "severity": "High Priority",
+          "root_cause_explanation": "Heavy reliance on virgin polymer feedstock contributes 71.8% (83.20 tCO2e) due to primary monomer extraction emissions."
+        },
+        {
+          "rank": 2,
+          "source_key": "grid_electricity",
+          "source_name": "Indian Grid Electricity",
+          "category": "Electricity",
+          "co2e_tonnes": 22.912,
+          "percentage": 19.8,
+          "severity": "Medium Priority",
+          "root_cause_explanation": "Extruder motor drives and heating load account for 19.8% (22.91 tCO2e) under coal-intensive grid electricity."
+        },
+        {
+          "rank": 3,
+          "source_key": "landfill_waste",
+          "source_name": "Unsorted Process Scrap to Landfill",
+          "category": "Waste Stream",
+          "co2e_tonnes": 4.35,
+          "percentage": 3.8,
+          "severity": "Low Priority",
+          "root_cause_explanation": "Unrecovered trim scrap sent to landfill represents 3.8% (4.35 tCO2e) and direct raw material loss."
+        }
+      ],
+      "recommendations": [
+        {
+          "id": "rec_increase_recycled_content",
+          "category": "materials",
+          "title": "Increase Recycled Material Content",
+          "subtitle": "Substitute virgin fossil polymer with certified post-consumer recycled (PCR) resin.",
+          "description": "Blending post-consumer recycled (PCR) pellets into non-food outer packaging or rigid containers significantly reduces Scope 3 embodied carbon from primary polymer synthesis.",
+          "addresses_hotspot": "Virgin Polymer Feedstock",
+          "typical_co2e_reduction_pct": 14.0,
+          "projected_co2e_savings_tonnes": 16.2,
+          "financial_impact_text": "Financial estimate unavailable (additional cost data required)",
+          "implementation_difficulty": "Low",
+          "example_technologies": "30% PCR blending for film extruders, layer co-extrusion",
+          "default_sim_lever": "pcr_blend_pct",
+          "relevance_score": 95
+        },
+        {
+          "id": "rec_evaluate_renewable_electricity",
+          "category": "energy",
+          "title": "Evaluate Renewable Electricity / Rooftop Solar",
+          "subtitle": "Transition daytime machine power load to clean on-site solar generation.",
+          "description": "Installing net-metered rooftop solar PV panels on factory sheds replaces high-emission coal grid power during peak production hours.",
+          "addresses_hotspot": "Grid Electricity Consumption",
+          "typical_co2e_reduction_pct": 5.9,
+          "projected_co2e_savings_tonnes": 6.87,
+          "financial_impact_text": "Financial estimate unavailable (additional cost data required)",
+          "implementation_difficulty": "Moderate",
+          "example_technologies": "Captive rooftop solar PV (50\u2013100 kWp), green tariff power purchase",
+          "default_sim_lever": "renewable_electricity_pct",
+          "relevance_score": 80
+        },
+        {
+          "id": "rec_improve_internal_scrap_recovery",
+          "category": "waste",
+          "title": "Improve Internal Production Scrap Recovery",
+          "subtitle": "Capture and re-feed edge trims, sprues, and runners directly back into production.",
+          "description": "Granulating production trim and purgings immediately in-plant prevents raw material loss, avoids landfill tipping fees, and offsets virgin polymer purchasing.",
+          "addresses_hotspot": "Process Scrap & Landfill Waste",
+          "typical_co2e_reduction_pct": 2.6,
+          "projected_co2e_savings_tonnes": 3.04,
+          "financial_impact_text": "Financial estimate unavailable (additional cost data required)",
+          "implementation_difficulty": "Low",
+          "example_technologies": "Beside-the-press granulators, closed-loop regrind loops",
+          "default_sim_lever": "regrind_recovery_pct",
+          "relevance_score": 80
+        },
+        {
+          "id": "rec_improve_energy_efficiency",
+          "category": "energy",
+          "title": "Improve Energy Efficiency",
+          "subtitle": "Optimize electrical drives, compressed air, and heating barrel insulation.",
+          "description": "Systematic energy efficiency upgrades eliminate idle thermal losses, reduce electrical demand spikes, and lower per-kg specific energy consumption.",
+          "addresses_hotspot": "Operational Energy Load",
+          "typical_co2e_reduction_pct": 2.4,
+          "projected_co2e_savings_tonnes": 2.75,
+          "financial_impact_text": "Financial estimate unavailable (additional cost data required)",
+          "implementation_difficulty": "Low",
+          "example_technologies": "VFD inverter controls on hydraulic pumps, ceramic barrel insulation blankets",
+          "default_sim_lever": "energy_efficiency_pct",
+          "relevance_score": 75
+        },
+        {
+          "id": "rec_improve_recycling_recovery",
+          "category": "waste",
+          "title": "Improve Recycling & Offsite Offtake",
+          "subtitle": "Divert un-regrindable plastic scrap to certified mechanical recyclers.",
+          "description": "Formalizing offtake agreements with registered plastic recyclers ensures non-recirculated waste streams avoid open landfills and qualify for EPR credit benefits.",
+          "addresses_hotspot": "Landfill Scrap Waste",
+          "typical_co2e_reduction_pct": 2.8,
+          "projected_co2e_savings_tonnes": 3.24,
+          "financial_impact_text": "Financial estimate unavailable (additional cost data required)",
+          "implementation_difficulty": "Low",
+          "example_technologies": "Segregated waste sorting bins, authorized recycler offtake agreements",
+          "default_sim_lever": "recycling_offtake_pct",
+          "relevance_score": 70
+        }
+      ],
+      "created_at": "2026-09-13 02:40:47.127783+00:00",
+      "is_demo": true,
+      "input_snapshot": {
+        "facility_id": null,
+        "facility_name": "Vatva Polymer Pack Ltd",
+        "industry": "Plastic & Packaging Manufacturing",
+        "reporting_period": "Monthly (Aug 2026)",
+        "city": "Ahmedabad (Vatva GIDC)",
+        "polymer_type": "LDPE",
+        "virgin_material_kg": 40000.0,
+        "recycled_material_kg": 5000.0,
+        "grid_electricity_kwh": 32000.0,
+        "diesel_liters": 850.0,
+        "natural_gas_m3": 0.0,
+        "production_output_kg": 41500.0,
+        "scrap_generated_kg": 3500.0,
+        "scrap_recycled_internal_kg": 500.0,
+        "scrap_landfilled_kg": 3000.0,
+        "custom_virgin_cost_inr_per_kg": null,
+        "custom_recycled_cost_inr_per_kg": null,
+        "custom_electricity_cost_inr_per_kwh": null
+      }
+    },
+    "sources": [
+      {
+        "source_key": "virgin_polymer",
+        "source_name": "Virgin LDPE Polymer Feedstock",
+        "category": "Raw Materials",
+        "activity_amount": 40000.0,
+        "unit": "kg",
+        "emission_factor": 2.08,
+        "factor_unit": "kgCO2e/kg",
+        "source_reference": "CPCB / Ecoinvent (Ecoinvent 3.9 Database & CPCB Polymer LCA Guidelines)",
+        "reference_year": 2023,
+        "co2e_tonnes": 83.2,
+        "percentage": 71.8,
+        "calculation_formula": "40,000 kg \u00d7 2.08 kgCO2e/kg = 83,200.0 kgCO2e (83.200 tCO2e)"
+      },
+      {
+        "source_key": "grid_electricity",
+        "source_name": "Indian Grid Electricity",
+        "category": "Electricity",
+        "activity_amount": 32000.0,
+        "unit": "kWh",
+        "emission_factor": 0.716,
+        "factor_unit": "kgCO2e/kWh",
+        "source_reference": "Central Electricity Authority (CEA), Govt. of India (CO2 Baseline Database for the Indian Power Sector, Version 19)",
+        "reference_year": 2023,
+        "co2e_tonnes": 22.912,
+        "percentage": 19.8,
+        "calculation_formula": "32,000 kWh \u00d7 0.716 kgCO2e/kWh = 22,912.0 kgCO2e (22.912 tCO2e)"
+      },
+      {
+        "source_key": "landfill_waste",
+        "source_name": "Unsorted Process Scrap to Landfill",
+        "category": "Waste Stream",
+        "activity_amount": 3000.0,
+        "unit": "kg",
+        "emission_factor": 1.45,
+        "factor_unit": "kgCO2e/kg",
+        "source_reference": "CPCB / UK DEFRA (CPCB Municipal Solid Waste Guidelines & DEFRA Waste Factors)",
+        "reference_year": 2022,
+        "co2e_tonnes": 4.35,
+        "percentage": 3.8,
+        "calculation_formula": "3,000 kg \u00d7 1.45 kgCO2e/kg = 4,350.0 kgCO2e (4.350 tCO2e)"
+      },
+      {
+        "source_key": "recycled_polymer",
+        "source_name": "Recycled LDPE (Post-Consumer PCR)",
+        "category": "Raw Materials",
+        "activity_amount": 5000.0,
+        "unit": "kg",
+        "emission_factor": 0.62,
+        "factor_unit": "kgCO2e/kg",
+        "source_reference": "Plastics Recyclers India / APR (APR Post-Consumer Resin LCA Study)",
+        "reference_year": 2022,
+        "co2e_tonnes": 3.1,
+        "percentage": 2.7,
+        "calculation_formula": "5,000 kg \u00d7 0.62 kgCO2e/kg = 3,100.0 kgCO2e (3.100 tCO2e)"
+      },
+      {
+        "source_key": "diesel_fuel",
+        "source_name": "Diesel Fuel (Boilers & Gensets)",
+        "category": "Thermal Energy",
+        "activity_amount": 850.0,
+        "unit": "liter",
+        "emission_factor": 2.687,
+        "factor_unit": "kgCO2e/liter",
+        "source_reference": "IPCC (2006 IPCC Guidelines for National Greenhouse Gas Inventories)",
+        "reference_year": 2006,
+        "co2e_tonnes": 2.284,
+        "percentage": 2.0,
+        "calculation_formula": "850 liters \u00d7 2.687 kgCO2e/liter = 2,283.9 kgCO2e (2.284 tCO2e)"
+      }
+    ]
+  },
+  "asm_696abadc": {
+    "result": {
+      "id": "asm_696abadc",
+      "user_id": "26432cc2-f2dc-4a89-8e61-20d8ccc8ebce",
+      "facility_id": "055156ef-f0be-440b-ac77-9ed2b125fc30",
+      "facility_name": "PDF Factory A",
+      "industry": "Plastic & Packaging Manufacturing",
+      "reporting_period": "Monthly (Aug 2026)",
+      "total_co2e_tonnes": 20.17,
+      "is_partial_estimate": true,
+      "missing_data_warning": "PARTIAL ESTIMATE: 3 expected activity streams were unrecorded (Recycled polymer (PCR) blend ratio unrecorded, Finished goods production output unavailable, Waste disposal & scrap stream data unavailable).",
+      "confidence_breakdown": {
+        "confidence_score": 48,
+        "quality_badge": "PARTIAL ESTIMATE (Limited Data)",
+        "supplied_count": 2,
+        "missing_count": 3,
+        "is_partial_estimate": true,
+        "audit_trail": [
+          {
+            "field_name": "Grid Electricity",
+            "status": "Metered / Supplied",
+            "value": 12000.0,
+            "unit": "kWh",
+            "is_supplied": true,
+            "notes": "Electricity utility consumption record"
+          },
+          {
+            "field_name": "Virgin Polymer Resin",
+            "status": "Supplied / Invoiced",
+            "value": 6000.0,
+            "unit": "kg",
+            "is_supplied": true,
+            "notes": "Primary resin input (HDPE)"
+          },
+          {
+            "field_name": "Recycled Polymer (PCR)",
+            "status": "Unrecorded",
+            "value": 0.0,
+            "unit": "kg",
+            "is_supplied": false,
+            "notes": "Assumed 0 kg recycled material"
+          },
+          {
+            "field_name": "Finished Goods Output",
+            "status": "Data Unavailable",
+            "value": null,
+            "unit": "kg",
+            "is_supplied": false,
+            "notes": "Used for process context only"
+          },
+          {
+            "field_name": "Process Scrap & Landfill Waste",
+            "status": "Data Unavailable",
+            "value": null,
+            "unit": "kg",
+            "is_supplied": false,
+            "notes": "Excluded from calculations"
+          }
+        ],
+        "missing_fields_explanation": [
+          "Recycled polymer (PCR) blend ratio unrecorded",
+          "Finished goods production output unavailable",
+          "Waste disposal & scrap stream data unavailable"
+        ]
+      },
+      "sources": [
+        {
+          "source_key": "virgin_polymer",
+          "source_name": "Virgin HDPE Polymer Feedstock",
+          "category": "Raw Materials",
+          "activity_amount": 6000.0,
+          "unit": "kg",
+          "emission_factor": 1.93,
+          "factor_unit": "kgCO2e/kg",
+          "source_reference": "CPCB / Ecoinvent (Ecoinvent 3.9 Database & CPCB Polymer LCA Guidelines)",
+          "reference_year": 2023,
+          "co2e_tonnes": 11.58,
+          "percentage": 57.4,
+          "calculation_formula": "6,000 kg \u00d7 1.93 kgCO2e/kg = 11,580.0 kgCO2e (11.580 tCO2e)"
+        },
+        {
+          "source_key": "grid_electricity",
+          "source_name": "Indian Grid Electricity",
+          "category": "Electricity",
+          "activity_amount": 12000.0,
+          "unit": "kWh",
+          "emission_factor": 0.716,
+          "factor_unit": "kgCO2e/kWh",
+          "source_reference": "Central Electricity Authority (CEA), Govt. of India (CO2 Baseline Database for the Indian Power Sector, Version 19)",
+          "reference_year": 2023,
+          "co2e_tonnes": 8.592,
+          "percentage": 42.6,
+          "calculation_formula": "12,000 kWh \u00d7 0.716 kgCO2e/kWh = 8,592.0 kgCO2e (8.592 tCO2e)"
+        }
+      ],
+      "category_breakdown": {
+        "Raw Materials": 11.58,
+        "Electricity": 8.592
+      },
+      "leak_points": [
+        {
+          "rank": 1,
+          "source_key": "virgin_polymer",
+          "source_name": "Virgin HDPE Polymer Feedstock",
+          "category": "Raw Materials",
+          "co2e_tonnes": 11.58,
+          "percentage": 57.4,
+          "severity": "High Priority",
+          "root_cause_explanation": "Heavy reliance on virgin polymer feedstock contributes 57.4% (11.58 tCO2e) due to primary monomer extraction emissions."
+        },
+        {
+          "rank": 2,
+          "source_key": "grid_electricity",
+          "source_name": "Indian Grid Electricity",
+          "category": "Electricity",
+          "co2e_tonnes": 8.592,
+          "percentage": 42.6,
+          "severity": "High Priority",
+          "root_cause_explanation": "Extruder motor drives and heating load account for 42.6% (8.59 tCO2e) under coal-intensive grid electricity."
+        }
+      ],
+      "recommendations": [
+        {
+          "id": "rec_increase_recycled_content",
+          "category": "materials",
+          "title": "Increase Recycled Material Content",
+          "subtitle": "Substitute virgin fossil polymer with certified post-consumer recycled (PCR) resin.",
+          "description": "Blending post-consumer recycled (PCR) pellets into non-food outer packaging or rigid containers significantly reduces Scope 3 embodied carbon from primary polymer synthesis.",
+          "addresses_hotspot": "Virgin Polymer Feedstock",
+          "typical_co2e_reduction_pct": 12.0,
+          "projected_co2e_savings_tonnes": 2.43,
+          "financial_impact_text": "Financial estimate unavailable (additional cost data required)",
+          "implementation_difficulty": "Low",
+          "example_technologies": "30% PCR blending for film extruders, layer co-extrusion",
+          "default_sim_lever": "pcr_blend_pct",
+          "relevance_score": 95
+        },
+        {
+          "id": "rec_evaluate_renewable_electricity",
+          "category": "energy",
+          "title": "Evaluate Renewable Electricity / Rooftop Solar",
+          "subtitle": "Transition daytime machine power load to clean on-site solar generation.",
+          "description": "Installing net-metered rooftop solar PV panels on factory sheds replaces high-emission coal grid power during peak production hours.",
+          "addresses_hotspot": "Grid Electricity Consumption",
+          "typical_co2e_reduction_pct": 12.8,
+          "projected_co2e_savings_tonnes": 2.58,
+          "financial_impact_text": "Financial estimate unavailable (additional cost data required)",
+          "implementation_difficulty": "Moderate",
+          "example_technologies": "Captive rooftop solar PV (50\u2013100 kWp), green tariff power purchase",
+          "default_sim_lever": "renewable_electricity_pct",
+          "relevance_score": 80
+        },
+        {
+          "id": "rec_improve_energy_efficiency",
+          "category": "energy",
+          "title": "Improve Energy Efficiency",
+          "subtitle": "Optimize electrical drives, compressed air, and heating barrel insulation.",
+          "description": "Systematic energy efficiency upgrades eliminate idle thermal losses, reduce electrical demand spikes, and lower per-kg specific energy consumption.",
+          "addresses_hotspot": "Operational Energy Load",
+          "typical_co2e_reduction_pct": 5.1,
+          "projected_co2e_savings_tonnes": 1.03,
+          "financial_impact_text": "Financial estimate unavailable (additional cost data required)",
+          "implementation_difficulty": "Low",
+          "example_technologies": "VFD inverter controls on hydraulic pumps, ceramic barrel insulation blankets",
+          "default_sim_lever": "energy_efficiency_pct",
+          "relevance_score": 75
+        }
+      ],
+      "created_at": "2026-09-13 02:40:48.882828+00:00",
+      "is_demo": false,
+      "input_snapshot": {
+        "facility_id": "055156ef-f0be-440b-ac77-9ed2b125fc30",
+        "facility_name": "PDF Factory A",
+        "industry": "Plastic & Packaging Manufacturing",
+        "reporting_period": "Monthly (Aug 2026)",
+        "city": "Ahmedabad",
+        "polymer_type": "HDPE",
+        "virgin_material_kg": 6000.0,
+        "recycled_material_kg": null,
+        "grid_electricity_kwh": 12000.0,
+        "diesel_liters": null,
+        "natural_gas_m3": null,
+        "production_output_kg": null,
+        "scrap_generated_kg": null,
+        "scrap_recycled_internal_kg": null,
+        "scrap_landfilled_kg": null,
+        "custom_virgin_cost_inr_per_kg": null,
+        "custom_recycled_cost_inr_per_kg": null,
+        "custom_electricity_cost_inr_per_kwh": null
+      }
+    },
+    "sources": [
+      {
+        "source_key": "virgin_polymer",
+        "source_name": "Virgin HDPE Polymer Feedstock",
+        "category": "Raw Materials",
+        "activity_amount": 6000.0,
+        "unit": "kg",
+        "emission_factor": 1.93,
+        "factor_unit": "kgCO2e/kg",
+        "source_reference": "CPCB / Ecoinvent (Ecoinvent 3.9 Database & CPCB Polymer LCA Guidelines)",
+        "reference_year": 2023,
+        "co2e_tonnes": 11.58,
+        "percentage": 57.4,
+        "calculation_formula": "6,000 kg \u00d7 1.93 kgCO2e/kg = 11,580.0 kgCO2e (11.580 tCO2e)"
+      },
+      {
+        "source_key": "grid_electricity",
+        "source_name": "Indian Grid Electricity",
+        "category": "Electricity",
+        "activity_amount": 12000.0,
+        "unit": "kWh",
+        "emission_factor": 0.716,
+        "factor_unit": "kgCO2e/kWh",
+        "source_reference": "Central Electricity Authority (CEA), Govt. of India (CO2 Baseline Database for the Indian Power Sector, Version 19)",
+        "reference_year": 2023,
+        "co2e_tonnes": 8.592,
+        "percentage": 42.6,
+        "calculation_formula": "12,000 kWh \u00d7 0.716 kgCO2e/kWh = 8,592.0 kgCO2e (8.592 tCO2e)"
+      }
+    ]
   }
 }

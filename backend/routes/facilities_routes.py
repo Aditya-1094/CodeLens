@@ -51,3 +51,26 @@ def get_facility_by_id(
         )
 
     return fac
+
+@router.put("/{facility_id}", response_model=FacilityResponse)
+def update_facility(
+    facility_id: str,
+    req: FacilitySetupRequest,
+    current_user: UserProfile = Depends(get_current_user)
+):
+    """
+    Updates an existing user-owned facility profile.
+    Enforces strict server-side account ownership verification.
+    """
+    fac = db_repository.get_facility(facility_id)
+    if not fac:
+        raise HTTPException(status_code=404, detail="Facility not found")
+
+    if fac.get("user_id") != current_user.id:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Access forbidden: Facility belongs to another user account"
+        )
+
+    updated = db_repository.update_facility(facility_id, req.model_dump(), current_user.id)
+    return updated

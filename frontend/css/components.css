@@ -45,7 +45,8 @@
 }
 
 /* Highly Interactive Responsive Buttons - Universal Hover Animation */
-button:not(.leaflet-container *), .btn, .btn-primary, .btn-secondary, .btn-ghost, .action-btn, .trigger-demo-mode, .wizard-next, .wizard-prev {
+button:not(.leaflet-container *):not(.password-toggle-btn):not(.close-modal-btn):not([class*="absolute"]):not(#btn-close-mobile-sidebar), 
+.btn, .btn-primary, .btn-secondary, .btn-ghost, .action-btn, .trigger-demo-mode, .wizard-next, .wizard-prev {
   position: relative;
   overflow: hidden;
   cursor: pointer;
@@ -53,18 +54,21 @@ button:not(.leaflet-container *), .btn, .btn-primary, .btn-secondary, .btn-ghost
   transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, opacity 0.2s ease;
 }
 
-button:not(.leaflet-container *):hover, .btn:hover, .btn-ghost:hover, .action-btn:hover, .trigger-demo-mode:hover, .wizard-next:hover, .wizard-prev:hover {
+button:not(.leaflet-container *):not(.password-toggle-btn):not(.close-modal-btn):not([class*="absolute"]):not(#btn-close-mobile-sidebar):hover, 
+.btn:hover, .btn-ghost:hover, .action-btn:hover, .trigger-demo-mode:hover, .wizard-next:hover, .wizard-prev:hover {
   transform: translateY(-2px) scale(1.015);
   box-shadow: 0 6px 20px -3px rgba(18, 67, 48, 0.18);
 }
 
-button:not(.leaflet-container *):active, .btn:active, .btn-ghost:active, .action-btn:active, .trigger-demo-mode:active, .wizard-next:active, .wizard-prev:active {
+button:not(.leaflet-container *):not(.password-toggle-btn):not(.close-modal-btn):not([class*="absolute"]):not(#btn-close-mobile-sidebar):active, 
+.btn:active, .btn-ghost:active, .action-btn:active, .trigger-demo-mode:active, .wizard-next:active, .wizard-prev:active {
   transform: translateY(1px) scale(0.98);
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
 /* Universal Button Spotlight Shimmer Effect */
-button:not(.leaflet-container *)::after, .btn::after, .btn-primary::after, .btn-secondary::after, .action-btn::after, .trigger-demo-mode::after {
+button:not(.leaflet-container *):not(.password-toggle-btn):not(.close-modal-btn):not([class*="absolute"]):not(#btn-close-mobile-sidebar)::after, 
+.btn::after, .btn-primary::after, .btn-secondary::after, .action-btn::after, .trigger-demo-mode::after {
   content: '';
   position: absolute;
   inset: 0;
@@ -79,15 +83,70 @@ button:not(.leaflet-container *)::after, .btn::after, .btn-primary::after, .btn-
   border-radius: inherit;
 }
 
-button:not(.leaflet-container *):hover::after, .btn:hover::after, .action-btn:hover::after, .trigger-demo-mode:hover::after {
+button:not(.leaflet-container *):not(.password-toggle-btn):not(.close-modal-btn):not([class*="absolute"]):not(#btn-close-mobile-sidebar):hover::after, 
+.btn:hover::after, .action-btn:hover::after, .trigger-demo-mode:hover::after {
   opacity: 1;
 }
 
 /* Universal Icon Reaction Inside Any Button on Hover */
-button:not(.leaflet-container *):hover i, button:not(.leaflet-container *):hover svg, button:not(.leaflet-container *):hover [data-lucide],
+button:not(.leaflet-container *):not(.password-toggle-btn):not(.close-modal-btn):not([class*="absolute"]):not(#btn-close-mobile-sidebar):hover i, 
+button:not(.leaflet-container *):not(.password-toggle-btn):not(.close-modal-btn):not([class*="absolute"]):not(#btn-close-mobile-sidebar):hover svg, 
+button:not(.leaflet-container *):not(.password-toggle-btn):not(.close-modal-btn):not([class*="absolute"]):not(#btn-close-mobile-sidebar):hover [data-lucide],
 .btn:hover i, .btn:hover svg, .btn:hover [data-lucide] {
   transform: scale(1.15);
   transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Dedicated Password Visibility Toggle Button Styling */
+.password-toggle-btn,
+#toggle-login-password,
+#toggle-reg-password,
+#toggle-reg-confirm-password {
+  position: absolute !important;
+  right: 0.625rem !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 1.75rem !important;
+  height: 1.75rem !important;
+  min-height: 0 !important;
+  max-height: 1.75rem !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  color: #6B7280 !important;
+  cursor: pointer !important;
+  z-index: 20 !important;
+  overflow: visible !important;
+}
+
+.password-toggle-btn:hover,
+#toggle-login-password:hover,
+#toggle-reg-password:hover,
+#toggle-reg-confirm-password:hover {
+  color: #111827 !important;
+  transform: translateY(-50%) scale(1.1) !important;
+  box-shadow: none !important;
+  background: transparent !important;
+}
+
+.password-toggle-btn:active,
+#toggle-login-password:active,
+#toggle-reg-password:active,
+#toggle-reg-confirm-password:active {
+  transform: translateY(-50%) scale(0.95) !important;
+  box-shadow: none !important;
+}
+
+.password-toggle-btn::after,
+#toggle-login-password::after,
+#toggle-reg-password::after,
+#toggle-reg-confirm-password::after {
+  display: none !important;
 }
 
 /* Leaflet GIS Map Insulation - Prevent CSS transforms from altering map coordinate matrix */

@@ -136,6 +136,32 @@ class DatabaseRepository:
                 pass
         return None
 
+    def update_facility(self, fac_id: str, fac_dict: Dict[str, Any], user_id: str) -> Dict[str, Any]:
+        existing = self.get_facility(fac_id) or {}
+        updated_data = {
+            **existing,
+            "id": fac_id,
+            "user_id": user_id,
+            "facility_name": fac_dict["facility_name"],
+            "company_name": fac_dict.get("company_name", existing.get("company_name", "")),
+            "industry": fac_dict.get("industry", existing.get("industry", "Plastic & Packaging Manufacturing")),
+            "city": fac_dict["city"],
+            "state": fac_dict.get("state", existing.get("state", "Gujarat")),
+            "country": fac_dict.get("country", existing.get("country", "India")),
+            "default_reporting_period": fac_dict.get("default_reporting_period", existing.get("default_reporting_period", "Monthly (Aug 2026)")),
+            "updated_at": datetime.now(timezone.utc).isoformat()
+        }
+        self.facilities[fac_id] = updated_data
+        save_cached_json(FACILITIES_CACHE_FILE, self.facilities)
+
+        if self.supabase_client:
+            try:
+                self.supabase_client.table("facilities").update(updated_data).eq("id", fac_id).execute()
+            except Exception as e:
+                print(f"[WARN] Supabase facility update warning: {e}")
+
+        return updated_data
+
     # --- ASSESSMENT METHODS ---
     def save_assessment(self, result_dict: Dict[str, Any], raw_sources: List[Dict[str, Any]], user_id: Optional[str] = None, facility_id: Optional[str] = None) -> str:
         asm_id = result_dict["id"]

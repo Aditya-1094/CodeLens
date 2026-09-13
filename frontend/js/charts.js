@@ -132,30 +132,51 @@ const Charts = {
     const centerPlugin = {
       id: 'donutCenterText',
       beforeDraw: (chart) => {
-        const { width, height, ctx } = chart;
+        const { ctx, chartArea } = chart;
+        if (!chartArea) return;
+
+        // Accurately compute donut center point regardless of legend position
+        const meta = chart.getDatasetMeta(0);
+        let centerX = (chartArea.left + chartArea.right) / 2;
+        let centerY = (chartArea.top + chartArea.bottom) / 2;
+
+        if (meta && meta.data && meta.data.length > 0 && typeof meta.data[0].x === 'number') {
+          centerX = meta.data[0].x;
+          centerY = meta.data[0].y;
+        }
+
         ctx.save();
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
 
         if (this.activeCategory && categoryBreakdown[this.activeCategory] !== undefined) {
           const val = categoryBreakdown[this.activeCategory];
-          const pct = ((val / totalCO2) * 100).toFixed(1);
+          const pct = totalCO2 > 0 ? ((val / totalCO2) * 100).toFixed(1) : '0.0';
+          
+          // Truncate category name if too long for center cutout
+          const catLabel = this.activeCategory.length > 13 
+            ? this.activeCategory.substring(0, 11).toUpperCase() + '..' 
+            : this.activeCategory.toUpperCase();
+
           ctx.font = '600 10px Inter';
           ctx.fillStyle = '#6B7280';
-          ctx.fillText(this.activeCategory.toUpperCase(), width / 2, height / 2 - 12);
-          ctx.font = 'bold 16px Roboto Mono';
+          ctx.fillText(catLabel, centerX, centerY - 14);
+
+          ctx.font = 'bold 15px Roboto Mono';
           ctx.fillStyle = '#111827';
-          ctx.fillText(`${val.toFixed(2)} t`, width / 2, height / 2 + 4);
+          ctx.fillText(`${val.toFixed(2)} t`, centerX, centerY + 2);
+
           ctx.font = '600 11px Roboto Mono';
           ctx.fillStyle = '#10B981';
-          ctx.fillText(`${pct}%`, width / 2, height / 2 + 20);
+          ctx.fillText(`${pct}%`, centerX, centerY + 18);
         } else {
-          ctx.font = '600 10px Inter';
+          ctx.font = '600 9.5px Inter';
           ctx.fillStyle = '#9CA3AF';
-          ctx.fillText('TOTAL FOOTPRINT', width / 2, height / 2 - 10);
-          ctx.font = 'bold 16px Roboto Mono';
+          ctx.fillText('TOTAL FOOTPRINT', centerX, centerY - 10);
+
+          ctx.font = 'bold 15px Roboto Mono';
           ctx.fillStyle = '#111827';
-          ctx.fillText(`${totalCO2.toFixed(2)} t`, width / 2, height / 2 + 8);
+          ctx.fillText(`${totalCO2.toFixed(2)} t`, centerX, centerY + 8);
         }
         ctx.restore();
       }

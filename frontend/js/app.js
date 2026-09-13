@@ -283,6 +283,10 @@ window.CarbonLensApp = {
       }
     }
 
+    if (viewId === 'facility-setup') {
+      this.populateFacilityProfileForm();
+    }
+
     if (viewId === 'assessment') {
       const facility = API.getFacility();
       if (facility) {
@@ -560,13 +564,21 @@ window.CarbonLensApp = {
           default_reporting_period: document.getElementById('fac-period')?.value || 'Monthly (Aug 2026)'
         };
         const errEl = document.getElementById('facility-setup-error');
+        const existingFac = API.getFacility();
 
         try {
           if (errEl) errEl.classList.add('hidden');
-          const fac = await API.createFacility(facData);
-          this.updateHeaderFacilityInfo(fac);
-          this.renderEmptyStateOverview(API.getUser() || { full_name: 'Partner' }, fac);
-          if (window.UI) window.UI.showToast('Facility profile saved!', 'success');
+          let fac;
+          if (existingFac && existingFac.id) {
+            fac = await API.updateFacility(existingFac.id, facData);
+            this.updateHeaderFacilityInfo(fac);
+            if (window.UI) window.UI.showToast('Facility profile updated successfully!', 'success');
+          } else {
+            fac = await API.createFacility(facData);
+            this.updateHeaderFacilityInfo(fac);
+            this.renderEmptyStateOverview(API.getUser() || { full_name: 'Partner' }, fac);
+            if (window.UI) window.UI.showToast('Facility profile created successfully!', 'success');
+          }
           this.switchView('overview');
         } catch (err) {
           if (errEl) {
@@ -584,6 +596,75 @@ window.CarbonLensApp = {
         e.preventDefault();
         this.logout();
       });
+    }
+  },
+
+  /**
+   * Pre-populates Facility Profile form with current active facility details
+   */
+  async populateFacilityProfileForm() {
+    let facility = API.getFacility();
+    if (!facility && API.getUser()) {
+      try {
+        const facs = await API.getUserFacilities();
+        if (facs && facs.length > 0) {
+          facility = facs[0];
+          localStorage.setItem('carbonlens_facility', JSON.stringify(facility));
+        }
+      } catch (e) {}
+    }
+
+    const badgeEl = document.getElementById('fac-setup-badge');
+    const titleEl = document.getElementById('fac-setup-title');
+    const subtitleEl = document.getElementById('fac-setup-subtitle');
+    const submitBtn = document.getElementById('btn-submit-facility');
+    const errEl = document.getElementById('facility-setup-error');
+    if (errEl) errEl.classList.add('hidden');
+
+    // Reset validation error text and red outlines
+    ['error-fac-name', 'error-fac-company', 'error-fac-industry', 'error-fac-city', 'error-fac-state', 'error-fac-period'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) {
+        el.classList.add('hidden');
+        el.textContent = '';
+      }
+    });
+    ['fac-name', 'fac-company', 'fac-industry', 'fac-city', 'fac-state', 'fac-period'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.classList.remove('border-red-500');
+    });
+
+    const facName = document.getElementById('fac-name');
+    const facCompany = document.getElementById('fac-company');
+    const facIndustry = document.getElementById('fac-industry');
+    const facCity = document.getElementById('fac-city');
+    const facState = document.getElementById('fac-state');
+    const facPeriod = document.getElementById('fac-period');
+
+    if (facility && facility.facility_name) {
+      if (badgeEl) badgeEl.textContent = 'Facility Profile & Settings';
+      if (titleEl) titleEl.textContent = 'Manage Manufacturing Facility';
+      if (subtitleEl) subtitleEl.textContent = 'View and update plant profile, sector, and operational location details.';
+      if (submitBtn) submitBtn.innerHTML = '<span>Update Facility Profile ✓</span>';
+
+      if (facName) facName.value = facility.facility_name || '';
+      if (facCompany) facCompany.value = facility.company_name || '';
+      if (facIndustry) facIndustry.value = facility.industry || 'Plastic & Packaging Manufacturing';
+      if (facCity) facCity.value = facility.city || '';
+      if (facState) facState.value = facility.state || 'Gujarat';
+      if (facPeriod) facPeriod.value = facility.default_reporting_period || 'Monthly (Aug 2026)';
+    } else {
+      if (badgeEl) badgeEl.textContent = 'Facility Onboarding';
+      if (titleEl) titleEl.textContent = 'Set Up Your Manufacturing Facility';
+      if (subtitleEl) subtitleEl.textContent = 'Provide basic plant details to personalize carbon emission tracking.';
+      if (submitBtn) submitBtn.innerHTML = '<span>Save Facility & Start Assessment →</span>';
+
+      if (facName) facName.value = '';
+      if (facCompany) facCompany.value = '';
+      if (facIndustry) facIndustry.value = 'Plastic & Packaging Manufacturing';
+      if (facCity) facCity.value = '';
+      if (facState) facState.value = 'Gujarat';
+      if (facPeriod) facPeriod.value = 'Monthly (Aug 2026)';
     }
   },
 

@@ -158,6 +158,23 @@ const API = {
     return fac;
   },
 
+  async updateFacility(facId, facData) {
+    const response = await fetch(`${API_BASE_URL}/facilities/${facId}`, {
+      method: 'PUT',
+      headers: this.getAuthHeaders(),
+      body: JSON.stringify(facData)
+    });
+
+    if (!response.ok) {
+      const err = await response.json();
+      throw new Error(err.detail || 'Failed to update facility profile');
+    }
+
+    const fac = await response.json();
+    localStorage.setItem('carbonlens_facility', JSON.stringify(fac));
+    return fac;
+  },
+
   async getUserFacilities() {
     const token = this.getToken();
     if (!token) return [];

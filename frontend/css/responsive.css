@@ -139,6 +139,11 @@ html, body {
     flex: 1 1 auto;
   }
 
+  .journey-steps-container {
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+  }
+
   .hero-metric-box {
     padding: 1.25rem !important;
   }
@@ -222,7 +227,8 @@ html, body {
   }
 
   /* Touch Target Optimizations */
-  button, input[type="range"], select, input[type="text"], input[type="number"], .nav-link {
+  button:not(.password-toggle-btn):not(.close-modal-btn):not([class*="absolute"]):not(#btn-close-mobile-sidebar), 
+  input[type="range"], select, input[type="text"], input[type="number"], input[type="password"], input[type="email"], .nav-link {
     min-height: 38px;
   }
 
