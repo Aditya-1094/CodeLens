@@ -210,10 +210,20 @@ class PDFReportGenerator:
         # 2. EXECUTIVE SUMMARY
         # ----------------------------------------------------
         total_co2e = float(assessment.get("total_co2e_tonnes", 0.0))
-        is_partial = assessment.get("is_partial", False)
-        confidence_score = assessment.get("confidence_score", 100)
-        hotspots = assessment.get("hotspots", [])
-        top_hotspot = hotspots[0] if hotspots else {"name": "Energy Grid", "pct": 0, "co2e": 0}
+        is_partial = assessment.get("is_partial_estimate") if "is_partial_estimate" in assessment else assessment.get("is_partial", False)
+
+        conf_breakdown = assessment.get("confidence_breakdown") or {}
+        if isinstance(conf_breakdown, dict):
+            confidence_score = conf_breakdown.get("confidence_score") or assessment.get("confidence_score") or 100
+            conf_reasons = conf_breakdown.get("missing_fields_explanation") or assessment.get("confidence_reasons") or []
+        else:
+            confidence_score = assessment.get("confidence_score", 100)
+            conf_reasons = assessment.get("confidence_reasons") or []
+
+        hotspots = assessment.get("leak_points") or assessment.get("hotspots") or []
+        top_hotspot = hotspots[0] if (hotspots and len(hotspots) > 0) else {}
+        top_hp_name = top_hotspot.get("source_name") or top_hotspot.get("name") or "Energy Grid"
+        top_hp_pct = top_hotspot.get("percentage") if "percentage" in top_hotspot else top_hotspot.get("pct", 0.0)
 
         story.append(Paragraph("Executive Summary", style_h1))
         
@@ -221,7 +231,7 @@ class PDFReportGenerator:
             [
                 Paragraph(f"<font size=16 color='#18583f'><b>{total_co2e:.2f} tCO₂e/mo</b></font><br/><font size=8 color='#6b7280'>Total Calculated Footprint</font>", style_body),
                 Paragraph(f"<b>Partial Estimate:</b> {'YES ⚠️' if is_partial else 'NO (Complete)'}<br/><b>Data Confidence Score:</b> {confidence_score}/100", style_body),
-                Paragraph(f"<b>Primary Emission Hotspot:</b><br/><font color='#b45309'><b>#1 {top_hotspot.get('name')}</b></font> ({top_hotspot.get('pct', 0):.1f}% of total)", style_body)
+                Paragraph(f"<b>Primary Emission Hotspot:</b><br/><font color='#b45309'><b>#1 {top_hp_name}</b></font> ({float(top_hp_pct):.1f}% of total)", style_body)
             ]
         ]
         exec_table = Table(exec_summary_box, colWidths=[170, 170, 175])
@@ -239,24 +249,64 @@ class PDFReportGenerator:
         # ----------------------------------------------------
         story.append(Paragraph("Activity Data Summary", style_h1))
         inputs = assessment.get("input_snapshot") or assessment.get("inputs") or {}
-        
+        if not isinstance(inputs, dict):
+            inputs = {}
+            
+        # Fallback mappings from sources & audit_trail
+        sources_list = assessment.get("sources", [])
+        sources_map = {}
+        if isinstance(sources_list, list):
+            for s in sources_list:
+                if isinstance(s, dict):
+                    skey = s.get("source_key")
+                    amt = s.get("activity_amount")
+                    if skey and amt is not None:
+                        sources_map[skey] = amt
+
+        audit_trail = conf_breakdown.get("audit_trail", []) if isinstance(conf_breakdown, dict) else []
+        audit_map = {}
+        if isinstance(audit_trail, list):
+            for item in audit_trail:
+                if isinstance(item, dict):
+                    fname = item.get("field_name", "")
+                    val = item.get("value")
+                    if fname and val is not None:
+                        audit_map[fname] = val
+
+        def get_val(key_name, source_key=None, audit_name=None):
+            if key_name in inputs and inputs[key_name] is not None:
+                return inputs[key_name]
+            if source_key and source_key in sources_map and sources_map[source_key] is not None:
+                return sources_map[source_key]
+            if audit_name and audit_name in audit_map and audit_map[audit_name] is not None:
+                return audit_map[audit_name]
+            return None
+
         def fmt_val(val, unit):
             if val is None or val == "" or val == 0:
                 return "<font color='#9ca3af'>Not provided</font>"
-            return f"{val:,} {unit}"
+            try:
+                num_val = float(val)
+                if num_val.is_integer():
+                    return f"{int(num_val):,} {unit}"
+                return f"{num_val:,.2f} {unit}"
+            except (ValueError, TypeError):
+                return f"{val} {unit}"
+
+        polymer_type = inputs.get("polymer_type") or assessment.get("polymer_type") or "HDPE"
 
         act_rows = [
             [Paragraph("<b>Category</b>", style_body), Paragraph("<b>Parameter</b>", style_body), Paragraph("<b>Submitted Input</b>", style_body)],
-            [Paragraph("Energy", style_body), Paragraph("Grid Electricity", style_body), Paragraph(fmt_val(inputs.get("grid_electricity_kwh"), "kWh"), style_body)],
-            [Paragraph("Energy", style_body), Paragraph("Diesel Genset", style_body), Paragraph(fmt_val(inputs.get("diesel_liters"), "Liters"), style_body)],
-            [Paragraph("Energy", style_body), Paragraph("Natural Gas", style_body), Paragraph(fmt_val(inputs.get("natural_gas_m3"), "m³"), style_body)],
-            [Paragraph("Material Input", style_body), Paragraph("Virgin Polymer Input", style_body), Paragraph(fmt_val(inputs.get("virgin_material_kg"), "kg"), style_body)],
-            [Paragraph("Material Input", style_body), Paragraph("PCR / Recycled Resin", style_body), Paragraph(fmt_val(inputs.get("recycled_material_kg"), "kg"), style_body)],
-            [Paragraph("Material Input", style_body), Paragraph("Polymer Resin Type", style_body), Paragraph(inputs.get("polymer_type") or "LDPE", style_body)],
-            [Paragraph("Production", style_body), Paragraph("Finished Production Output", style_body), Paragraph(fmt_val(inputs.get("production_output_kg"), "kg"), style_body)],
-            [Paragraph("Waste Stream", style_body), Paragraph("Total Process Scrap Generated", style_body), Paragraph(fmt_val(inputs.get("scrap_generated_kg"), "kg"), style_body)],
-            [Paragraph("Waste Stream", style_body), Paragraph("Internal Regrind Recycled", style_body), Paragraph(fmt_val(inputs.get("scrap_recycled_internal_kg"), "kg"), style_body)],
-            [Paragraph("Waste Stream", style_body), Paragraph("Scrap Landfilled / Disposal", style_body), Paragraph(fmt_val(inputs.get("scrap_landfilled_kg"), "kg"), style_body)],
+            [Paragraph("Energy", style_body), Paragraph("Grid Electricity", style_body), Paragraph(fmt_val(get_val("grid_electricity_kwh", "grid_electricity", "Grid Electricity"), "kWh"), style_body)],
+            [Paragraph("Energy", style_body), Paragraph("Diesel Genset", style_body), Paragraph(fmt_val(get_val("diesel_liters", "diesel_genset", "Diesel Genset Fuel"), "Liters"), style_body)],
+            [Paragraph("Energy", style_body), Paragraph("Natural Gas", style_body), Paragraph(fmt_val(get_val("natural_gas_m3", "natural_gas", "Natural Gas Fuel"), "m³"), style_body)],
+            [Paragraph("Material Input", style_body), Paragraph("Virgin Polymer Input", style_body), Paragraph(fmt_val(get_val("virgin_material_kg", "virgin_polymer", "Virgin Polymer Resin"), "kg"), style_body)],
+            [Paragraph("Material Input", style_body), Paragraph("PCR / Recycled Resin", style_body), Paragraph(fmt_val(get_val("recycled_material_kg", "recycled_polymer", "Recycled Polymer (PCR)"), "kg"), style_body)],
+            [Paragraph("Material Input", style_body), Paragraph("Polymer Resin Type", style_body), Paragraph(str(polymer_type), style_body)],
+            [Paragraph("Production", style_body), Paragraph("Finished Production Output", style_body), Paragraph(fmt_val(get_val("production_output_kg", audit_name="Finished Goods Output"), "kg"), style_body)],
+            [Paragraph("Waste Stream", style_body), Paragraph("Total Process Scrap Generated", style_body), Paragraph(fmt_val(get_val("scrap_generated_kg", audit_name="Process Scrap Generated"), "kg"), style_body)],
+            [Paragraph("Waste Stream", style_body), Paragraph("Internal Regrind Recycled", style_body), Paragraph(fmt_val(get_val("scrap_recycled_internal_kg", audit_name="Internal Regrind Recycled"), "kg"), style_body)],
+            [Paragraph("Waste Stream", style_body), Paragraph("Scrap Landfilled / Disposal", style_body), Paragraph(fmt_val(get_val("scrap_landfilled_kg", "scrap_landfill", "Landfilled Waste Scrap"), "kg"), style_body)],
         ]
         act_table = Table(act_rows, colWidths=[110, 200, 205])
         act_table.setStyle(TableStyle([
@@ -321,12 +371,24 @@ class PDFReportGenerator:
             [Paragraph("<b>Rank</b>", style_body), Paragraph("<b>Leak-Point Hotspot Source</b>", style_body), Paragraph("<b>Monthly CO₂e</b>", style_body), Paragraph("<b>Share (%)</b>", style_body)]
         ]
         
-        for idx, hp in enumerate(hotspots[:3], 1):
+        if hotspots:
+            for idx, hp in enumerate(hotspots[:3], 1):
+                hp_name = hp.get("source_name") or hp.get("name") or f"Leak Point #{idx}"
+                co2e_val = hp.get("co2e_tonnes") if "co2e_tonnes" in hp else hp.get("co2e", 0.0)
+                pct_val = hp.get("percentage") if "percentage" in hp else hp.get("pct", 0.0)
+                rank_val = hp.get("rank", idx)
+                leak_rows.append([
+                    Paragraph(f"<b>#{rank_val}</b>", style_body),
+                    Paragraph(f"<b>{hp_name}</b>", style_body),
+                    Paragraph(f"{float(co2e_val):.2f} tCO₂e", style_body),
+                    Paragraph(f"<b>{float(pct_val):.1f}%</b>", style_body)
+                ])
+        else:
             leak_rows.append([
-                Paragraph(f"<b>#{idx}</b>", style_body),
-                Paragraph(f"<b>{hp.get('name')}</b>", style_body),
-                Paragraph(f"{hp.get('co2e', 0):.2f} tCO₂e", style_body),
-                Paragraph(f"<b>{hp.get('pct', 0):.1f}%</b>", style_body)
+                Paragraph("-", style_body),
+                Paragraph("<i>No significant leak points detected</i>", style_body),
+                Paragraph("0.00 tCO₂e", style_body),
+                Paragraph("0.0%", style_body)
             ])
 
         leak_table = Table(leak_rows, colWidths=[40, 240, 115, 120])
@@ -342,10 +404,17 @@ class PDFReportGenerator:
         # 6. CONFIDENCE / DATA QUALITY EXPLANATION
         # ----------------------------------------------------
         story.append(Paragraph("Data Confidence & Quality Explanation", style_h1))
-        conf_reasons = assessment.get("confidence_reasons") or [
-            "Complete grid electricity and polymer resin activity data provided.",
-            "CEA Baseline factor applied for Indian Grid Electricity (0.716 kgCO₂e/kWh)."
-        ]
+        if not conf_reasons:
+            if confidence_score >= 90:
+                conf_reasons = [
+                    "Complete grid electricity and primary polymer resin activity data provided.",
+                    "CEA CO₂ Baseline Database v19 applied for Indian Grid Electricity (0.716 kgCO₂e/kWh)."
+                ]
+            else:
+                conf_reasons = [
+                    "Partial operational input data provided.",
+                    "Unrecorded activity streams excluded from calculations without penalty."
+                ]
 
         conf_bullets = "<br/>".join([f"• {r}" for r in conf_reasons])
         conf_box = [
@@ -373,10 +442,15 @@ class PDFReportGenerator:
                 [Paragraph("<b>Title & Target Source</b>", style_body), Paragraph("<b>Reason & Strategy</b>", style_body), Paragraph("<b>Estimated CO₂ Cut</b>", style_body)]
             ]
             for r in recs[:4]:
+                r_title = r.get("title") or "Circular Opportunity"
+                r_source = r.get("addresses_hotspot") or r.get("relevant_source") or "General"
+                r_reason = r.get("description") or r.get("subtitle") or r.get("reason") or "Circular alternative strategy."
+                co2_cut = r.get("projected_co2e_savings_tonnes") if "projected_co2e_savings_tonnes" in r else r.get("co2e_reduction", 0.0)
+
                 rec_rows.append([
-                    Paragraph(f"<b>{r.get('title')}</b><br/><font size=7.5 color='#6b7280'>Source: {r.get('relevant_source', 'General')}</font>", style_body),
-                    Paragraph(r.get("reason", "Circular alternative to reduce baseline emissions."), style_body),
-                    Paragraph(f"<font color='#18583f'><b>-{r.get('co2e_reduction', 0):.2f} t/mo</b></font>", style_body)
+                    Paragraph(f"<b>{r_title}</b><br/><font size=7.5 color='#6b7280'>Target Source: {r_source}</font>", style_body),
+                    Paragraph(str(r_reason), style_body),
+                    Paragraph(f"<font color='#18583f'><b>-{float(co2_cut):.2f} t/mo</b></font>", style_body)
                 ])
             rec_table = Table(rec_rows, colWidths=[180, 235, 100])
             rec_table.setStyle(TableStyle([
@@ -387,6 +461,7 @@ class PDFReportGenerator:
             story.append(rec_table)
         else:
             story.append(Paragraph("<i>No specific recommendations generated for this baseline.</i>", style_body))
+
         
         story.append(Spacer(1, 14))
 

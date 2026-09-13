@@ -1,0 +1,101 @@
+/* CarbonLens SME - App Shell & Responsive Layout Engine */
+
+/* Main Shell Flexbox */
+.app-wrapper {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+  position: relative;
+}
+
+/* Sidebar Navigation */
+#app-sidebar {
+  width: 250px;
+  background-color: var(--bg-surface);
+  border-right: 1px solid var(--border-light);
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  z-index: 30;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  transition: transform var(--transition-normal);
+}
+
+/* Main Content Area */
+.main-shell {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  background-color: var(--bg-main);
+}
+
+/* Top Navigation Header */
+.top-header {
+  height: 64px;
+  background-color: var(--bg-surface-glass);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border-light);
+  padding: 0 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+
+/* App View Containers */
+.app-view {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 1.75rem 1.5rem 3rem 1.5rem;
+  scroll-margin-top: 80px;
+  animation: fadeInView var(--transition-normal);
+}
+
+/* Mobile Sidebar Drawer Overlay */
+.sidebar-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(16, 23, 20, 0.5);
+  backdrop-filter: blur(4px);
+  z-index: 40;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--transition-normal);
+}
+
+.sidebar-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Mobile Navigation Breakpoint */
+@media (max-width: 768px) {
+  #app-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    z-index: 50;
+    transform: translateX(-100%);
+    box-shadow: var(--shadow-lg);
+  }
+
+  #app-sidebar.mobile-open {
+    transform: translateX(0);
+  }
+
+  .top-header {
+    padding: 0 1rem;
+  }
+
+  .app-view {
+    padding: 1rem;
+  }
+}

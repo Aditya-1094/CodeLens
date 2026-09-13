@@ -169,6 +169,7 @@ class AssessmentResult(BaseModel):
     recommendations: List[CircularRecommendation]
     created_at: datetime
     is_demo: bool = False
+    input_snapshot: Optional[Dict[str, Any]] = None
 
 
 class SimulationRequest(BaseModel):

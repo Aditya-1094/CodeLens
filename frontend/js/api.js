@@ -22,9 +22,6 @@ const API = {
     }
     if (facility) {
       localStorage.setItem('carbonlens_facility', JSON.stringify(facility));
-    } else {
-      // Never keep another user's facility when a new session has no facility yet.
-      localStorage.removeItem('carbonlens_facility');
     }
   },
 
@@ -195,29 +192,143 @@ const API = {
     const res = await response.json();
     if (!res.is_demo) {
       localStorage.setItem('carbonlens_latest_assessment', JSON.stringify(res));
+      const u = this.getUser();
+      if (u && u.id) {
+        const histKey = `carbonlens_user_history_${u.id}`;
+        let localHist = [];
+        try {
+          const raw = localStorage.getItem(histKey);
+          if (raw) localHist = JSON.parse(raw);
+        } catch (e) {}
+        localHist = [res, ...localHist.filter(x => x.id !== res.id)];
+        localStorage.setItem(histKey, JSON.stringify(localHist));
+      }
     }
     return res;
   },
 
   async getLatestUserAssessment(facilityId = null) {
     const token = this.getToken();
-    if (!token) return null;
+    const u = this.getUser();
+    const getLocalFallback = () => {
+      if (u && u.id) {
+        const rawHist = localStorage.getItem(`carbonlens_user_history_${u.id}`);
+        if (rawHist) {
+          try {
+            const parsed = JSON.parse(rawHist);
+            if (Array.isArray(parsed) && parsed.length > 0) return parsed[0];
+          } catch(e) {}
+        }
+      }
+      const raw = localStorage.getItem('carbonlens_latest_assessment');
+      return raw ? JSON.parse(raw) : null;
+    };
+
+    if (!token) return getLocalFallback();
 
     try {
       let url = `${API_BASE_URL}/assessments/user/latest`;
       if (facilityId) url += `?facility_id=${facilityId}`;
       
       const response = await fetch(url, { headers: this.getAuthHeaders() });
-      if (response.status === 404 || response.status === 204) return null;
-      if (!response.ok) return null;
+      if (response.status === 404 || response.status === 204) return getLocalFallback();
+      if (!response.ok) return getLocalFallback();
       const res = await response.json();
-      if (res) localStorage.setItem('carbonlens_latest_assessment', JSON.stringify(res));
-      return res;
+      if (res) {
+        localStorage.setItem('carbonlens_latest_assessment', JSON.stringify(res));
+        if (u && u.id) {
+          const histKey = `carbonlens_user_history_${u.id}`;
+          let localHist = [];
+          try {
+            const raw = localStorage.getItem(histKey);
+            if (raw) localHist = JSON.parse(raw);
+          } catch(e) {}
+          localHist = [res, ...localHist.filter(x => x.id !== res.id)];
+          localStorage.setItem(histKey, JSON.stringify(localHist));
+        }
+      }
+      return res || getLocalFallback();
     } catch (err) {
-      const raw = localStorage.getItem('carbonlens_latest_assessment');
-      return raw ? JSON.parse(raw) : null;
+      return getLocalFallback();
     }
   },
+
+  async getUserAssessmentHistory(facilityId = null) {
+    const token = this.getToken();
+    const u = this.getUser();
+    const getLocalFallback = () => {
+      if (u && u.id) {
+        const rawHist = localStorage.getItem(`carbonlens_user_history_${u.id}`);
+        if (rawHist) {
+          try {
+            const parsed = JSON.parse(rawHist);
+            if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+          } catch(e) {}
+        }
+      }
+      const rawLatest = localStorage.getItem('carbonlens_latest_assessment');
+      return rawLatest ? [JSON.parse(rawLatest)] : [];
+    };
+
+    if (!token) return getLocalFallback();
+
+    try {
+      let url = `${API_BASE_URL}/assessments/user/history`;
+      if (facilityId) url += `?facility_id=${facilityId}`;
+      
+      const response = await fetch(url, { headers: this.getAuthHeaders() });
+      if (!response.ok) return getLocalFallback();
+      const data = await response.json();
+      if (Array.isArray(data) && data.length > 0) {
+        if (u && u.id) {
+          localStorage.setItem(`carbonlens_user_history_${u.id}`, JSON.stringify(data));
+        }
+        return data;
+      }
+      return getLocalFallback();
+    } catch (err) {
+      console.warn('Failed to fetch assessment history:', err);
+      return getLocalFallback();
+    }
+  },
+
+  async getAssessment(asmId) {
+    if (!asmId) return null;
+
+    // 1. Search local user history cache first
+    const u = this.getUser();
+    if (u && u.id) {
+      try {
+        const raw = localStorage.getItem(`carbonlens_user_history_${u.id}`);
+        if (raw) {
+          const list = JSON.parse(raw);
+          const match = list.find(x => x.id === asmId);
+          if (match) return match;
+        }
+      } catch (e) {}
+    }
+
+    const rawLatest = localStorage.getItem('carbonlens_latest_assessment');
+    if (rawLatest) {
+      try {
+        const latest = JSON.parse(rawLatest);
+        if (latest && latest.id === asmId) return latest;
+      } catch (e) {}
+    }
+
+    // 2. Fetch from backend REST API
+    try {
+      const response = await fetch(`${API_BASE_URL}/assessments/${asmId}`, {
+        headers: this.getAuthHeaders()
+      });
+      if (response.ok) return await response.json();
+    } catch (err) {
+      console.warn(`Failed to fetch assessment ${asmId}:`, err);
+    }
+    return null;
+  },
+
+
 
   // ----------------------------------------------------
   // EXPLICIT HACKATHON DEMO MODE (ISOLATED FROM USER ACCOUNT)
@@ -260,48 +371,6 @@ const API = {
     }
   },
 
-  getGujaratCityCenter(city = '') {
-    const normalized = String(city || '').trim().toLowerCase();
-    const coords = {
-      ahmedabad: [23.0225, 72.5714],
-      vatva: [22.9554, 72.6310],
-      naroda: [23.0725, 72.6685],
-      odhav: [23.0180, 72.6600],
-      sanand: [23.0040, 72.3810],
-      changodar: [22.9150, 72.4450],
-      gandhinagar: [23.2156, 72.6369],
-      surat: [21.1702, 72.8311],
-      sachin: [21.0820, 72.8640],
-      hazira: [21.1160, 72.6510],
-      vadodara: [22.3072, 73.1812],
-      baroda: [22.3072, 73.1812],
-      makarpura: [22.2530, 73.1950],
-      rajkot: [22.3039, 70.8022],
-      metoda: [22.2470, 70.6720],
-      ankleshwar: [21.6264, 73.0152],
-      bharuch: [21.7051, 72.9959],
-      vapi: [20.3712, 72.9042],
-      valsad: [20.5992, 72.9342],
-      halol: [22.5020, 73.4750],
-      morbi: [22.8173, 70.8368],
-      mehsana: [23.5880, 72.3693],
-      bhavnagar: [21.7645, 72.1519],
-      jamnagar: [22.4707, 70.0577],
-      porbandar: [21.6417, 69.6293],
-      junagadh: [21.5222, 70.4579],
-      bhuj: [23.2420, 69.6669],
-      kutch: [23.2420, 69.6669],
-      gandhidham: [23.0753, 70.1337],
-      nadiad: [22.6916, 72.8634],
-      anand: [22.5645, 72.9289]
-    };
-
-    for (const [name, point] of Object.entries(coords)) {
-      if (normalized.includes(name) || name.includes(normalized)) return point;
-    }
-    return null;
-  },
-
   async getPartnerSuggestions(params = {}) {
     try {
       const queryParts = [];
@@ -317,12 +386,9 @@ const API = {
       return await response.json();
     } catch (err) {
       console.warn("Partners discovery API fallback activated:", err);
-      const fallbackCenter = this.getGujaratCityCenter(params.city) || [23.0225, 72.5714];
       return {
         city: params.city || "Ahmedabad",
         state: params.state || "Gujarat",
-        center_lat: fallbackCenter[0],
-        center_lng: fallbackCenter[1],
         radius_km: 75,
         search_status: `Showing CURATED PROTOTYPE DATA across Gujarat.`,
         is_fallback: true,

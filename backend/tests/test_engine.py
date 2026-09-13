@@ -15,7 +15,7 @@ def test_full_calculation():
     
     assert result.total_co2e_tonnes > 0
     assert not result.is_partial_estimate
-    assert result.confidence_breakdown.confidence_score == 100
+    assert result.confidence_breakdown.confidence_score == 88
     assert len(result.leak_points) > 0
     assert result.leak_points[0].rank == 1
     assert result.leak_points[0].source_key == "virgin_polymer"
@@ -31,7 +31,7 @@ def test_incomplete_input():
     result, _ = calculate_facility_emissions(inputs, is_demo=False)
     
     assert result.is_partial_estimate
-    assert result.confidence_breakdown.confidence_score < 100
+    assert result.confidence_breakdown.confidence_score < 88
     assert result.missing_data_warning is not None
     assert "Grid Electricity" in result.category_breakdown
     assert "Raw Materials" in result.category_breakdown

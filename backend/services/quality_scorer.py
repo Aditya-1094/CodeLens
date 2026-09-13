@@ -19,9 +19,9 @@ def evaluate_data_quality(inputs: ProcessInputRequest) -> Tuple[DataQualityBreak
     supplied_count = 0
     missing_count = 0
 
-    # 1. Electricity (Weight: 30 points)
+    # 1. Electricity (Weight: 26 points)
     if inputs.grid_electricity_kwh is not None and inputs.grid_electricity_kwh > 0:
-        score += 30
+        score += 26
         supplied_count += 1
         audit_trail.append(FieldProvenance(
             field_name="Grid Electricity",
@@ -43,9 +43,9 @@ def evaluate_data_quality(inputs: ProcessInputRequest) -> Tuple[DataQualityBreak
             notes="Excluded from calculations"
         ))
 
-    # 2. Materials - Virgin Resin (Weight: 25 points)
+    # 2. Materials - Virgin Resin (Weight: 22 points)
     if inputs.virgin_material_kg is not None and inputs.virgin_material_kg > 0:
-        score += 25
+        score += 22
         supplied_count += 1
         audit_trail.append(FieldProvenance(
             field_name="Virgin Polymer Resin",
@@ -67,9 +67,9 @@ def evaluate_data_quality(inputs: ProcessInputRequest) -> Tuple[DataQualityBreak
             notes="Excluded from calculations"
         ))
 
-    # 3. Materials - Recycled Resin Split (Weight: 15 points)
+    # 3. Materials - Recycled Resin Split (Weight: 14 points)
     if inputs.recycled_material_kg is not None:
-        score += 15
+        score += 14
         supplied_count += 1
         audit_trail.append(FieldProvenance(
             field_name="Recycled Polymer (PCR)",
@@ -91,9 +91,9 @@ def evaluate_data_quality(inputs: ProcessInputRequest) -> Tuple[DataQualityBreak
             notes="Assumed 0 kg recycled material"
         ))
 
-    # 4. Production Output (Weight: 15 points)
+    # 4. Production Output (Weight: 13 points)
     if inputs.production_output_kg is not None and inputs.production_output_kg > 0:
-        score += 15
+        score += 13
         supplied_count += 1
         audit_trail.append(FieldProvenance(
             field_name="Finished Goods Output",
@@ -115,9 +115,9 @@ def evaluate_data_quality(inputs: ProcessInputRequest) -> Tuple[DataQualityBreak
             notes="Used for process context only"
         ))
 
-    # 5. Waste & Scrap Stream (Weight: 15 points)
+    # 5. Waste & Scrap Stream (Weight: 13 points)
     if inputs.scrap_landfilled_kg is not None or inputs.scrap_generated_kg is not None:
-        score += 15
+        score += 13
         supplied_count += 1
         waste_val = inputs.scrap_landfilled_kg or inputs.scrap_generated_kg or 0.0
         audit_trail.append(FieldProvenance(
@@ -142,8 +142,8 @@ def evaluate_data_quality(inputs: ProcessInputRequest) -> Tuple[DataQualityBreak
 
     is_partial = missing_count > 0
     
-    if score >= 85:
-        badge = "High Confidence (Complete Data)"
+    if score >= 80:
+        badge = "High Confidence (88% Max - Self Reported)"
     elif score >= 60:
         badge = "Good Confidence (Minor Gaps)"
     elif score >= 35:
@@ -162,3 +162,4 @@ def evaluate_data_quality(inputs: ProcessInputRequest) -> Tuple[DataQualityBreak
     )
 
     return breakdown, missing_explanations
+

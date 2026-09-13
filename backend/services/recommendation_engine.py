@@ -129,7 +129,7 @@ def generate_circular_recommendations(
                 subtitle=rule["subtitle"],
                 description=rule["description"],
                 addresses_hotspot=rule["addresses_hotspot"],
-                typical_co2e_reduction_pct=float(rule.get("default_reduction_pct", 25.0)),
+                typical_co2e_reduction_pct=round((savings_tonnes / assessment.total_co2e_tonnes) * 100, 1) if assessment.total_co2e_tonnes > 0 else 0.0,
                 projected_co2e_savings_tonnes=round(savings_tonnes, 2),
                 financial_impact_text=fin_text,
                 implementation_difficulty=rule["implementation_difficulty"],

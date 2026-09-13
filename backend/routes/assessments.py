@@ -5,8 +5,9 @@ Adds server-side PDF Assessment Report export endpoint.
 """
 
 import re
-from typing import Optional
+from typing import Optional, List
 from fastapi import APIRouter, HTTPException, Query, Depends, Response, status
+
 
 from backend.models.schemas import ProcessInputRequest, AssessmentResult, UserProfile
 from backend.services.emission_engine import calculate_facility_emissions
@@ -55,6 +56,19 @@ def get_latest_user_assessment(
     if not asm:
         return None
     return asm
+
+
+@router.get("/user/history", response_model=List[AssessmentResult])
+def get_user_assessment_history(
+    facility_id: Optional[str] = Query(default=None),
+    current_user: UserProfile = Depends(get_current_user)
+):
+    """
+    Retrieves history of all saved assessments for the authenticated user and facility.
+    """
+    return db_repository.get_user_assessments(current_user.id, facility_id=facility_id)
+
+
 
 
 @router.get("/demo/load", response_model=AssessmentResult)

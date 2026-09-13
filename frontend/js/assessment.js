@@ -1,5 +1,6 @@
 /**
  * Assessment Wizard Coordinator for CarbonLens SME
+ * Smooth step panel slide-fade transitions & live input validation
  */
 
 const Assessment = {
@@ -150,14 +151,6 @@ const Assessment = {
     return true;
   },
 
-  showInlineError(elementId, message) {
-    const el = document.getElementById(elementId);
-    if (el) {
-      el.textContent = message;
-      el.classList.remove('hidden');
-    }
-  },
-
   goToStep(stepNum) {
     for (let i = 1; i <= 4; i++) {
       const panel = document.getElementById(`wizard-step-${i}`);
@@ -165,17 +158,20 @@ const Assessment = {
       if (panel) panel.classList.add('hidden');
       if (indicator) {
         if (i === stepNum) {
-          indicator.className = 'w-7 h-7 rounded-full flex items-center justify-center font-bold text-xs bg-emerald-800 text-white';
+          indicator.className = 'stepper-circle stepper-active';
         } else if (i < stepNum) {
-          indicator.className = 'w-7 h-7 rounded-full flex items-center justify-center font-bold text-xs bg-emerald-100 text-emerald-900 border border-emerald-300';
+          indicator.className = 'stepper-circle stepper-completed';
         } else {
-          indicator.className = 'w-7 h-7 rounded-full flex items-center justify-center font-bold text-xs bg-gray-100 text-gray-400 border border-gray-200';
+          indicator.className = 'stepper-circle stepper-upcoming';
         }
       }
     }
 
     const targetPanel = document.getElementById(`wizard-step-${stepNum}`);
-    if (targetPanel) targetPanel.classList.remove('hidden');
+    if (targetPanel) {
+      targetPanel.classList.remove('hidden');
+      targetPanel.classList.add('animate-tab-content');
+    }
     this.currentStep = stepNum;
 
     if (stepNum === 2) {
@@ -276,18 +272,18 @@ const Assessment = {
     let rows = [];
 
     rows.push(`
-      <div class="p-3 bg-gray-50 rounded border border-gray-200 flex justify-between items-center text-xs">
+      <div class="p-3.5 bg-gray-50 rounded-xl border border-gray-200 flex justify-between items-center text-xs">
         <div><strong class="text-gray-900">Facility:</strong> ${data.facility_name} (${data.industry})</div>
         <span class="text-gray-500 font-mono">${data.reporting_period}</span>
       </div>
     `);
 
     if (data.grid_electricity_kwh !== null) {
-      rows.push(`<div class="p-3 bg-white rounded border border-gray-200 text-xs font-mono flex justify-between">
+      rows.push(`<div class="p-3.5 bg-white rounded-xl border border-gray-200 text-xs font-mono flex justify-between">
         <span>⚡ Electricity:</span><strong>${data.grid_electricity_kwh.toLocaleString()} kWh</strong>
       </div>`);
     } else {
-      rows.push(`<div class="p-3 bg-amber-50 rounded border border-amber-200 text-xs font-mono text-amber-800">
+      rows.push(`<div class="p-3.5 bg-amber-50 rounded-xl border border-amber-200 text-xs font-mono text-amber-800">
         ⚡ Electricity: <em>Unrecorded / Excluded</em>
       </div>`);
     }
@@ -295,29 +291,32 @@ const Assessment = {
     if (data.virgin_material_kg !== null) {
       const totMat = (data.virgin_material_kg || 0) + (data.recycled_material_kg || 0);
       const vPct = ((data.virgin_material_kg / totMat) * 100).toFixed(0);
-      rows.push(`<div class="p-3 bg-white rounded border border-gray-200 text-xs font-mono flex justify-between">
+      rows.push(`<div class="p-3.5 bg-white rounded-xl border border-gray-200 text-xs font-mono flex justify-between">
         <span>📦 Polymer Feedstock (${data.polymer_type}):</span>
         <strong>${totMat.toLocaleString()} kg (${vPct}% Virgin / ${100 - vPct}% Recycled)</strong>
       </div>`);
     } else {
-      rows.push(`<div class="p-3 bg-amber-50 rounded border border-amber-200 text-xs font-mono text-amber-800">
+      rows.push(`<div class="p-3.5 bg-amber-50 rounded-xl border border-amber-200 text-xs font-mono text-amber-800">
         📦 Material Feedstock: <em>Unrecorded / Excluded</em>
       </div>`);
     }
 
     if (data.production_output_kg !== null) {
-      rows.push(`<div class="p-3 bg-white rounded border border-gray-200 text-xs font-mono flex justify-between">
+      rows.push(`<div class="p-3.5 bg-white rounded-xl border border-gray-200 text-xs font-mono flex justify-between">
         <span>🏭 Finished Production:</span><strong>${data.production_output_kg.toLocaleString()} kg</strong>
       </div>`);
     }
 
     if (data.scrap_landfilled_kg !== null) {
-      rows.push(`<div class="p-3 bg-white rounded border border-gray-200 text-xs font-mono flex justify-between">
+      rows.push(`<div class="p-3.5 bg-white rounded-xl border border-gray-200 text-xs font-mono flex justify-between">
         <span>🗑️ Landfill Scrap:</span><strong>${data.scrap_landfilled_kg.toLocaleString()} kg</strong>
       </div>`);
     }
 
     container.innerHTML = rows.join('');
+    if (window.Animations) {
+      window.Animations.revealContainer(container);
+    }
   },
 
   async submitAssessmentForm() {
@@ -325,13 +324,17 @@ const Assessment = {
     const payload = this.getFormData();
 
     try {
+      if (window.UI) window.UI.showToast('Executing calculation engine...', 'info');
       const result = await API.submitAssessment(payload);
       setTimeout(() => {
         window.CarbonLensApp.onAssessmentResultLoaded(result);
+        this.goToStep(1); // Reset wizard back to step 1 for future runs
+        if (window.UI) window.UI.showToast('Carbon footprint assessment completed!', 'success');
       }, 1000);
     } catch (err) {
-      alert(`Calculation error: ${err.message || 'Server communication failed'}`);
+      if (window.UI) window.UI.showToast(`Calculation error: ${err.message}`, 'error');
       this.goToStep(3);
     }
   }
+
 };

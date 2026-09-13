@@ -1,0 +1,62 @@
+/* CarbonLens SME - Design System Tokens */
+:root {
+  /* Color Palette - Climate-Tech Circular Theme */
+  --bg-main: #FBFCF9;
+  --bg-surface: #FFFFFF;
+  --bg-surface-subtle: #F4F6F2;
+  --bg-surface-glass: rgba(255, 255, 255, 0.85);
+
+  --forest-dark: #101714;
+  --forest-deep: #123D2B;
+  --forest-primary: #18583F;
+  --forest-hover: #11422E;
+  --forest-light: #E7F3EC;
+  --forest-tint: #EEF7F1;
+
+  --emerald-accent: #10B981;
+  --emerald-dark: #059669;
+  --emerald-medium: #2E7D5B;
+  --emerald-glow: rgba(16, 185, 129, 0.2);
+
+  --text-main: #111827;
+  --text-secondary: #4B5563;
+  --text-muted: #647067;
+  --text-light: #9CA3AF;
+
+  --amber-bg: #FEF3C7;
+  --amber-border: #FDE68A;
+  --amber-text: #92400E;
+
+  --red-bg: #FEE2E2;
+  --red-border: #FCA5A5;
+  --red-text: #B91C1C;
+
+  --border-light: #E5E7EB;
+  --border-subtle: #E2E8F0;
+  --border-focus: #18583F;
+
+  /* Fonts */
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'Roboto Mono', 'JetBrains Mono', monospace;
+
+  /* Shadows */
+  --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.03);
+  --shadow-sm: 0 1px 3px 0 rgba(18, 61, 43, 0.05), 0 1px 2px -1px rgba(18, 61, 43, 0.03);
+  --shadow-md: 0 4px 6px -1px rgba(18, 61, 43, 0.07), 0 2px 4px -2px rgba(18, 61, 43, 0.04);
+  --shadow-lg: 0 10px 25px -5px rgba(18, 61, 43, 0.1), 0 8px 10px -6px rgba(18, 61, 43, 0.05);
+  --shadow-glow: 0 0 20px rgba(24, 88, 63, 0.15);
+
+  /* Border Radii */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+
+  /* Easing & Timing */
+  --ease-fast: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --transition-fast: 150ms var(--ease-fast);
+  --transition-normal: 250ms var(--ease-smooth);
+}

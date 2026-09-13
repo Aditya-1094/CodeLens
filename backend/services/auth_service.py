@@ -157,12 +157,18 @@ class AuthService:
             u["token"] = token
             TEST_USERS[token] = u
             user_profile = UserProfile(id=u["id"], full_name=u["full_name"], email=u["email"])
-            return AuthTokenResponse(access_token=token, user=user_profile)
+            from backend.services.db_repository import db_repository
+            user_facs = db_repository.get_user_facilities(user_profile.id)
+            fac_dict = user_facs[0] if user_facs else None
+            return AuthTokenResponse(access_token=token, user=user_profile, facility=fac_dict)
 
         for token_k, u in list(TEST_USERS.items()):
             if u.get("email") == email:
                 user_profile = UserProfile(id=u["id"], full_name=u["full_name"], email=u["email"])
-                return AuthTokenResponse(access_token=token_k, user=user_profile)
+                from backend.services.db_repository import db_repository
+                user_facs = db_repository.get_user_facilities(user_profile.id)
+                fac_dict = user_facs[0] if user_facs else None
+                return AuthTokenResponse(access_token=token_k, user=user_profile, facility=fac_dict)
 
         # 3. Try Supabase Auth Login
         if settings.has_supabase:

@@ -250,7 +250,7 @@ class PartnerDiscoveryService:
         """Queries Overpass API for real recycling, waste management, and industrial scrap facilities around lat/lng."""
         radius_m = radius_km * 1000
         overpass_query = f"""
-        [out:json][timeout:10];
+        [out:json][timeout:3];
         (
           node["amenity"="recycling"](around:{radius_m},{lat},{lng});
           node["recycling_type"](around:{radius_m},{lat},{lng});
@@ -269,7 +269,7 @@ class PartnerDiscoveryService:
 
         for endpoint in endpoints:
             try:
-                with httpx.Client(timeout=12.0) as client:
+                with httpx.Client(timeout=1.5) as client:
                     res = client.post(endpoint, data={"data": overpass_query})
                     if res.status_code == 200:
                         data = res.json()
@@ -343,15 +343,15 @@ class PartnerDiscoveryService:
         live_partners: List[Dict[str, Any]] = []
         final_radius = 25
 
-        seen_live_ids = set()
         for r in radii:
             final_radius = r
             res = self.query_overpass_api(lat, lng, r)
-            for partner in res:
-                if partner["id"] not in seen_live_ids:
-                    seen_live_ids.add(partner["id"])
-                    live_partners.append(partner)
-            if len(live_partners) >= 3:
+            if res:
+                live_partners = res
+                if len(live_partners) >= 3:
+                    break
+            else:
+                # If API timed out or failed on 25km, don't wait for 50km/75km timeouts
                 break
 
         # Deduplicate & sort by distance

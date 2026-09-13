@@ -1,0 +1,477 @@
+/* CarbonLens SME - UI Components Design System */
+
+/* Cards System */
+.arenius-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--transition-normal), border-color var(--transition-normal), box-shadow var(--transition-normal);
+  position: relative;
+  overflow: hidden;
+}
+
+.arenius-card:hover {
+  border-color: #CBD5E1;
+  box-shadow: var(--shadow-md);
+}
+
+.arenius-card-interactive:hover {
+  transform: translateY(-2px);
+  border-color: var(--forest-primary);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Primary Metric Hero Card */
+.hero-metric-box {
+  background: linear-gradient(135deg, #FFFFFF 0%, #F4F6F2 100%);
+  border: 1px solid var(--border-light);
+  border-left: 5px solid var(--forest-primary);
+  border-radius: var(--radius-lg);
+  padding: 1.75rem;
+  box-shadow: var(--shadow-sm);
+  position: relative;
+}
+
+.hero-metric-box::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 120px;
+  height: 100%;
+  background: radial-gradient(circle at top right, rgba(16, 185, 129, 0.08), transparent 70%);
+  pointer-events: none;
+}
+
+/* Highly Interactive Responsive Buttons - Universal Hover Animation */
+button:not(.leaflet-container *), .btn, .btn-primary, .btn-secondary, .btn-ghost, .action-btn, .trigger-demo-mode, .wizard-next, .wizard-prev {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  user-select: none;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, opacity 0.2s ease;
+}
+
+button:not(.leaflet-container *):hover, .btn:hover, .btn-ghost:hover, .action-btn:hover, .trigger-demo-mode:hover, .wizard-next:hover, .wizard-prev:hover {
+  transform: translateY(-2px) scale(1.015);
+  box-shadow: 0 6px 20px -3px rgba(18, 67, 48, 0.18);
+}
+
+button:not(.leaflet-container *):active, .btn:active, .btn-ghost:active, .action-btn:active, .trigger-demo-mode:active, .wizard-next:active, .wizard-prev:active {
+  transform: translateY(1px) scale(0.98);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Universal Button Spotlight Shimmer Effect */
+button:not(.leaflet-container *)::after, .btn::after, .btn-primary::after, .btn-secondary::after, .action-btn::after, .trigger-demo-mode::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    140px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(255, 255, 255, 0.25),
+    transparent 60%
+  );
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+button:not(.leaflet-container *):hover::after, .btn:hover::after, .action-btn:hover::after, .trigger-demo-mode:hover::after {
+  opacity: 1;
+}
+
+/* Universal Icon Reaction Inside Any Button on Hover */
+button:not(.leaflet-container *):hover i, button:not(.leaflet-container *):hover svg, button:not(.leaflet-container *):hover [data-lucide],
+.btn:hover i, .btn:hover svg, .btn:hover [data-lucide] {
+  transform: scale(1.15);
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Leaflet GIS Map Insulation - Prevent CSS transforms from altering map coordinate matrix */
+.leaflet-container .leaflet-marker-icon,
+.leaflet-container .leaflet-marker-shadow,
+.leaflet-container .leaflet-interactive,
+.leaflet-container .leaflet-tile,
+.leaflet-container .leaflet-pane,
+.leaflet-container .leaflet-pane * {
+  transition: none !important;
+}
+
+.custom-user-facility-pin {
+  background: transparent !important;
+  border: none !important;
+}
+
+button:not(.leaflet-container *):hover [data-lucide="arrow-right"], button:not(.leaflet-container *):hover [data-lucide="arrow-left"],
+.btn:hover [data-lucide="arrow-right"], .btn:hover [data-lucide="arrow-left"] {
+  transform: translateX(4px) scale(1.1);
+}
+
+.btn-primary {
+  background-color: var(--forest-primary, #18583F) !important;
+  color: #FFFFFF !important;
+  font-weight: 700;
+  border-radius: var(--radius-md);
+  padding: 0.625rem 1.25rem;
+  border: 1px solid transparent;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  box-shadow: 0 4px 12px rgba(24, 88, 63, 0.2);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-primary:hover {
+  background-color: #11402E !important;
+  color: #FFFFFF !important;
+  transform: translateY(-2px) scale(1.015);
+  box-shadow: 0 8px 24px -4px rgba(24, 88, 63, 0.4);
+}
+
+.btn-primary:active {
+  transform: translateY(1px) scale(0.98);
+  box-shadow: 0 2px 6px rgba(24, 88, 63, 0.2);
+}
+
+.btn-secondary {
+  background-color: var(--bg-surface);
+  color: var(--text-main);
+  border: 1px solid var(--border-light);
+  font-weight: 600;
+  border-radius: var(--radius-md);
+  padding: 0.625rem 1.25rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.btn-secondary:hover {
+  background-color: #F8FAFC;
+  border-color: #A7F3D0;
+  color: var(--forest-deep);
+  transform: translateY(-2px) scale(1.015);
+  box-shadow: 0 6px 18px -3px rgba(0, 0, 0, 0.08);
+}
+
+.btn-secondary:active {
+  transform: translateY(1px) scale(0.98);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Nav Item Styling & Icon Hover Reaction */
+.nav-link {
+  cursor: pointer;
+  transition: transform 0.18s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.18s ease, color 0.18s ease, box-shadow 0.18s ease;
+  border-radius: var(--radius-md);
+}
+
+.nav-link:hover {
+  transform: translateX(4px);
+  background-color: rgba(24, 88, 63, 0.06);
+  box-shadow: 0 4px 12px rgba(24, 88, 63, 0.08);
+}
+
+.nav-link i, .nav-link [data-lucide], .nav-link svg {
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), color 0.22s ease;
+}
+
+.nav-link:hover i, .nav-link:hover [data-lucide], .nav-link:hover svg {
+  transform: scale(1.22) rotate(4deg);
+  color: var(--forest-deep) !important;
+}
+
+.nav-item-active {
+  background-color: var(--forest-tint) !important;
+  color: var(--forest-deep) !important;
+  font-weight: 600 !important;
+  border-right: 3px solid var(--forest-primary);
+  box-shadow: 0 2px 8px rgba(24, 88, 63, 0.08);
+}
+
+.nav-item-active i, .nav-item-active [data-lucide], .nav-item-active svg {
+  color: var(--forest-primary) !important;
+}
+
+/* Custom Interactive Range Sliders */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 7px;
+  border-radius: 9999px;
+  background: #e2e8f0;
+  outline: none;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #18583f;
+  border: 2px solid #ffffff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: transform 0.18s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.18s ease, background-color 0.18s ease;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.3);
+  background-color: #10b981;
+  box-shadow: 0 0 0 6px rgba(16, 185, 129, 0.25);
+}
+
+input[type="range"]:active::-webkit-slider-thumb {
+  transform: scale(1.4);
+  background-color: #065f46;
+  box-shadow: 0 0 0 10px rgba(16, 185, 129, 0.35);
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #18583f;
+  border: 2px solid #ffffff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: transform 0.18s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.18s ease, background-color 0.18s ease;
+}
+
+input[type="range"]::-moz-range-thumb:hover {
+  transform: scale(1.3);
+  background-color: #10b981;
+  box-shadow: 0 0 0 6px rgba(16, 185, 129, 0.25);
+}
+
+
+/* Badge System */
+.badge-demo {
+  background-color: var(--amber-bg);
+  color: var(--amber-text);
+  border: 1px solid var(--amber-border);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  padding: 0.2rem 0.5rem;
+  border-radius: var(--radius-sm);
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.badge-partial {
+  background-color: #FFEDD5;
+  color: #9A3412;
+  border: 1px solid #FED7AA;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  padding: 0.2rem 0.5rem;
+  border-radius: var(--radius-sm);
+  text-transform: uppercase;
+}
+
+.badge-confidence-high {
+  background-color: #D1FAE5;
+  color: #065F46;
+  border: 1px solid #A7F3D0;
+}
+
+/* Proportional Stacked Treemap Bar */
+.treemap-bar-container {
+  display: flex;
+  height: 48px;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--border-light);
+  background: var(--bg-surface-subtle);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.treemap-segment {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #FFFFFF;
+  font-weight: 700;
+  font-size: 0.75rem;
+  transition: opacity 0.22s ease, transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s ease, filter 0.22s ease;
+  position: relative;
+  cursor: pointer;
+  white-space: nowrap;
+  padding: 0 0.5rem;
+  border-right: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.treemap-segment:hover,
+.treemap-segment.is-highlighted {
+  filter: brightness(1.15);
+  transform: scaleY(1.08) translateY(-1px);
+  box-shadow: 0 4px 12px rgba(24, 88, 63, 0.3);
+  z-index: 10;
+  opacity: 1 !important;
+}
+
+.treemap-segment.is-dimmed {
+  opacity: 0.35 !important;
+  filter: grayscale(0.25);
+}
+
+/* Linked Category Highlighting across cards and tables */
+.arenius-card {
+  transition: transform 0.18s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.18s ease, border-color 0.18s ease;
+}
+
+.arenius-card.is-highlighted {
+  transform: translateY(-2px);
+  border-color: #18583f !important;
+  box-shadow: 0 8px 24px rgba(24, 88, 63, 0.12) !important;
+}
+
+#analysis-table-body tr {
+  transition: background-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+#analysis-table-body tr.is-highlighted {
+  background-color: rgba(24, 88, 63, 0.07) !important;
+  box-shadow: inset 3px 0 0 #18583f;
+}
+
+/* Leak-Point Proportional Real-Share Indicator */
+.leakpoint-progress-track {
+  height: 6px;
+  border-radius: 9999px;
+  background-color: #F1F5F9;
+  overflow: hidden;
+  position: relative;
+}
+
+.leakpoint-progress-bar {
+  height: 100%;
+  border-radius: 9999px;
+  transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Staggered Entrance Animation for Leak Points & Recommendations */
+@keyframes fadeInUpStagger {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-stagger-item {
+  animation: fadeInUpStagger 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Simulator Metric Change Flash Animation */
+@keyframes metricPulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4);
+  }
+  50% {
+    transform: scale(1.03);
+    box-shadow: 0 0 0 6px rgba(16, 185, 129, 0.15);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+  }
+}
+
+.flash-metric-change {
+  animation: metricPulse 0.4s ease-out;
+}
+
+/* Toast Notifications */
+.toast-container {
+  position: fixed;
+  top: 1.25rem;
+  right: 1.25rem;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  pointer-events: none;
+}
+
+.toast {
+  pointer-events: auto;
+  min-width: 280px;
+  max-width: 400px;
+  padding: 0.875rem 1rem;
+  border-radius: var(--radius-md);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  box-shadow: var(--shadow-lg);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  animation: slideInToast var(--transition-fast);
+  transition: transform var(--transition-fast), opacity var(--transition-fast);
+}
+
+.toast-success {
+  border-left: 4px solid var(--emerald-accent);
+}
+
+.toast-error {
+  border-left: 4px solid #EF4444;
+}
+
+.toast-info {
+  border-left: 4px solid #3B82F6;
+}
+
+/* Skeleton Loading Shimmer */
+.skeleton {
+  background: linear-gradient(90deg, #F3F4F6 25%, #E5E7EB 50%, #F3F4F6 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: var(--radius-sm);
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* Custom Scrollbars for Modal Popups */
+#audit-modal-content::-webkit-scrollbar,
+#history-modal-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+#audit-modal-content::-webkit-scrollbar-track,
+#history-modal-content::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 9999px;
+}
+
+#audit-modal-content::-webkit-scrollbar-thumb,
+#history-modal-content::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 9999px;
+}
+
+#audit-modal-content::-webkit-scrollbar-thumb:hover,
+#history-modal-content::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}

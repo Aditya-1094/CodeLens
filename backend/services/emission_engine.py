@@ -241,7 +241,8 @@ def calculate_facility_emissions(inputs: ProcessInputRequest, is_demo: bool = Fa
         leak_points=leak_points,
         recommendations=[], # Filled by recommendation engine
         created_at=datetime.now(timezone.utc),
-        is_demo=is_demo
+        is_demo=is_demo,
+        input_snapshot=inputs.model_dump()
     )
 
     # Return raw source dicts alongside Pydantic model for database persistence
